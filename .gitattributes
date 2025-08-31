@@ -1,0 +1,2 @@
+# Wszystkie pliki tekstowe → LF w repo, CRLF na Windows
+* text=auto eol=lf

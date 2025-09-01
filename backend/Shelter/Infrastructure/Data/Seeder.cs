@@ -21,10 +21,6 @@ public static class Seeder
 
             await db.SaveChangesAsync();
         }
-        Console.WriteLine($"Species count: {await db.Species.CountAsync()}");
-        Console.WriteLine($"Species file exists: {File.Exists(speciesPath)}");
-        Console.WriteLine($"Looking for species file at: {speciesPath}");
-
 
 
         var animalsPath = Path.Combine(seedDir, "seed_animals.json");
@@ -44,7 +40,5 @@ public static class Seeder
 
             await db.SaveChangesAsync();
         }
-        Console.WriteLine($"Animals count: {await db.Animals.CountAsync()}");
-        Console.WriteLine($"Animals file exists: {File.Exists(animalsPath)}");
     }
 }

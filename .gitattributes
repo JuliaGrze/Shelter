@@ -1,2 +1,17 @@
-# Wszystkie pliki tekstowe → LF w repo, CRLF na Windows
+# Domyślnie traktuj pliki jako tekst i wymuszaj LF
 * text=auto eol=lf
+
+# Pliki windowsowe zostaw z CRLF (jeśli masz)
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binarne – bez zmian
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.dll binary
+*.exe binary

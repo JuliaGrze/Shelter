@@ -1,7 +1,7 @@
 <h2>Animals</h2>
 <div class="animal-grid">
     @for (animal of animals; track $index) {
-        <div class="animal-card">
+        <div class="animal-card" [routerLink]="['/animals', animal.id]">
             <img [src]="animal.photoUrl" [alt]="animal.name" class="animal-photo">
 
             <div class="animal-info">
@@ -14,6 +14,11 @@
                     Urodzony: {{ animal.birthDate }}
                 </p>
             </div>
+
+            <button
+                class="btn details-btn" 
+                [routerLink]="['/animals', animal.id]"
+            >Zobacz szczegóły</button>
         </div>
     }
 </div>

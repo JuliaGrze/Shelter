@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AnimalDto } from '../../../core/models/animal';
 import { AnimalService } from '../../../core/services/animal.service';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-animal-list',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './animal-list.html',
   styleUrl: './animal-list.css'
 })

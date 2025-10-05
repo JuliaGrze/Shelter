@@ -1,1 +1,35 @@
-<p>animal-details works!</p>
+<div *ngIf="loading">Ładowanie...</div>
+<div *ngIf="!loading && error" class="error">{{ error }}</div>
+
+<div class="animal-details">
+    <div class="media">
+        <img [src]="animal?.photoUrl" [alt]="animal?.name || 'Zdjęcie zwierzaka'">
+    </div>
+
+    <div class="info">
+        <h1>{{animal?.name}}</h1>
+
+        <div class="general-info">
+            <p>Gatunek: {{animal?.speciesName}}</p>
+            <p>Płeć: {{animal?.sex}}</p>
+            <p>Status dostępności: {{animal?.status}}</p>
+        </div>
+
+        <div class="detailed-info">
+            <p>Wiek: !!!! DO UZUEPEŁNIENIA W BACKENDXIE </p>
+            <p class="description">Opis: <span>{{animal?.description}}</span></p>       
+        </div>
+
+        <ul class="facts">
+            <li>Data urodzenia: <strong>{{ animal?.birthDate | date:'yyyy-MM-dd' }}</strong></li>
+            <li>Szczepiony: <strong>{{ animal?.vaccinated ? 'tak' : 'nie' }}</strong></li>
+            <li>Wykastrowany/a: <strong>{{ animal?.neutered ? 'tak' : 'nie' }}</strong></li>
+            <li>W schronisku od: <strong>{{ animal?.createdAt | date:'yyyy-MM-dd HH:mm' }}</strong></li>
+        </ul>
+
+    </div>
+
+    <div class="actions">
+        <a class="back-btn" [routerLink]="['animals']">← Wróć</a>
+    </div>
+</div>

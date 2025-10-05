@@ -1,0 +1,19 @@
+<h2>Animals</h2>
+<div class="animal-grid">
+    @for (animal of animals; track $index) {
+        <div class="animal-card">
+            <img [src]="animal.photoUrl" [alt]="animal.name" class="animal-photo">
+
+            <div class="animal-info">
+                <h3>{{animal.name}}</h3>
+                <p><strong>Gatunek: {{animal.speciesName}}</strong></p>
+                <p><strong>Płeć: {{animal.sex}}</strong></p>
+                <p><strong>Status: {{animal.status}}</strong></p>
+                <p class="desc">{{ animal.description }}</p>
+                <p class="meta">
+                    Urodzony: {{ animal.birthDate }}
+                </p>
+            </div>
+        </div>
+    }
+</div>

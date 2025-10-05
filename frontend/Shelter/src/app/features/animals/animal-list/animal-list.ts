@@ -2,10 +2,18 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AnimalDto } from '../../../core/models/animal';
 import { AnimalService } from '../../../core/services/animal.service';
 import { Router, RouterLink } from '@angular/router';
+import { SexPlPipe } from '../../../shared/pipes/sex-pl-pipe';
+import { StatusPlPipe } from '../../../shared/pipes/status-pl-pipe';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-animal-list',
-  imports: [RouterLink],
+  imports: [
+    RouterLink,
+    SexPlPipe,
+    StatusPlPipe,
+    NgClass
+  ],
   templateUrl: './animal-list.html',
   styleUrl: './animal-list.css'
 })

@@ -55,67 +55,221 @@
   text-align: center;
 }
 
-/* Opis + sekcja szczegółów */
+/* Samica – różowy */
+.female strong {
+  background-color: #fbcfe8; /* pastelowy róż */
+  color: #9d174d;           /* głęboki róż */
+}
+
+/* Samiec – niebieski */
+.male strong {
+  background-color: #bfdbfe; /* pastelowy niebieski */
+  color: #1e3a8a;           /* głęboki niebieski */
+}
+
+/* Unknown – szary */
+.unknown strong {
+  background-color: #e5e7eb; /* jasny szary */
+  color: #374151;           /* ciemny szary */
+}
+
+/* Baza chipa płci (opcjonalnie dodaj transition) */
+.general-info p.sex-chip {
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+
+/* Samica – różowe tło + ramka + tekst */
+.general-info p.sex-chip.female {
+  background-color: #fbcfe8;
+  border-color: #f8a8d3;
+  color: #9d174d;
+}
+
+/* Samiec – niebieskie tło + ramka + tekst */
+.general-info p.sex-chip.male {
+  background-color: #bfdbfe;
+  border-color: #93c5fd;
+  color: #1e3a8a;
+}
+
+/* Unknown – szare tło (jawnie dla pewności) */
+.general-info p.sex-chip.unknown {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+/* ====== STATUS CHIP ====== */
+.general-info p.status-chip {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--chip-border);
+  background: var(--chip);
+  border-radius: 999px;
+  font-size: 14px;
+  text-align: center;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+
+/* Dostępny – zielony (success) */
+.general-info p.status-chip.available {
+  background-color: #dcfce7;
+  border-color: #86efac;
+  color: #166534;
+}
+
+/* Zarezerwowany – pomarańczowy (warning) */
+.general-info p.status-chip.reserved {
+  background-color: #fef9c3;
+  border-color: #fde047;
+  color: #92400e;
+}
+
+/* Adoptowany – fioletowy (info) */
+.general-info p.status-chip.adopted {
+  background-color: #ede9fe; /* jasny fiolet */
+  border-color: #c4b5fd;     /* pastelowy */
+  color: #5b21b6;           /* głęboki fiolet */
+}
+
+/* Niedostępny – czerwony (error) */
+.general-info p.status-chip.notavailable,
+.general-info p.status-chip.unknown {
+  background-color: #fee2e2; /* jasny czerwony */
+  border-color: #fca5a5;     /* średni czerwony */
+  color: #991b1b;           /* ciemny czerwony */
+}
+
+/* ===== Sekcja SZCZEGÓŁÓW ===== */
 .detailed-info {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 12px 14px;
+  padding: 16px 18px;
   background: #fff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .04);
 }
-.description {
+
+.detailed-info .section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
   margin: 0 0 10px;
+}
+
+.detailed-info p {
+  margin: 8px 0;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+/* Komunikat placeholder (wiek do uzupełnienia) – delikatny badge */
+.detailed-info p:first-child {
+  background: #fff7ed;            /* ciepły soft */
+  border: 1px dashed #fdba74;      /* pomarańczowa przerywana */
+  color: #9a3412;
+  padding: 8px 10px;
+  border-radius: 10px;
+  margin-top: 0;
+}
+
+/* Opis – ładny lead + clamp na kilka linii */
+.description {
+  margin-top: 10px;
   color: var(--text);
 }
 .description span {
-  display: inline;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;           /* pokaż do 5 linii */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   color: #374151;
 }
+
+/* ===== Lista FAKTÓW ===== */
 .facts {
   list-style: none;
   padding: 0;
-  margin: 12px 0 0;
+  margin: 14px 0 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px 16px;
+  gap: 12px 16px;
 }
+
 .facts li {
-  padding: 10px 12px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto; /* label → value */
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px 12px 38px;
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 12px;
   background: #fff;
   font-size: 14px;
   color: #374151;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, .03);
 }
 
-/* Akcje */
-.actions {
-  grid-column: 1 / -1;
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
+/* Ikona-bullet po lewej (subtelna „kropka”) */
+.facts li::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #e6ebe5, #d1d5db);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.6);
 }
 
-/* Stany */
-.error {
-  color: #b00020;
-  padding: 10px 12px;
-  border: 1px solid #b00020;
-  border-radius: 10px;
-  margin-bottom: 12px;
+/* Label (tekst przed strong) delikatnie przygaszony */
+.facts li {
+  color: var(--muted);
+}
+/* Domyślny wygląd (neutralny) */
+.facts li strong {
+  color: var(--text);
+  font-weight: 600;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background-color .25s ease, color .25s ease, border-color .25s ease;
 }
 
-/* RWD */
+/* ✅ Tak – zielony */
+.facts li strong.yes {
+  background-color: #dcfce7;
+  border-color: #86efac;
+  color: #166534;
+}
+
+/* ❌ Nie – czerwony */
+.facts li strong.no {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+
+/* Opcjonalne: podbij „tak/nie” neutralnie (bez rozpoznawania treści) */
+.facts li strong {
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+/* ===== Responsywność ===== */
 @media (max-width: 1024px) {
-  .animal-details {
-    grid-template-columns: 1fr;
-  }
-  .general-info {
-    grid-template-columns: 1fr 1fr;
-  }
-  .facts {
-    grid-template-columns: 1fr;
-  }
+  .facts { grid-template-columns: 1fr; }
 }
+
 @media (max-width: 640px) {
-  .info h1 { font-size: 22px; }
+  .detailed-info { padding: 14px 12px; }
+  .facts li { grid-template-columns: 1fr; row-gap: 6px; }
+  .facts li strong { justify-self: start; }
 }

@@ -1,1 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
+/* ===== GLOBALNY STYL PRZYCISKU (styles.css) ===== */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--accent, #2563eb); /* niebieski domyślnie */
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.btn:hover {
+  background-color: #1e40af; /* ciemniejszy niebieski przy najechaniu */
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  background-color: #a1a1aa;
+  cursor: not-allowed;
+}
+
+.back-btn {
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-btn:hover {
+  background-color: #ffffff;
+  color: black;
+  font-weight: bold;
+  transform: translateY(-2px);
+}
+
+.back-btn:hover { filter: brightness(1.05); }
+.back-btn.ghost {
+  background: transparent;
+  color: var(--accent);
+}

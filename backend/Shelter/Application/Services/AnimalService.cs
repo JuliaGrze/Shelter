@@ -1,8 +1,12 @@
-﻿using Application.Dtos;
+﻿using Application.Common;
+using Application.Dtos;
 using Application.Interfaces;
 using Application.Mapping;
+using Application.Queries;
 using Domain.Entities;
+using Domain.Enums;
 using Infrastructure.Repositories.Abstractions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
@@ -75,6 +79,49 @@ namespace Application.Services
             _repository.Delete(id);
             await _unitOfWork.SaveChangesAsync(ct);   
             return true;
+        }
+
+        // returns paged & sorted animals
+        public async Task<PagedResult<AnimalDto>> GetAnimalsAsync(AnimalQuery q, CancellationToken ct = default)
+        {
+            // Base query with species include
+            var baseQuery = _repository.Query(a => a.Species);
+
+            // Apply sorting (based on AnimalSortField + SortDirection)
+            var sorted = (q.SortBy, q.SortDir) switch
+            {
+                (AnimalSortField.name, SortDirection.asc) => baseQuery.OrderBy(a => a.Name),
+                (AnimalSortField.name, SortDirection.desc) => baseQuery.OrderByDescending(a => a.Name),
+
+                (AnimalSortField.species, SortDirection.asc) => baseQuery.OrderBy(a => a.Species),
+                (AnimalSortField.species, SortDirection.desc) => baseQuery.OrderByDescending(a => a.Species),
+
+                (AnimalSortField.birthDate, SortDirection.asc) => baseQuery.OrderBy(a => a.BirthDate),
+                (AnimalSortField.birthDate, SortDirection.desc) => baseQuery.OrderByDescending(a => a.BirthDate),
+
+                (AnimalSortField.sex, SortDirection.asc) => baseQuery.OrderBy(a => a.Sex),
+                (AnimalSortField.sex, SortDirection.desc) => baseQuery.OrderByDescending(a => a.Sex),
+
+                (AnimalSortField.status, SortDirection.asc) => baseQuery.OrderBy(a => a.Status),
+                (AnimalSortField.status, SortDirection.desc) => baseQuery.OrderByDescending(a => a.Status),
+
+                (AnimalSortField.createdAt, SortDirection.asc) => baseQuery.OrderBy(a => a.CreatedAt),
+                (AnimalSortField.createdAt, SortDirection.desc) => baseQuery.OrderByDescending(a => a.CreatedAt),
+
+                _ => baseQuery.OrderByDescending(a => a.CreatedAt)
+            };
+
+            //Pagination
+            var total = await sorted.CountAsync();
+            var items = sorted
+                .Skip(q.Page * q.Size)
+                .Take(q.Size)
+                .Select(AnimalMapping.AnimalToDto)
+                .ToList();
+
+            // Return paginated result
+            return new PagedResult<AnimalDto>(items, total, q.Page, q.Size);
+
         }
     }
 }

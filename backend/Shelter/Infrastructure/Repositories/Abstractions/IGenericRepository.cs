@@ -52,5 +52,19 @@ namespace Infrastructure.Repositories.Abstractions
         /// </summary>
         /// <param name="id">The identifier of the entity to remove.</param>
         void Delete(int id);
+
+        /// <summary>
+        /// Returns an <see cref="IQueryable{T}"/> that can be further composed with LINQ queries.
+        /// This allows applying additional filters, sorting, and projections before execution.
+        /// </summary>
+        /// <param name="includes">
+        /// Optional list of navigation properties to include (eager loading).
+        /// For example: <c>x => x.Species</c> or <c>x => x.Owner</c>.
+        /// </param>
+        /// <returns>
+        /// A queryable sequence of entities that can be further filtered or enumerated.
+        /// The query is not executed until enumeration or <c>ToListAsync()</c> is called.
+        /// </returns>
+        IQueryable<T> Query(params Expression<Func<T, object>>[] includes);
     }
 }

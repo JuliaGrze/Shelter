@@ -47,6 +47,17 @@ namespace Infrastructure.Repositories
             return await q.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id, ct);
         }
 
+        public IQueryable<T> Query(params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> q = _context.Set<T>().AsNoTracking();
+            if(includes != null)
+            {
+                foreach(var inc in includes)
+                    q = q.Include(inc);
+            }
+            return q;
+        }
+
         public void Update(T entity)
         {
             ArgumentNullException.ThrowIfNull(entity);

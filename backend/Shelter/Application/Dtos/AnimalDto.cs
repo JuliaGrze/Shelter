@@ -20,6 +20,10 @@ namespace Application.Dtos
         public Sex Sex { get; set; } 
         public AnimalStatus Status { get; set; } //Available, Reserved, Adopted, NotAvailable
 
+        public int AgeYears { get; set; }
+        public int AgeMonths { get; set; }
+        public string AgeLabel { get; set; } = ""; // np. "2 lata, 3 mies."
+
         public string Description { get; set; } = "";
         public bool Vaccinated { get; set; } //zaszczepiony?
         public bool Neutered { get; set; } //kastrowany/sterilizowany?  

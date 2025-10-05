@@ -1,4 +1,6 @@
-﻿using Application.Dtos;
+﻿using Application.Common;
+using Application.Dtos;
+using Application.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +17,6 @@ namespace Application.Interfaces
         Task<bool> UpdateAnimalAsync(int id, CreateAnimalDto animal, CancellationToken ct = default);
         Task<bool> DeleteAsync(int id, CancellationToken ct = default);
 
+        Task<PagedResult<AnimalDto>> GetAnimalsAsync(AnimalQuery q, CancellationToken ct = default);
     }
 }

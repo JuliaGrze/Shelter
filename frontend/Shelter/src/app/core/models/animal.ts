@@ -9,11 +9,14 @@ export interface AnimalDto  {
     birthDate: string,
     sex: Sex,
     status: AnimalStatus,
+    ageYears:  number,
+    ageMonths: number,
+    ageLabel: string
     description: string,
     vaccinated: boolean,
     neutered: boolean,
     createdAt: string,
-    photoUrl: string
+    photoUrl: string,
 }
 export interface CreateAnimalDto {
     name: string,

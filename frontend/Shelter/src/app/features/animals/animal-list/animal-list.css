@@ -62,3 +62,63 @@
   width: 90%;
   margin: 0 auto 1rem;
 }
+
+/* === MINI CHIPY DLA KART === */
+.sex-chip,
+.status-chip {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid #e5e7eb;
+  margin-top: 4px;
+  text-align: center;
+  width: fit-content;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+
+/* ==== PŁEĆ ==== */
+.sex-chip.female {
+  background-color: #fbcfe8;  /* pastelowy róż */
+  border-color: #f8a8d3;
+  color: #9d174d;
+}
+
+.sex-chip.male {
+  background-color: #bfdbfe;  /* pastelowy niebieski */
+  border-color: #93c5fd;
+  color: #1e3a8a;
+}
+
+.sex-chip.unknown {
+  background-color: #e5e7eb;  /* szary */
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+/* ==== STATUS ==== */
+.status-chip.available {
+  background-color: #dcfce7; /* zielony */
+  border-color: #86efac;
+  color: #166534;
+}
+
+.status-chip.reserved {
+  background-color: #fef9c3; /* pomarańczowy */
+  border-color: #fde047;
+  color: #92400e;
+}
+
+.status-chip.adopted {
+  background-color: #ede9fe; /* fioletowy */
+  border-color: #c4b5fd;
+  color: #5b21b6;
+}
+
+.status-chip.notavailable,
+.status-chip.unknown {
+  background-color: #fee2e2; /* czerwony */
+  border-color: #fca5a5;
+  color: #991b1b;
+}

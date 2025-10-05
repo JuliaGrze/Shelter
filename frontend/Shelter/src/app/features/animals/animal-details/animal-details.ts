@@ -2,14 +2,19 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AnimalService } from '../../../core/services/animal.service';
 import { AnimalDto } from '../../../core/models/animal';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { DatePipe, NgIf } from '@angular/common';
+import { DatePipe, NgClass, NgIf } from '@angular/common';
+import { SexPlPipe } from '../../../shared/pipes/sex-pl-pipe';
+import { StatusPlPipe } from '../../../shared/pipes/status-pl-pipe';
 
 @Component({
   selector: 'app-animal-details',
   imports: [
     NgIf,
     DatePipe,
-    RouterLink
+    RouterLink,
+    SexPlPipe,
+    StatusPlPipe,
+    NgClass
 ],
   templateUrl: './animal-details.html',
   styleUrl: './animal-details.css'

@@ -1,4 +1,33 @@
-<h2>Animals</h2>
+<h2>Nasze zwierzęta</h2>
+
+<!-- Sorting and Pagination -->
+<div class="toolbar">
+    <label>
+        Sortuj wg:
+        <select [ngModel]="sortBy" (ngModelChange)="onSortByChange($event)">
+            <option *ngFor="let o of sortOptions" [value]="o.value">{{ o.label }}</option>
+        </select>
+    </label>
+    <label>
+        Kierunek:
+        <button class="btn" (click)="toggleDir()">
+            {{ sortDir === 'asc' ? 'rosnąco ↑' : 'malejąco ↓' }}
+        </button>
+    </label>
+    <label>
+        Na stronę:
+        <select [ngModel]="size" (ngModelChange)="setSize(+$event)">
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+        <option [value]="50">50</option>
+        </select>
+    </label>
+    <span class="muted">
+        Łącznie: {{ total }} |
+        Strona:{{page + 1}} z {{ Math.max(1, Math.ceil(total / size)) }}
+    </span>
+</div>
+
 <div class="animal-grid">
     @for (animal of animals; track $index) {
         <div class="animal-card" [routerLink]="['/animals', animal.id]">
@@ -26,3 +55,26 @@
         </div>
     }
 </div>
+
+<!-- Pager -->
+<div class="pager" *ngIf="!loading && !error && total > size" role="navigation" aria-label="Paginacja">
+  <button class="btn" (click)="prevPage()" [disabled]="page === 0" title="Poprzednia strona">‹ Wstecz</button>
+
+  <ng-container *ngFor="let p of pageNumbers">
+    <button
+      *ngIf="p !== '...'; else dots"
+      class="btn page"
+      [class.active]="+p === page"
+      (click)="setPage(+p)"
+      [disabled]="+p === page"
+      [attr.aria-current]="+p === page ? 'page' : null"
+      [title]="'Przejdź do strony ' + (+p + 1)">
+      {{ +p + 1 }}
+    </button>
+    <ng-template #dots><span class="dots" aria-hidden="true">…</span></ng-template>
+  </ng-container>
+
+  <button class="btn" (click)="nextPage()" [disabled]="page + 1 >= totalPages" title="Następna strona">Dalej ›</button>
+  <span class="muted info">Strona {{ page + 1 }} z {{ totalPages }}</span>
+</div>
+

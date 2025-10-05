@@ -122,3 +122,83 @@
   border-color: #fca5a5;
   color: #991b1b;
 }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 12px;
+}
+
+.toolbar select, .toolbar .btn {
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.toolbar .btn{
+  color: black;
+}
+
+.toolbar .btn:hover { box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+.muted { color: #6b7280; }
+
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.pager .btn {
+  padding: 6px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  line-height: 1.2;
+  color: #000;
+}
+
+.pager .btn:hover:not(:disabled) {
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+}
+
+.pager .btn:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+.pager .btn.page {
+  min-width: 36px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.pager .btn.page.active {
+  border-color: #1e40af;
+  background: rgba(30, 64, 175, 0.08);
+  font-weight: 600;
+}
+
+.pager .dots {
+  padding: 0 6px;
+  user-select: none;
+}
+
+.pager .info {
+  margin-left: 6px;
+  color: #6b7280;
+}
+
+
+.error {
+  color: #b00020;
+  padding: 8px 10px;
+  border: 1px solid #b00020;
+  border-radius: 8px;
+}

@@ -1,5 +1,7 @@
-﻿using Application.Dtos;
+﻿using Application.Common;
+using Application.Dtos;
 using Application.Interfaces;
+using Application.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Shelter.API.Controllers
@@ -11,10 +13,19 @@ namespace Shelter.API.Controllers
         private readonly IAnimalService _animalService;
         public AnimalsController(IAnimalService animalService) => _animalService = animalService;
 
-        // GET: api/animals
-        [HttpGet]
+        // GET: api/animals/all
+        [HttpGet("all")]
         public async Task<ActionResult<List<AnimalDto>>> GetAnimals(CancellationToken ct)
             => Ok(await _animalService.GetAnimalsAsync(ct));
+
+        // GET: api/animals?sortBy=name&sortDir=asc&page=0&size=20
+        [HttpGet]
+        public async Task<ActionResult<PagedResult<AnimalDto>>> Get([FromQuery] AnimalQuery q, CancellationToken ct)
+        {
+            var result = await _animalService.GetAnimalsAsync(q, ct);
+            return Ok(result);
+        }
+
 
         // GET: api/animals/5
         [HttpGet("{id:int}")]

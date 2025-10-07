@@ -17,6 +17,11 @@ namespace Application.Interfaces
         Task<bool> UpdateAnimalAsync(int id, CreateAnimalDto animal, CancellationToken ct = default);
         Task<bool> DeleteAsync(int id, CancellationToken ct = default);
 
+
+        /// <summary>
+        /// Returns a paged, sorted and filtered list of animals.
+        /// All filtering/sorting happens on IQueryable (database-side) for performance.
+        /// </summary>
         Task<PagedResult<AnimalDto>> GetAnimalsAsync(AnimalQuery q, CancellationToken ct = default);
     }
 }

@@ -3,12 +3,14 @@ import { RouterLink } from '@angular/router';
 import { NgClass, NgIf, NgFor, DecimalPipe, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { AnimalDto } from '../../../core/models/animal';
+import { AnimalDto, AnimalStatus, Sex } from '../../../core/models/animal';
 import { AnimalService } from '../../../core/services/animal.service';
 import { SexPlPipe } from '../../../shared/pipes/sex-pl-pipe';
 import { StatusPlPipe } from '../../../shared/pipes/status-pl-pipe';
 import { PagedResult } from '../../../core/models/paged-result';
 import { SortBy, SortDir } from '../../../core/models/animal-query';
+import { SpeciesDto } from '../../../core/models/species';
+import { SpeciesService } from '../../../core/services/species.service';
 
 @Component({
   selector: 'app-animal-list',
@@ -19,17 +21,17 @@ import { SortBy, SortDir } from '../../../core/models/animal-query';
     StatusPlPipe, 
     NgClass, 
     NgIf, NgFor, 
-    FormsModule, 
-    DecimalPipe, 
-    DatePipe
+    FormsModule
   ],
   templateUrl: './animal-list.html',
   styleUrl: './animal-list.css'
 })
 export class AnimalList implements OnInit {
   private animalService = inject(AnimalService);
+  private speciesService = inject(SpeciesService)
   protected readonly Math = Math;
 
+  species: SpeciesDto[] = []
   animals: AnimalDto[] = [];
   total = 0;
   page = 0;
@@ -50,7 +52,19 @@ export class AnimalList implements OnInit {
     { value: 'status',    label: 'Status' },
   ];
 
+  // filters (opcjonalne)
+  speciesId: number | null = null
+  sex: Sex | '' = '';
+  status: AnimalStatus | '' = '';
+  ageMinYears?: number;
+  ageMaxYears?: number;
+  createdFrom?: string;   // yyyy-MM-dd
+  createdTo?: string;     // yyyy-MM-dd
+  vaccinated?: boolean;
+  neutered?: boolean;
+
   ngOnInit(): void {
+    this.getAllSpecies()
     this.load();
   }
 
@@ -62,7 +76,20 @@ export class AnimalList implements OnInit {
       sortBy: this.sortBy,
       sortDir: this.sortDir,
       page: this.page,
-      size: this.size
+      size: this.size,
+
+      speciesId: this.speciesId || undefined,
+      sex: this.sex || undefined,
+      status: this.status || undefined,
+
+      ageMinMonths: this.toMonths(this.ageMinYears),
+      ageMaxMonths: this.toMonths(this.ageMaxYears),
+
+      createdFrom: this.createdFrom || undefined,
+      createdTo:   this.createdTo   || undefined,
+
+      vaccinated: this.vaccinated,
+      neutered:   this.neutered
     }).subscribe({
       next: (res: PagedResult<AnimalDto>) => {
         this.animals = res.items;
@@ -72,10 +99,20 @@ export class AnimalList implements OnInit {
         this.loading = false;
       },
       error: _ => {
-        this.error = 'Błąd podczas pobierania zwierząt';
+        this.error += 'Błąd podczas pobierania zwierząt';
         this.loading = false;
       }
     });
+  }
+
+  getAllSpecies(){
+    this.speciesService.getAllSpecies().subscribe({
+      next: (list) => this.species = list,
+      error: () => {
+        this.error = 'Błąd podczas pobierania gatnuknków zwierząt\n';
+        this.species = []
+      }
+    })
   }
 
   onSortByChange(value: string) {
@@ -136,4 +173,68 @@ export class AnimalList implements OnInit {
   nextPage() {
     this.setPage(this.page + 1);
   }
+
+  private toMonths(y?: number) { return y !== undefined && y !== null ? y * 12 : undefined; }
+
+  // ----- filtry: apply/clear -----
+  applyFilters() {
+    // (opcjonalnie) walidacja zakresu dat
+    if (this.createdFrom && this.createdTo && this.createdFrom > this.createdTo) {
+      // zamień / wyczyść, jak wolisz; na razie czyścimy "do"
+      this.createdTo = undefined;
+    }
+    this.page = 0;
+    this.load();
+  }
+
+  clearFilters() {
+    this.sex = '';
+    this.status = '';
+    this.ageMinYears = undefined;
+    this.ageMaxYears = undefined;
+    this.createdFrom = undefined;
+    this.createdTo = undefined;
+    this.vaccinated = undefined;  // tri-state: undefined = brak filtra
+    this.neutered   = undefined;  // tri-state
+    this.page = 0;
+    this.load();
+  }
+
+  // --- UI stanu filtrów ---
+  showFilters = false;
+
+  toggleFilters() {
+    this.showFilters = !this.showFilters;
+  }
+
+  // Kropka „•” na przycisku gdy coś ustawione
+  get hasActiveFilters(): boolean {
+    return !!(
+      this.sex ||
+      this.status ||
+      this.ageMinYears !== undefined ||
+      this.ageMaxYears !== undefined ||
+      this.createdFrom ||
+      this.createdTo ||
+      this.vaccinated !== undefined ||
+      this.neutered !== undefined
+    );
+  }
+
+  // Pomocniki do tri-state <select>
+  onTriStateChangeVaccinated(val: string) {
+    this.vaccinated = val === '' ? undefined : (val === 'true');
+  }
+  onTriStateChangeNeutered(val: string) {
+    this.neutered = val === '' ? undefined : (val === 'true');
+  }
+
+  selectSpecies(id: number | null){
+    if(id === this.speciesId) return
+
+    this.speciesId = id
+    this.page = 0
+    this.load()
+  }
+
 }

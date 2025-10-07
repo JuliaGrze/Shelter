@@ -1,5 +1,6 @@
 ﻿using Application.Dtos;
 using Application.Interfaces;
+using Application.Mapping;
 using Domain.Entities;
 using Infrastructure.Repositories.Abstractions;
 using System;
@@ -18,9 +19,10 @@ namespace Application.Services
             _speciesRepository = speciesRepository;
         }
 
-        public Task<List<SpeciesDto>> GetSpeciesAsync(CancellationToken ct = default)
+        public async Task<List<SpeciesDto>> GetSpeciesAsync(CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var species = await _speciesRepository.GetAllAsync(ct);
+            return species.Select(SpeciesMapping.SpeciestoDto).ToList();
         }
 
         public Task<SpeciesDto> GetSpecieByIdAsync(int id, CancellationToken ct = default)

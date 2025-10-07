@@ -24,6 +24,11 @@ namespace Infrastructure.Repositories
             await _context.Set<T>().AddAsync(entity, ct);
         }
 
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken ct = default)
+        {
+            return await _context.Set<T>().AnyAsync(predicate, ct);
+        }
+
         public void Delete(int id)
         {
             var entity = _context.Set<T>().FirstOrDefault(x => EF.Property<int>(x, "Id") == id);

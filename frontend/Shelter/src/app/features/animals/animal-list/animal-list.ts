@@ -78,7 +78,7 @@ export class AnimalList implements OnInit {
       page: this.page,
       size: this.size,
 
-      speciesId: this.speciesId || undefined,
+      speciesId: this.speciesId ?? undefined,
       sex: this.sex || undefined,
       status: this.status || undefined,
 

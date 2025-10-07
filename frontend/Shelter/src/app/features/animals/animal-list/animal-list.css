@@ -131,7 +131,7 @@
   margin: 0 0 12px;
 }
 
-.toolbar select, .toolbar .btn {
+.toolbar select, .toolbar {
   padding: 8px 10px;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
@@ -139,7 +139,7 @@
   cursor: pointer;
 }
 
-.toolbar .btn{
+.toolbar{
   color: black;
 }
 
@@ -149,9 +149,11 @@
 .pager {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   flex-wrap: wrap;
   margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .pager .btn {
@@ -252,7 +254,19 @@
   background: transparent; border: 0; font-size: 1.1rem; cursor: pointer;
 }
 
-.btn-filters { margin-left: .5rem; }
+.btn-filters { 
+  margin-left: .5rem; 
+  background-color: #fff;
+  border: 2px solid #2563eb;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.toolbar .btn.btn-filters.active {
+  background: #2563eb;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(37,99,235,.35);
+}
 
 
 /* ========== RESET wewnątrz panelu ==========
@@ -374,7 +388,7 @@
 
 /* Chipy gatunków */
 .btn.btn-species {
-  --chip-bg: #f3f4f6;
+  --chip-bg: #f4f6f3;
   --chip-fg: #111827;
   --chip-bd: #e5e7eb;
   --chip-bg-hover: #e5e7eb;

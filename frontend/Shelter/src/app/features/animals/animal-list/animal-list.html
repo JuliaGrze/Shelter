@@ -25,30 +25,34 @@
 <div class="toolbar">
     <label>
         Sortuj wg:
-        <select [ngModel]="sortBy" (ngModelChange)="onSortByChange($event)">
+        <select
+            [ngModel]="sortBy"
+            (ngModelChange)="onSortByChange($event)"
+            [ngModelOptions]="{ standalone: true }"
+        >
             <option *ngFor="let o of sortOptions" [value]="o.value">{{ o.label }}</option>
         </select>
     </label>
-    <label>
-        Kierunek:
-        <button class="btn" (click)="toggleDir()">
-            {{ sortDir === 'asc' ? 'rosnąco ↑' : 'malejąco ↓' }}
-        </button>
-    </label>
+
     <label>
         Na stronę:
-        <select [ngModel]="size" (ngModelChange)="setSize(+$event)">
-        <option [value]="10">10</option>
-        <option [value]="20">20</option>
-        <option [value]="50">50</option>
+        <select
+            [ngModel]="size"
+            (ngModelChange)="setSize(+$event)"
+            [ngModelOptions]="{ standalone: true }"
+        >
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="50">50</option>
         </select>
     </label>
-    <span class="muted">
-        Łącznie: {{ total }} |
-        Strona:{{page + 1}} z {{ Math.max(1, Math.ceil(total / size)) }}
-    </span>
-    <button class="btn btn-filters" (click)="toggleFilters()">
-        Filtry <span *ngIf="hasActiveFilters" aria-hidden="true">•</span>
+
+    <!-- Filtry – *koniecznie* type="button" -->
+    <button type="button" class="btn btn-filters" (click)="toggleFilters()" [class.active]="hasActiveFilters">
+        Filtry
+        @if(hasActiveFilters){
+           <span>•</span> 
+        } 
     </button>
 </div>
 

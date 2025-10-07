@@ -202,3 +202,233 @@
   border: 1px solid #b00020;
   border-radius: 8px;
 }
+
+/* Backdrop + panel */
+.filters-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.4);
+  z-index: 40;
+}
+
+.filters-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(480px, 95vw);
+  max-height: 90vh;
+
+  background: var(--panel-bg, #fff);
+  color: var(--panel-fg, #1f2d3d);
+  border-radius: 12px;
+  box-shadow: 0 24px 48px rgba(0,0,0,.3);
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 41;
+  animation: fadeIn 0.2s ease-out;
+}
+
+
+.filters-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.25rem; border-bottom: 1px solid rgba(0,0,0,.08);
+}
+.filters-body {
+  padding: 1rem 1.25rem; overflow: auto; display: grid;
+  grid-template-columns: 1fr 1fr; gap: .75rem 1rem;
+}
+.filters-body .field { display: flex; flex-direction: column; gap: .35rem; }
+.filters-body .field span { font-size: .9rem; opacity: .8; }
+.field-group { display: contents; } /* pozwala na 2 kolumny */
+
+.filters-footer {
+  display: flex; gap: .5rem; justify-content: flex-end;
+  padding: .75rem 1.25rem; border-top: 1px solid rgba(0,0,0,.08);
+}
+
+.icon-btn {
+  background: transparent; border: 0; font-size: 1.1rem; cursor: pointer;
+}
+
+.btn-filters { margin-left: .5rem; }
+
+
+/* ========== RESET wewnątrz panelu ==========
+   (żeby różne przeglądarki nie nakładały swoich styli) */
+.filters-panel, .filters-panel * {
+  box-sizing: border-box;
+}
+
+/* Naprawa przypadkowych poziomych scrolli w gridzie */
+.filters-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.filters-body .field,
+.filters-body input,
+.filters-body select {
+  min-width: 0; /* klucz do braku 'overflow' w gridzie */
+}
+
+/* ========== Pola: wspólna baza ========== */
+.filters-body input,
+.filters-body select {
+  width: 100%;
+  height: 38px;                /* spójna wysokość */
+  line-height: 1.2;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.95rem;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;          /* delikatniej i nowocześnie */
+  background-color: #f9fafb;
+  color: #1f2d3d;
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+  outline: none;
+}
+
+/* Focus */
+.filters-body input:focus,
+.filters-body select:focus {
+  background-color: #fff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.25);
+}
+
+/* Placeholder */
+.filters-body input::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+/* ========== SELECT: usuń natywną strzałkę i wstaw swoją ========== */
+.filters-body select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='18' width='18' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path d='M5.516 7.548l4.484 4.484 4.484-4.484L15.9 8.448l-5.9 5.9-5.9-5.9z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right .55rem center;
+  background-size: 1rem;
+  padding-right: 2rem; /* miejsce na strzałkę */
+}
+/* IE/Edge Legacy */
+.filters-body select::-ms-expand { display: none; }
+
+/* ========== NUMBER: ukryj spinnery, żeby nie rozpychały pola ========== */
+.filters-body input[type="number"]::-webkit-outer-spin-button,
+.filters-body input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.filters-body input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ========== DATE: więcej miejsca na ikonę kalendarza i czytelność ========== */
+.filters-body input[type="date"] {
+  padding-right: 2.2rem; /* niech tekst nie wchodzi pod ikonkę */
+}
+.filters-body input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: .7;
+  margin-right: .2rem;
+}
+.filters-body input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* ========== Etykiety i grupy ========== */
+.filters-body .field { display: flex; flex-direction: column; gap: .35rem; }
+.filters-body .field span { font-size: .85rem; color: #374151; font-weight: 600; }
+
+/* ========== Przyciski w stopce ========== */
+.filters-footer .btn {
+  min-width: 110px;
+  height: 38px;
+  font-weight: 600;
+}
+.filters-footer .btn:hover { background-color: #f3f4f6; }
+.btn.ghost { color: #374151; border-color: transparent; }
+.btn.ghost:hover { background-color: #f9fafb; }
+
+/* Primary dla "Zastosuj" – opcjonalnie ładniejszy akcent */
+.filters-footer .btn:first-child {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #fff;
+}
+.filters-footer .btn:first-child:hover {
+  filter: brightness(1.05);
+}
+
+/* Pasek gatunków (nad listą) */
+.species-bar {
+  display: flex;
+  flex-wrap: wrap;           /* zawijanie do nowych wierszy */
+  gap: .5rem;
+  align-items: center;
+  margin: .25rem 0 1rem;
+}
+
+/* Chipy gatunków */
+.btn.btn-species {
+  --chip-bg: #f3f4f6;
+  --chip-fg: #111827;
+  --chip-bd: #e5e7eb;
+  --chip-bg-hover: #e5e7eb;
+
+  padding: .4rem .8rem;
+  border-radius: 999px;
+  border: 1px solid var(--chip-bd);
+  background: var(--chip-bg);
+  color: var(--chip-fg);
+  font-size: .9rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease, transform .05s ease, box-shadow .15s ease;
+}
+
+.btn.btn-species:hover {
+  background: var(--chip-bg-hover);
+}
+
+.btn.btn-species:active {
+  transform: translateY(1px);
+}
+
+/* Wybrany gatunek */
+.btn.btn-species.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.25);
+}
+
+/* Dostępność klawiaturą */
+.btn.btn-species:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.35);
+}
+
+/* Bardzo wąskie ekrany: zamiast zawijania – poziomy scroll */
+@media (max-width: 640px) {
+  .species-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: .25rem;
+  }
+  .species-bar::-webkit-scrollbar { height: 8px; }
+  .species-bar::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.2);
+    border-radius: 8px;
+  }
+}
+
+/* ========== Responsywność panelu filtrów ========== */
+@media (max-width: 560px) {
+  .filters-body { grid-template-columns: 1fr !important; }
+}
+
+

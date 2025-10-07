@@ -52,7 +52,7 @@ namespace Application.Services
 
         public async Task<bool> UpdateAnimalAsync(int id, CreateAnimalDto dto, CancellationToken ct = default)
         {
-            var entity = await _repository.GetByIdAsync(id, ct); 
+            var entity = await _repository.GetByIdAsync(id, ct);
             if (entity is null) return false;
 
             entity.Name = dto.Name.Trim();
@@ -60,7 +60,7 @@ namespace Application.Services
             entity.BirthDate = dto.BirthDate;
             entity.Sex = dto.Sex.ToString();                // jeśli w encji string; gdy enum → entity.Sex = dto.Sex;
 
-            entity.Status   = dto.Status.ToString();
+            entity.Status = dto.Status.ToString();
             entity.Description = dto.Description?.Trim() ?? "";
             entity.Vaccinated = dto.Vaccinated;
             entity.Neutered = dto.Neutered;
@@ -77,51 +77,109 @@ namespace Application.Services
             if (entity is null) return false;
 
             _repository.Delete(id);
-            await _unitOfWork.SaveChangesAsync(ct);   
+            await _unitOfWork.SaveChangesAsync(ct);
             return true;
         }
 
-        // returns paged & sorted animals
+        // returns paged, sorted & filtered animals
         public async Task<PagedResult<AnimalDto>> GetAnimalsAsync(AnimalQuery q, CancellationToken ct = default)
         {
-            // Base query with species include
-            var baseQuery = _repository.Query(a => a.Species);
+            // Base query with required include for Species (we need Species.Name in DTO)
+            // _repository.Query(a => a.Species) internally does DbSet.Include(a => a.Species)
+            var query = _repository.Query(a => a.Species);
 
-            // Apply sorting (based on AnimalSortField + SortDirection)
+            // ------------------- FILTERS -------------------
+
+            // Species filter
+            if (q.SpeciesId.HasValue)
+                query = query.Where(a => a.SpeciesId == q.SpeciesId.Value);
+
+            // Sex filter (entity stores string; query uses enum -> string)
+            if (q.Sex.HasValue)
+            {
+                var sexText = q.Sex.Value.ToString(); // "Male" | "Female" | "Unknown"
+                query = query.Where(a => a.Sex == sexText);
+            }
+
+            // Status filter (enum -> string)
+            if (q.Status.HasValue)
+            {
+                var statusText = q.Status.Value.ToString(); // "Available" | "Reserved" | ...
+                query = query.Where(a => a.Status == statusText);
+            }
+
+            // Vaccinated / Neutered flags
+            if (q.Vaccinated.HasValue)
+                query = query.Where(a => a.Vaccinated == q.Vaccinated.Value);
+
+            if (q.Neutered.HasValue)
+                query = query.Where(a => a.Neutered == q.Neutered.Value);
+
+            // Age (in months) -> convert to BirthDate range using DateOnly
+            var today = DateOnly.FromDateTime(DateTime.UtcNow.Date);
+
+            // Minimum age: animal must be at least X months old => BirthDate <= today - X months
+            if (q.AgeMinMonths.HasValue)
+            {
+                var cutoffOlder = today.AddMonths(-q.AgeMinMonths.Value);
+                query = query.Where(a => a.BirthDate <= cutoffOlder);
+            }
+
+            // Maximum age: animal must be at most Y months old => BirthDate >= today - Y months
+            if (q.AgeMaxMonths.HasValue)
+            {
+                var cutoffYounger = today.AddMonths(-q.AgeMaxMonths.Value);
+                query = query.Where(a => a.BirthDate >= cutoffYounger);
+            }
+
+            // CreatedAt range (inclusive)
+            if (q.CreatedFrom.HasValue)
+                query = query.Where(a => a.CreatedAt >= q.CreatedFrom.Value);
+
+            if (q.CreatedTo.HasValue)
+            {
+                // If you want full-day inclusive behavior, you can expand 'to' to the end of day:
+                // var inclusiveTo = q.CreatedTo.Value.Date.AddDays(1).AddTicks(-1);
+                // query = query.Where(a => a.CreatedAt <= inclusiveTo);
+                query = query.Where(a => a.CreatedAt <= q.CreatedTo.Value);
+            }
+
+            // ------------------- SORTING -------------------
+            // IMPORTANT: species sorting must use a.Species.Name (not a.Species)
             var sorted = (q.SortBy, q.SortDir) switch
             {
-                (AnimalSortField.name, SortDirection.asc) => baseQuery.OrderBy(a => a.Name),
-                (AnimalSortField.name, SortDirection.desc) => baseQuery.OrderByDescending(a => a.Name),
+                (AnimalSortField.name, SortDirection.asc) => query.OrderBy(a => a.Name),
+                (AnimalSortField.name, SortDirection.desc) => query.OrderByDescending(a => a.Name),
 
-                (AnimalSortField.species, SortDirection.asc) => baseQuery.OrderBy(a => a.Species),
-                (AnimalSortField.species, SortDirection.desc) => baseQuery.OrderByDescending(a => a.Species),
+                (AnimalSortField.species, SortDirection.asc) => query.OrderBy(a => a.Species.Name).ThenBy(a => a.Name),
+                (AnimalSortField.species, SortDirection.desc) => query.OrderByDescending(a => a.Species.Name).ThenBy(a => a.Name),
 
-                (AnimalSortField.birthDate, SortDirection.asc) => baseQuery.OrderBy(a => a.BirthDate),
-                (AnimalSortField.birthDate, SortDirection.desc) => baseQuery.OrderByDescending(a => a.BirthDate),
+                (AnimalSortField.birthDate, SortDirection.asc) => query.OrderBy(a => a.BirthDate).ThenBy(a => a.Name),
+                (AnimalSortField.birthDate, SortDirection.desc) => query.OrderByDescending(a => a.BirthDate).ThenBy(a => a.Name),
 
-                (AnimalSortField.sex, SortDirection.asc) => baseQuery.OrderBy(a => a.Sex),
-                (AnimalSortField.sex, SortDirection.desc) => baseQuery.OrderByDescending(a => a.Sex),
+                (AnimalSortField.sex, SortDirection.asc) => query.OrderBy(a => a.Sex).ThenBy(a => a.Name),
+                (AnimalSortField.sex, SortDirection.desc) => query.OrderByDescending(a => a.Sex).ThenBy(a => a.Name),
 
-                (AnimalSortField.status, SortDirection.asc) => baseQuery.OrderBy(a => a.Status),
-                (AnimalSortField.status, SortDirection.desc) => baseQuery.OrderByDescending(a => a.Status),
+                (AnimalSortField.status, SortDirection.asc) => query.OrderBy(a => a.Status).ThenBy(a => a.Name),
+                (AnimalSortField.status, SortDirection.desc) => query.OrderByDescending(a => a.Status).ThenBy(a => a.Name),
 
-                (AnimalSortField.createdAt, SortDirection.asc) => baseQuery.OrderBy(a => a.CreatedAt),
-                (AnimalSortField.createdAt, SortDirection.desc) => baseQuery.OrderByDescending(a => a.CreatedAt),
+                (AnimalSortField.createdAt, SortDirection.asc) => query.OrderBy(a => a.CreatedAt),
+                (AnimalSortField.createdAt, SortDirection.desc) => query.OrderByDescending(a => a.CreatedAt),
 
-                _ => baseQuery.OrderByDescending(a => a.CreatedAt)
+                _ => query.OrderByDescending(a => a.CreatedAt)
             };
 
-            //Pagination
-            var total = await sorted.CountAsync();
+            // ------------------- PAGING + PROJECTION -------------------
+            var total = await sorted.CountAsync(ct);
+
             var items = sorted
                 .Skip(q.Page * q.Size)
                 .Take(q.Size)
-                .Select(AnimalMapping.AnimalToDto)
+                .Select(AnimalMapping.AnimalToDto) // Project entity -> DTO on the DB side
                 .ToList();
 
-            // Return paginated result
             return new PagedResult<AnimalDto>(items, total, q.Page, q.Size);
-
         }
+
     }
 }

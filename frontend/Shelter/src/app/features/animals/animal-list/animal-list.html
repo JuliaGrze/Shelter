@@ -1,5 +1,26 @@
 <h2>Nasze zwierzęta</h2>
 
+<!-- Species -->
+<div class="species-bar">
+  <button
+    class="btn btn-species"
+    [class.active]="speciesId === null"
+    (click)="selectSpecies(null)"
+  >
+    Wszystkie
+  </button>
+
+  @for (s of species; track $index) {
+    <button
+        class="btn btn-species"
+        [class.active]="speciesId === s.id"
+        (click)="selectSpecies(s.id)"
+    >
+        {{ s.name }}
+    </button>
+  }
+</div>
+
 <!-- Sorting and Pagination -->
 <div class="toolbar">
     <label>
@@ -26,7 +47,95 @@
         Łącznie: {{ total }} |
         Strona:{{page + 1}} z {{ Math.max(1, Math.ceil(total / size)) }}
     </span>
+    <button class="btn btn-filters" (click)="toggleFilters()">
+        Filtry <span *ngIf="hasActiveFilters" aria-hidden="true">•</span>
+    </button>
 </div>
+
+<!-- Backdrop -->
+<div class="filters-backdrop" *ngIf="showFilters" (click)="toggleFilters()"></div>
+
+<!-- Panel filtrów -->
+<section class="filters-panel" *ngIf="showFilters" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-label="Filtry wyszukiwania">
+  <header class="filters-header">
+    <h3>Filtry</h3>
+    <button class="icon-btn" (click)="toggleFilters()" aria-label="Zamknij">✕</button>
+  </header>
+
+  <div class="filters-body">
+    <!-- Płeć (dopasuj wartości do enumu Sex) -->
+    <label class="field">
+      <span>Płeć</span>
+      <select [(ngModel)]="sex">
+        <option [ngValue]="''">— dowolna —</option>
+        <option [ngValue]="'Male'">Samiec</option>
+        <option [ngValue]="'Female'">Samica</option>
+        <option [ngValue]="'Unknown'">Nieznana</option>
+      </select>
+    </label>
+
+    <!-- Status (dopasuj wartości do enumu AnimalStatus) -->
+    <label class="field">
+      <span>Status</span>
+      <select [(ngModel)]="status">
+        <option [ngValue]="''">— dowolny —</option>
+        <option [ngValue]="'Available'">Do adopcji</option>
+        <option [ngValue]="'Adopted'">Adoptowany</option>
+        <option [ngValue]="'Pending'">W trakcie</option>
+        <option [ngValue]="'Unknown'">Nieznany</option>
+      </select>
+    </label>
+
+    <!-- Wiek -->
+    <div class="field-group">
+      <label class="field">
+        <span>Wiek min (lata)</span>
+        <input type="number" min="0" [(ngModel)]="ageMinYears" placeholder="np. 1">
+      </label>
+      <label class="field">
+        <span>Wiek max (lata)</span>
+        <input type="number" min="0" [(ngModel)]="ageMaxYears" placeholder="np. 10">
+      </label>
+    </div>
+
+    <!-- Data utworzenia -->
+    <div class="field-group">
+      <label class="field">
+        <span>Utworzone od</span>
+        <input type="date" [(ngModel)]="createdFrom">
+      </label>
+      <label class="field">
+        <span>Utworzone do</span>
+        <input type="date" [(ngModel)]="createdTo">
+      </label>
+    </div>
+
+    <!-- Szczepienie / Kastracja – tri-state -->
+    <label class="field">
+      <span>Szczepiony</span>
+      <select [ngModel]="vaccinated === undefined ? '' : (vaccinated ? 'true' : 'false')" (ngModelChange)="onTriStateChangeVaccinated($event)">
+        <option value="">— dowolnie —</option>
+        <option value="true">Tak</option>
+        <option value="false">Nie</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Wykastrowany/Wysterylizowany</span>
+      <select [ngModel]="neutered === undefined ? '' : (neutered ? 'true' : 'false')" (ngModelChange)="onTriStateChangeNeutered($event)">
+        <option value="">— dowolnie —</option>
+        <option value="true">Tak</option>
+        <option value="false">Nie</option>
+      </select>
+    </label>
+  </div>
+
+  <footer class="filters-footer">
+    <button class="btn" (click)="applyFilters(); toggleFilters()">Zastosuj</button>
+    <button class="btn ghost" (click)="clearFilters()">Wyczyść</button>
+  </footer>
+</section>
+
 
 <div class="animal-grid">
     @for (animal of animals; track $index) {

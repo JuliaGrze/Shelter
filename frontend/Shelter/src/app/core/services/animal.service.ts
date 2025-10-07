@@ -15,19 +15,46 @@ export class AnimalService {
 
   // GET /api/animals/all
   getAllAnimals() : Observable<AnimalDto[]>{
-    return this.http.get<AnimalDto[]>(this.base)
+    return this.http.get<AnimalDto[]>(`${this.base}/all`)
   }
 
-  // GET: api/animals?sortBy=name&sortDir=asc&page=0&size=20
+  // GET: /api/animals?sortBy=name&sortDir=asc&page=0&size=20&...
   getAnimalsPaged(q: AnimalQuery = {}): Observable<PagedResult<AnimalDto>> {
     let params = new HttpParams();
-    if (q.sortBy)  params = params.set('sortBy', q.sortBy);
-    if (q.sortDir) params = params.set('sortDir', q.sortDir);
-    if (q.page !== undefined) params = params.set('page', q.page);
-    if (q.size !== undefined) params = params.set('size', q.size);
+
+    // helper: ustaw tylko, gdy wartość nie jest undefined/null/'' (puste stringi omijamy)
+    const set = (k: string, v: any) => {
+      if (v === undefined || v === null || v === '') return;
+      params = params.set(k, String(v));
+    };
+
+    // sort + paging
+    set('sortBy', q.sortBy);
+    set('sortDir', q.sortDir);
+    set('page', q.page);
+    set('size', q.size);
+
+    // filters
+    // liczby: nie używamy truthy (0 jest valid), sprawdzamy null/undefined
+    set('ageMinMonths', q.ageMinMonths);
+    set('ageMaxMonths', q.ageMaxMonths);
+
+    // string-uniony: pusty string traktuj jako „brak filtra”
+    set('speciesId', q.speciesId)
+    set('sex', q.sex);
+    set('status', q.status);
+
+    // daty
+    set('createdFrom', q.createdFrom);
+    set('createdTo', q.createdTo);
+
+    // booleany: MUSI iść zarówno true, jak i false → nie używać if (q.vaccinated)
+    if (q.vaccinated !== undefined) params = params.set('vaccinated', String(q.vaccinated));
+    if (q.neutered   !== undefined) params = params.set('neutered',   String(q.neutered));
 
     return this.http.get<PagedResult<AnimalDto>>(this.base, { params });
   }
+
 
   // GET /api/animals/{id}
   getAnimalById(id: number) : Observable<AnimalDto>{

@@ -1,5 +1,5 @@
 ﻿using Application.Common;
-using Application.Dtos;
+using Application.Dtos.Animal;
 using Application.Queries;
 using System;
 using System.Collections.Generic;

@@ -11,8 +11,8 @@ namespace Application.Interfaces
     {
         Task<List<SpeciesDto>> GetSpeciesAsync(CancellationToken ct = default);
         Task<SpeciesDto> GetSpecieByIdAsync(int id, CancellationToken ct = default);
-        Task<int> AddSpecieAsync(CreateAnimalDto animal, CancellationToken ct = default);
-        Task<bool> UpdateSpecieAsync(int id, CreateAnimalDto animal, CancellationToken ct = default);
+        Task<int> AddSpecieAsync(CreateSpeciesDto animal, CancellationToken ct = default);
+        Task<bool> UpdateSpecieAsync(int id, CreateSpeciesDto animal, CancellationToken ct = default);
         Task<bool> DeleteSpecieAsync(int id, CancellationToken ct = default);
     }
 }

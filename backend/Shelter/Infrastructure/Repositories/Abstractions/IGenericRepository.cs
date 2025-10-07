@@ -54,6 +54,12 @@ namespace Infrastructure.Repositories.Abstractions
         void Delete(int id);
 
         /// <summary>
+        /// Returns whether there is at least one record of type <typeparamref name="T"/>
+        /// that meets the specified condition <paramref name="predicate"/>.
+        /// </summary>
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken ct = default);
+
+        /// <summary>
         /// Returns an <see cref="IQueryable{T}"/> that can be further composed with LINQ queries.
         /// This allows applying additional filters, sorting, and projections before execution.
         /// </summary>

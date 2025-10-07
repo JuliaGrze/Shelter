@@ -1,5 +1,5 @@
 ﻿using Application.Common;
-using Application.Dtos;
+using Application.Dtos.Animal;
 using Application.Interfaces;
 using Application.Mapping;
 using Application.Queries;

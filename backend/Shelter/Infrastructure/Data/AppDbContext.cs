@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -18,6 +19,9 @@ namespace Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //wywyoluje metody z klasy bazowej IdentityDbContext, utworza sie tabelki do Logowania itp
+            base.OnModelCreating(modelBuilder);
+
             //EF Core przeskanuje cały assembly (Infrastructure)
             //i znajdzie wszystkie klasy, które implementują IEntityTypeConfiguration<T>
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

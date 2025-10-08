@@ -26,8 +26,10 @@
         [class.input-error]="showPasswordError()"
       />
     </label>
-    <small class="hint error" *ngIf="showPasswordError()">Hasło musi mieć min. 6 znaków.</small>
-
+    @if (showPasswordError()) {
+        <small class="hint error">Hasło musi mieć min. 6 znaków.</small>
+    }
+    
     <div class="grid-2">
       <label>Imię
         <input formControlName="firstName" type="text" placeholder="np. Julia" />

@@ -7,7 +7,7 @@ import { catchError, throwError } from 'rxjs';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService)
   const router = inject(Router)
-  const token = auth.token
+  const token = localStorage.getItem('auth_token')
 
   //Jesli uzytkownik jest zalogowany (ma token),to klonujesz zadanie i dodajesz do niego naglowek
   const authReq = token

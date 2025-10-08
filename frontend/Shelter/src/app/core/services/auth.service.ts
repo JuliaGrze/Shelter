@@ -21,7 +21,7 @@ export class AuthService {
   //sposob na udostępnienie _profile swiatu na zewnatrz,ale bez pozwolenia na modyfikacje
   readonly profile = this._profile.asReadonly();
 
-  private getStoredToken() : string | null {
+  getStoredToken() : string | null {
     return localStorage.getItem(TOKEN_KEY)
   }
 

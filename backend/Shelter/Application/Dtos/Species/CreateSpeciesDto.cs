@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Dtos
+namespace Application.Dtos.Species
 {
-    public class SpeciesDto
+    public class CreateSpeciesDto
     {
-        public int Id { get; set; }
         public string Name { get; set; } = "";
     }
 }

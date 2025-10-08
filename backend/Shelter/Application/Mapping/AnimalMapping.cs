@@ -1,4 +1,4 @@
-﻿using Application.Dtos;
+﻿using Application.Dtos.Animal;
 using Domain.Entities;
 using Domain.Enums;
 using System;

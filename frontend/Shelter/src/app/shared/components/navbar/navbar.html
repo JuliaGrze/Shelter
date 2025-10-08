@@ -1,0 +1,23 @@
+<nav class="nav">
+    <div class="nav-brand" routerLink="/animals">
+        <span class="brand__logo" aria-hidden="true">🐾</span>
+        <span class="brand__text">Schronisko</span>
+    </div>
+
+    <div class="nav-actions">
+        <a routerLink="">O nas</a>
+        <a routerLink="animals">Nasze zwierzaki</a>
+    </div>
+
+    <div class="login">
+    @if (!isLoggedIn()) {  
+        <button class="btn-register" routerLink="register">Zarejestruj się</button>
+        <button class="btn-login" routerLink="login">Zaloguj się</button>
+    }
+    @else {
+        <span class="user-chip">{{ userLabel() }}</span>
+        <button class="btn-logout" (click)="logout()">Wyloguj się</button>
+    }
+    </div>
+    
+</nav>

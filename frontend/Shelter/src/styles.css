@@ -23,7 +23,7 @@
 }
 
 .btn:disabled {
-  background-color: #a1a1aa;
+  background-color: #b6c9fd;
   cursor: not-allowed;
 }
 

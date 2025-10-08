@@ -1,7 +1,8 @@
 ﻿using Application.Common;
-using Application.Dtos;
+using Application.Dtos.Animal;
 using Application.Interfaces;
 using Application.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Shelter.API.Controllers

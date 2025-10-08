@@ -1,0 +1,54 @@
+<section class="auth-card">
+  <h2>Rejestracja</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <label>
+      E-mail
+      <input
+        formControlName="email"
+        type="email"
+        placeholder="you@example.com"
+        autocomplete="email"
+        [class.input-error]="showEmailError()"
+      />
+    </label>
+    @if (showEmailError()) {
+        <small class="hint error">Podaj poprawny adres e-mail.</small>
+    }
+    
+    <label>
+      Hasło
+      <input
+        formControlName="password"
+        type="password"
+        placeholder="••••••••"
+        autocomplete="new-password"
+        [class.input-error]="showPasswordError()"
+      />
+    </label>
+    @if (showPasswordError()) {
+        <small class="hint error">Hasło musi mieć min. 6 znaków.</small>
+    }
+    
+    <div class="grid-2">
+      <label>Imię
+        <input formControlName="firstName" type="text" placeholder="np. Julia" />
+      </label>
+      <label>Nazwisko
+        <input formControlName="lastName" type="text" placeholder="np. Kowalska" />
+      </label>
+    </div>
+
+    <div class="actions">
+      <button class="btn" type="submit" [disabled]="loading || form.invalid">
+        {{ loading ? 'Tworzenie konta…' : 'Utwórz konto' }}
+      </button>
+    </div>
+
+    <a routerLink="/login" class="link">Masz konto? Zaloguj się</a>
+    @if (error) {
+        <p class="error">{{ error }}</p>
+    }
+    
+  </form>
+</section>

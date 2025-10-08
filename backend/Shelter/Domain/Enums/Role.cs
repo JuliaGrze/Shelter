@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Dtos
+namespace Domain.Enums
 {
-    public class CreateSpeciesDto
+    public enum Role
     {
-        public string Name { get; set; } = "";
+        Client, Manager, Admin
     }
 }

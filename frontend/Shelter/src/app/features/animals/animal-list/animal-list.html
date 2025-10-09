@@ -161,11 +161,20 @@
                 </p>
             </div>
 
-            <button
-                class="btn details-btn" 
-                [routerLink]="['/animals', animal.id]"
-            >Zobacz szczegóły</button>
+            <div class="actions">
+              <button
+                  class="btn details-btn worker-btn" 
+                  [routerLink]="['/worker/animals/edit', animal.id]"
+                  (click)="$event.stopPropagation()" 
+              >Edytuj szczegóły</button>
+
+              <button
+                  class="btn details-btn" 
+                  [routerLink]="['/animals', animal.id]"
+              >Zobacz szczegóły</button>
+            </div>       
         </div>
+        
     }
 </div>
 

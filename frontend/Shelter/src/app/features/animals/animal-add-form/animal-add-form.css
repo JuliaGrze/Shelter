@@ -107,6 +107,59 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
+/* ====== Styl dla prostego bloku uploadu (bez zmiany HTML) ====== */
+.row input[type="file"] {
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: .45rem .55rem;
+  background: #fff;
+  font-size: .95rem;
+  color: var(--text);
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+/* Przycisk wewnątrz input[type=file] (nowoczesne przeglądarki) */
+.row input[type="file"]::file-selector-button {
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  padding: .5rem 1rem;
+  margin-right: .75rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, transform .1s ease;
+}
+
+.row input[type="file"]::file-selector-button:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.row input[type="file"]::file-selector-button:active {
+  transform: translateY(0);
+}
+
+.row input[type="file"]:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(37,99,235,.2);
+}
+
+/* Tekst błędu obok inputa */
+.row .hint.error {
+  margin-left: .5rem;
+  line-height: 1.2;
+}
+
+/* Opcjonalnie: ciaśniejszy odstęp w tym wierszu (nadpisuje inline w razie potrzeby) */
+.row[style] {
+  gap: .5rem !important; /* już masz .5rem — zostawiam jako „twarde” ustawienie */
+  align-items: center !important;
+}
+
+
 /* ====== AKCJE (PRZYCISKI) ====== */
 .actions {
   display: flex;

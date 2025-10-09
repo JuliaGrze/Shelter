@@ -80,7 +80,7 @@ builder.Services
             ValidateLifetime = true
         };
     });
-
+builder.Environment.WebRootPath = Path.Combine(builder.Environment.ContentRootPath, "wwwroot");
 var app = builder.Build();
 
 // === Migracje + seedy (domena + identity)
@@ -107,6 +107,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseCors("dev");
 

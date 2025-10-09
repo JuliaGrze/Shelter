@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgClass, NgIf, NgFor, DecimalPipe, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +11,7 @@ import { PagedResult } from '../../../core/models/paged-result';
 import { SortBy, SortDir } from '../../../core/models/animal-query';
 import { SpeciesDto } from '../../../core/models/species';
 import { SpeciesService } from '../../../core/services/species.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-animal-list',
@@ -29,6 +30,7 @@ import { SpeciesService } from '../../../core/services/species.service';
 export class AnimalList implements OnInit {
   private animalService = inject(AnimalService);
   private speciesService = inject(SpeciesService)
+  private authService = inject(AuthService)
   protected readonly Math = Math;
 
   species: SpeciesDto[] = []
@@ -42,6 +44,11 @@ export class AnimalList implements OnInit {
 
   loading = true;
   error = '';
+
+  canManage = computed(() => {
+    const p = this.authService.profile();        // signal → odświeży się sam
+    return !!p?.roles?.some(r => r === 'Admin' || r === 'Worker');
+  });
 
   sortOptions: { value: SortBy; label: string }[] = [
     { value: 'createdAt', label: 'Najnowsze (Created At)' },

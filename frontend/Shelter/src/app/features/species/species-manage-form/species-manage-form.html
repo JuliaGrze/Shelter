@@ -1,0 +1,65 @@
+<h2>Zarządzaj gatunkami</h2>
+
+@if (loading) {
+<div>Ładowanie...</div>
+}
+
+@if (!loading && error) {
+<div class="error">{{ error }}</div>
+}
+
+@if (!loading && !error) {
+<section class="card">
+    <div class="list-head">
+        <span class="col-name">Nazwa gatunku</span>
+        <span class="col-actions">Akcje</span>
+    </div>
+
+    <ul class="species-list">
+        @for (s of species; track s.id) {
+        <li class="row-item">
+            <div class="name-cell">
+                @if (state.get(s.id)?.editing) {
+                <input type="text" [(ngModel)]="state.get(s.id)!.tempName" [disabled]="savingId === s.id"
+                    placeholder="Nazwa gatunku" class="name-input" />
+                } @else {
+                <span class="name-text">{{ s.name }}</span>
+                }
+            </div>
+
+            <div class="actions-cell">
+                @if (!state.get(s.id)?.editing) {
+                <button class="btn ghost" (click)="startEdit(s)">Edytuj</button>
+                } @else {
+                <button class="btn" (click)="save(s)"
+                    [disabled]="savingId === s.id || !(state.get(s.id)!.tempName.trim())">
+                    {{ savingId === s.id ? 'Zapisywanie…' : 'Zapisz' }}
+                </button>
+                <button class="btn ghost" (click)="cancelEdit(s)" [disabled]="savingId === s.id">
+                    Anuluj
+                </button>
+                }
+
+                <!-- Usuwanie -->
+                @if (!state.get(s.id)?.confirmingDelete) {
+                <button class="btn danger" (click)="openDelete(s)">Usuń</button>
+                } @else {
+                <div class="confirm-inline">
+                    <span>Potwierdź: wpisz <strong>{{ s.name }}</strong></span>
+                    <input type="text" [(ngModel)]="state.get(s.id)!.confirmText" [disabled]="deletingId === s.id"
+                        placeholder="Wpisz dokładnie nazwę" />
+                    <button class="btn danger" (click)="confirmDelete(s)"
+                        [disabled]="deletingId === s.id || state.get(s.id)!.confirmText !== s.name">
+                        {{ deletingId === s.id ? 'Usuwanie…' : 'Potwierdź' }}
+                    </button>
+                    <button class="btn ghost" (click)="cancelDelete(s)" [disabled]="deletingId === s.id">
+                        Anuluj
+                    </button>
+                </div>
+                }
+            </div>
+        </li>
+        }
+    </ul>
+</section>
+}

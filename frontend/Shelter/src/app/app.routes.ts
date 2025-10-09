@@ -3,10 +3,27 @@ import { AnimalList } from './features/animals/animal-list/animal-list';
 import { AnimalDetails } from './features/animals/animal-details/animal-details';
 import { Login } from './features/auth/login/login';
 import { Register } from './features/auth/register/register';
+import { roleGuard } from './core/guards/role-guard';
+import { AnimalAddForm } from './features/animals/animal-add-form/animal-add-form';
+import { SpeciesAddForm } from './features/species/species-add-form/species-add-form';
 
 export const routes: Routes = [
     {path: 'animals', component: AnimalList},
     {path: 'animals/:id', component: AnimalDetails},
+
+    //ADMIN/WORKER
+    {
+        path: 'worker/animals/new',
+        component: AnimalAddForm,
+        canActivate: [roleGuard],
+        data: { roles: ['Admin', 'Worker']}
+    },
+    {
+        path: 'worker/species/new',
+        component: SpeciesAddForm,
+        canActivate: [roleGuard],
+        data: { roles: ['Admin', 'Worker']}
+    },
 
     //AUTH - login & register
     {path: 'login', component: Login},

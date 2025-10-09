@@ -16,6 +16,12 @@ export class Navbar {
   //sygnal z AuthService - true gdy mamy token
   isLoggedIn = this.authService.isLoggedIn
 
+  canManage = computed(() => {
+    const p = this.authService.profile();        // signal → odświeży się sam
+    return !!p?.roles?.some(r => r === 'Admin' || r === 'Worker');
+  });
+
+
   //ladna etykieta uzytkownika do chipa
   userLabel = computed(() => {
     const p = this.authService.profile(); // sygnał/computed z AuthService
@@ -28,4 +34,5 @@ export class Navbar {
     this.authService.logout();
     this.router.navigateByUrl('/animals')
   }
+
 }

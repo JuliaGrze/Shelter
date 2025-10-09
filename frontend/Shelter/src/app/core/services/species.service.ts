@@ -15,4 +15,9 @@ export class SpeciesService {
   getAllSpecies() : Observable<SpeciesDto[]>{
     return this.http.get<SpeciesDto[]>(this.base)
   }
+
+  //POST /api/species -> number(nowe id)
+  addSpecies(name: string){
+    return this.http.post<number>(this.base, {name})
+  }
 }

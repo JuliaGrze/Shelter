@@ -1,0 +1,70 @@
+<h2>Dodaj zwierzę</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="card">
+  <div class="grid">
+    <label>
+      Imię
+      <input type="text" formControlName="name" placeholder="Azor">
+    </label>
+
+    <label>Gatunek
+      <select formControlName="speciesId">
+        <option [ngValue]="null" disabled>— wybierz —</option>
+        @for (species of speciesList; track $index) {
+          <option [ngValue]="species.id">{{ species.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      Data urodzenia
+      <input type="date" formControlName="birthDate">
+    </label>
+
+    <label>
+      Płeć
+      <select formControlName="sex">
+        <option value="Unknown">Nieznana</option>
+        <option value="Female">Samica</option>
+        <option value="Male">Samiec</option>
+      </select>
+    </label>
+
+    <label>
+      Status
+      <select formControlName="status">
+        <option value="Available">Dostępny</option>
+        <option value="Reserved">Zarezerwowany</option>
+        <option value="Adopted">Adoptowany</option>
+        <option value="NotAvailable">Niedostępny</option>
+      </select>
+    </label>
+  </div>
+
+  <!-- wybór pliku (bez ukrywania, bez ViewChild) -->
+  <div class="row" style="gap:.5rem; align-items:center;">
+    <input type="file" accept="image/*" (change)="onLocalPhotoPicked($event)">
+    @if(uploadError)
+    {
+        <small class="hint error">{{ uploadError }}</small>
+    }
+  </div>
+
+  <label class="row">
+    <input type="checkbox" formControlName="vaccinated"> Szczepiony
+  </label>
+  <label class="row">
+    <input type="checkbox" formControlName="neutered"> Wykastrowany/Wysterylizowany
+  </label>
+
+    <label>
+        Opis
+        <textarea formControlName="description" placeholder="Kilka słów o zwierzaku..."></textarea>
+    </label>
+
+
+  <div class="actions">
+    <a routerLink="/animals" class="btn ghost">Anuluj</a>
+    <button class="btn" [disabled]="loading">Zapisz</button>
+  </div>
+</form>

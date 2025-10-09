@@ -20,6 +20,16 @@ export class AuthService {
   readonly isLoggedIn = computed(() => !!this._token())
   //sposob na udostępnienie _profile swiatu na zewnatrz,ale bez pozwolenia na modyfikacje
   readonly profile = this._profile.asReadonly();
+  readonly role = this._profile()?.roles
+
+   constructor() {
+    // jeśli mamy token po F5 → dociągnij /me
+    if (this._token()) {
+      this.fetchMe().subscribe({
+      error: () => this.logout() // token nieważny → wyloguj
+        });
+      }
+    }
 
   getStoredToken() : string | null {
     return localStorage.getItem(TOKEN_KEY)
@@ -88,5 +98,17 @@ export class AuthService {
   logout(){
     this.clearToken()
     this._profile.set(null)
+  }
+
+  //Role helpers
+  hasRole(role: string) : boolean{
+    const p = this.profile()
+    return !!p?.roles.includes(role)
+  }
+
+  hasAnyRole(roles: string[]) : boolean{
+    const p = this.profile()
+    if(!p?.roles.length) return false
+    return roles.some(r => p.roles.includes(r))
   }
 }

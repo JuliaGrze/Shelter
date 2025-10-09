@@ -1,0 +1,113 @@
+:host {
+  --radius: 10px;
+  --line: #e5e7eb;
+  --accent: #2563eb;
+  --accent-hover: #1e40af;
+  --text: #1f2937;
+  display: block;
+  padding: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ====== NAGŁÓWEK ====== */
+h2 {
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+/* ====== FORMULARZ ====== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 10px rgba(0,0,0,.05);
+  padding: 1rem;
+}
+
+/* ====== LABEL ====== */
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  color: var(--text);
+  gap: 0.3rem;
+}
+
+/* ====== INPUT ====== */
+input[type="text"] {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  color: var(--text);
+  background: #f9fafb;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+input[type="text"]:focus {
+  border-color: var(--accent);
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* ====== PRZYCISKI ====== */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--accent);
+  background-color: var(--accent);
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  background-color: #9ca3af;
+  border-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.btn.ghost:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ====== RESPONSYWNOŚĆ ====== */
+@media (max-width: 640px) {
+  :host {
+    padding: 1rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+}

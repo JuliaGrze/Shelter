@@ -20,4 +20,14 @@ export class SpeciesService {
   addSpecies(name: string){
     return this.http.post<number>(this.base, {name})
   }
+
+  // PUT /api/species/{id} -> 204
+  editSpecies(id: number, name: string){
+    return this.http.put<void>(`${this.base}/${id}`, {name})
+  }
+
+  // DELETE /api/species/{id} -> 204
+  deleteSpecies(id: number) {
+    return this.http.delete<void>(`${this.base}/${id}`);
+  }
 }

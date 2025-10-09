@@ -45,6 +45,7 @@ namespace Shelter.API.Controllers
 
         // POST: api/animals
         [HttpPost]
+        [Authorize(Roles = "Admin,Worker")]
         public async Task<ActionResult<int>> CreateAnimal([FromBody] CreateAnimalDto animalDto, CancellationToken ct)
         {
             var id = await _animalService.AddAnimalAsync(animalDto, ct);

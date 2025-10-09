@@ -6,6 +6,7 @@ import { Register } from './features/auth/register/register';
 import { roleGuard } from './core/guards/role-guard';
 import { AnimalAddForm } from './features/animals/animal-add-form/animal-add-form';
 import { SpeciesAddForm } from './features/species/species-add-form/species-add-form';
+import { AnimalEditDeleteForm } from './features/animals/animal-edit-delete-form/animal-edit-delete-form';
 
 export const routes: Routes = [
     {path: 'animals', component: AnimalList},
@@ -17,6 +18,12 @@ export const routes: Routes = [
         component: AnimalAddForm,
         canActivate: [roleGuard],
         data: { roles: ['Admin', 'Worker']}
+    },
+    {
+        path: 'worker/animals/edit/:id',
+        component: AnimalEditDeleteForm,
+        canActivate: [roleGuard],
+        data: {roles: ['Admin', 'Worker']}
     },
     {
         path: 'worker/species/new',

@@ -65,6 +65,19 @@
   margin: 0 auto 1rem;
 }
 
+.worker-btn{
+  background-color: #cb46e5;
+}
+
+.worker-btn:hover {
+  background-color: #a312a8;
+}
+
+.actions{
+  text-align: center;
+  justify-content: center;
+}
+
 /* === MINI CHIPY DLA KART === */
 .sex-chip,
 .status-chip {

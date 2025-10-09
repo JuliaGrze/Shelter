@@ -1,0 +1,156 @@
+<h2>Edytuj zwierzę</h2>
+
+@if (loading) {
+    <div>Ładowanie...</div>
+}
+
+@if (!loading && error) {
+    <div class="class">{{error}}</div>
+}
+
+@if (!loading && !error) 
+{
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="card">
+        <div class="grid">
+            <label>
+                Imię
+                <input type="text" formControlName="name" placeholder="Azor">
+            </label>
+
+            <label>
+                Gatunek
+                <select formControlName="speciesId">
+                    <option [ngValue]="null" disabled>— wybierz —</option>
+                    @for (species of speciesList; track $index) {
+                    <option [ngValue]="species.id">{{ species.name }}</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Data urodzenia
+                <input type="date" formControlName="birthDate">
+            </label>
+
+            <label>
+                Płeć
+                <select formControlName="sex">
+                    <option value="Unknown">Nieznana</option>
+                    <option value="Female">Samica</option>
+                    <option value="Male">Samiec</option>
+                </select>
+            </label>
+
+            <label>
+                Status
+                <select formControlName="status">
+                    <option value="Available">Dostępny</option>
+                    <option value="Reserved">Zarezerwowany</option>
+                    <option value="Adopted">Adoptowany</option>
+                    <option value="NotAvailable">Niedostępny</option>
+                </select>
+            </label>
+        </div>
+
+        <!-- podgląd i wybór zdjęcia -->
+        <section class="photo-field">
+            <div class="thumb">
+                <img
+                [src]="currentAnimal?.photoUrl"
+                alt="Podgląd zdjęcia"
+                class="thumb-img"
+                />
+            </div>
+
+            <div class="file-side">
+                <label class="btn outline file-btn">
+                Wybierz zdjęcie
+                <input type="file" accept="image/*" (change)="onLocalPhotoPicked($event)" />
+                </label>
+
+                <p class="file-name" aria-live="polite">
+                <ng-container *ngIf="selectedFileName; else noFile">
+                    Wybrano: <strong>{{ selectedFileName }}</strong>
+                </ng-container>
+                <ng-template #noFile>
+                    <span class="muted">Zdjęcie nie wybrane</span>
+                </ng-template>
+                </p>
+
+                <p class="file-help muted">Obsługiwane: JPG, PNG, WEBP · max 5 MB</p>
+                <small class="hint error" *ngIf="uploadError">{{ uploadError }}</small>
+            </div>
+        </section>
+
+
+
+
+        <label class="row">
+            <input type="checkbox" formControlName="vaccinated"> Szczepiony
+        </label>
+        <label class="row">
+            <input type="checkbox" formControlName="neutered"> Wykastrowany/Wysterylizowany
+        </label>
+
+        <label>
+            Opis
+            <textarea formControlName="description" placeholder="Kilka słów o zwierzaku..."></textarea>
+        </label>
+
+        <div class="actions">
+            <a routerLink="/animals" class="btn ghost">Anuluj</a>
+            <button class="btn" type="submit" [disabled]="saving || form.invalid">Zapisz zmiany</button>
+        </div>
+    </form>
+}
+
+<!-- === Strefa niebezpieczna: usuwanie === -->
+<section class="danger-zone" aria-labelledby="danger-title">
+  <h3 id="danger-title">Usuń zwierzaka</h3>
+  <p class="muted">
+    Operacja nieodwracalna. Po usunięciu tego wpisu nie będzie możliwości przywrócenia danych.
+  </p>
+
+  <div class="danger-actions" *ngIf="!confirmOpen; else confirmStep">
+    <button type="button" class="btn danger" (click)="openDeleteConfirm()">
+      Usuń zwierzaka
+    </button>
+  </div>
+
+  <ng-template #confirmStep>
+    <div class="confirm-box">
+      <p>
+        Aby potwierdzić, wpisz <strong>{{ currentAnimal?.name }}</strong> w polu poniżej.
+      </p>
+      <input
+        type="text"
+        [(ngModel)]="confirmText"
+        [disabled]="deleting"
+        placeholder="Wpisz dokładnie nazwę"
+        aria-label="Potwierdź nazwę zwierzaka"
+      />
+
+      <div class="confirm-actions">
+        <button
+          type="button"
+          class="btn ghost"
+          (click)="cancelDeleteConfirm()"
+          [disabled]="deleting"
+        >
+          Anuluj
+        </button>
+
+        <button
+          type="button"
+          class="btn danger"
+          (click)="deleteAnimal()"
+          [disabled]="deleting || confirmText !== currentAnimal?.name"
+          [attr.aria-disabled]="deleting || confirmText !== currentAnimal?.name"
+          title="Usuń na stałe"
+        >
+          {{ deleting ? 'Usuwanie…' : 'Potwierdź usunięcie' }}
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</section>

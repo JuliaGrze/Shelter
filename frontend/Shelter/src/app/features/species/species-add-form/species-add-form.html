@@ -1,1 +1,17 @@
-<p>species-add-form works!</p>
+<h2>Dodaj gatunek</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+        Nazwa gatunku
+        <input
+        type="text"
+        formControlName="name"
+        placeholder="np. pies"
+        >
+    </label>
+
+    <div class="actions">
+        <a routerLink="/animals" class="btn ghost">Anuluj</a>
+        <button class="btn" type="submit" [disabled]="loading || form.invalid">Zapisz</button>
+    </div>
+</form>

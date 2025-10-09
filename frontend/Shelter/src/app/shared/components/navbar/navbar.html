@@ -11,22 +11,22 @@
 
     <div class="actions">
         @if (canManage()) {
-            <div class="dropdown">
-                <button class="dropdown-toggle">Panel zarządzania</button>
-                <div class="dropdown-menu">
+        <div class="dropdown">
+            <button class="dropdown-toggle">Panel zarządzania</button>
+            <div class="dropdown-menu">
                 <a routerLink="/worker/animals/new">Dodaj nowe zwierzę</a>
                 <a routerLink="/worker/species/new">Dodaj nowy gatunek</a>
             </div>
-            </div>
+        </div>
         }
-        @if (!isLoggedIn()) {  
-            <button class="btn-register" routerLink="register">Zarejestruj się</button>
-            <button class="btn-login" routerLink="login">Zaloguj się</button>
+        @if (!isLoggedIn()) {
+        <button class="btn-register" routerLink="register">Zarejestruj się</button>
+        <button class="btn-login" routerLink="login">Zaloguj się</button>
         }
         @else {
-            <span class="user-chip">{{ userLabel() }}</span>
-            <button class="btn-logout" (click)="logout()">Wyloguj się</button>
+        <span class="user-chip">{{ userLabel() }}</span>
+        <button class="btn-logout" (click)="logout()">Wyloguj się</button>
         }
     </div>
-    
+
 </nav>

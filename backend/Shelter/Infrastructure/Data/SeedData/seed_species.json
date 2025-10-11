@@ -1,47 +1,107 @@
 [
   {
-    "Name": "Pies"
+    "Name": "Pies",
+    "RequiresPermit": false,
+    "PermitName": null,
+    "PermitAuthority": null,
+    "PermitNotes": null
   },
   {
-    "Name": "Kot"
+    "Name": "Kot",
+    "RequiresPermit": false,
+    "PermitName": null,
+    "PermitAuthority": null,
+    "PermitNotes": null
   },
   {
-    "Name": "Królik"
+    "Name": "Królik",
+    "RequiresPermit": false,
+    "PermitName": null,
+    "PermitAuthority": null,
+    "PermitNotes": null
   },
   {
-    "Name": "Chomik"
+    "Name": "Chomik",
+    "RequiresPermit": false,
+    "PermitName": null,
+    "PermitAuthority": null,
+    "PermitNotes": null
   },
   {
-    "Name": "Świnka morska"
+    "Name": "Świnka morska",
+    "RequiresPermit": false,
+    "PermitName": null,
+    "PermitAuthority": null,
+    "PermitNotes": null
   },
   {
-    "Name": "Papuga"
+    "Name": "Papuga",
+    "RequiresPermit": true,
+    "PermitName": "Zezwolenie na hodowlę gatunku egzotycznego",
+    "PermitAuthority": "Regionalna Dyrekcja Ochrony Środowiska",
+    "PermitNotes": "Wymagane w przypadku gatunków objętych konwencją CITES"
   },
   {
-    "Name": "Kanarek"
+    "Name": "Kanarek",
+    "RequiresPermit": false,
+    "PermitName": null,
+    "PermitAuthority": null,
+    "PermitNotes": null
   },
   {
-    "Name": "Żółw"
+    "Name": "Żółw",
+    "RequiresPermit": true,
+    "PermitName": "Zezwolenie na posiadanie gatunku chronionego",
+    "PermitAuthority": "Generalna Dyrekcja Ochrony Środowiska",
+    "PermitNotes": "Dotyczy niektórych gatunków żółwi, np. greckiego lub stepowego"
   },
   {
-    "Name": "Wąż"
+    "Name": "Wąż",
+    "RequiresPermit": true,
+    "PermitName": "Zezwolenie na utrzymanie gadów niebezpiecznych",
+    "PermitAuthority": "Starostwo Powiatowe",
+    "PermitNotes": "Wymagane dla jadowitych gatunków"
   },
   {
-    "Name": "Iguana"
+    "Name": "Iguana",
+    "RequiresPermit": true,
+    "PermitName": "Rejestracja gatunku egzotycznego",
+    "PermitAuthority": "Regionalna Dyrekcja Ochrony Środowiska",
+    "PermitNotes": "Iguana zielona wymaga zgłoszenia w rejestrze gatunków egzotycznych"
   },
   {
-    "Name": "Jeż"
+    "Name": "Jeż",
+    "RequiresPermit": true,
+    "PermitName": "Zezwolenie na przetrzymywanie gatunku chronionego",
+    "PermitAuthority": "Regionalna Dyrekcja Ochrony Środowiska",
+    "PermitNotes": "Dotyczy jeża europejskiego (Erinaceus europaeus)"
   },
   {
-    "Name": "Fretka"
+    "Name": "Fretka",
+    "RequiresPermit": false,
+    "PermitName": null,
+    "PermitAuthority": null,
+    "PermitNotes": null
   },
   {
-    "Name": "Gołąb"
+    "Name": "Gołąb",
+    "RequiresPermit": false,
+    "PermitName": null,
+    "PermitAuthority": null,
+    "PermitNotes": null
   },
   {
-    "Name": "Kura"
+    "Name": "Kura",
+    "RequiresPermit": false,
+    "PermitName": null,
+    "PermitAuthority": null,
+    "PermitNotes": null
   },
   {
-    "Name": "Koza"
+    "Name": "Koza",
+    "RequiresPermit": false,
+    "PermitName": null,
+    "PermitAuthority": null,
+    "PermitNotes": null
   }
 ]

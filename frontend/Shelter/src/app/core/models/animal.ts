@@ -13,8 +13,6 @@ export interface AnimalDto  {
     ageMonths: number,
     ageLabel: string
     description: string,
-    vaccinated: boolean,
-    neutered: boolean,
     createdAt: string,
     photoUrl: string,
 }
@@ -25,7 +23,5 @@ export interface CreateAnimalDto {
     sex: Sex,
     status: AnimalStatus,
     description: string,
-    vaccinated: boolean,
-    neutered: boolean,
     photoUrl: string
 }

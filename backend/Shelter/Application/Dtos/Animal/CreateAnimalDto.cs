@@ -19,8 +19,6 @@ namespace Application.Dtos.Animal
         public AnimalStatus Status { get; set; } //Available, Reserved, Adopted, NotAvailable
 
         public string Description { get; set; } = "";
-        public bool Vaccinated { get; set; } //zaszczepiony?
-        public bool Neutered { get; set; } //kastrowany/sterilizowany?  
         public string PhotoUrl { get; set; } = "";
     }
 }

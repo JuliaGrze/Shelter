@@ -10,5 +10,10 @@ namespace Application.Dtos.Species
     {
         public int Id { get; set; }
         public string Name { get; set; } = "";
+        public bool RequiresPermit { get; set; }
+        public string? PermitName { get; set; }
+        public string? PermitAuthority { get; set; }
+        public string? PermitNotes { get; set; }
+
     }
 }

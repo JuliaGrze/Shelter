@@ -33,10 +33,10 @@ h2 {
 
 .error { color: #b91c1c; text-align: center; }
 
-/* Nagłówek listy */
+/* Nagłówek listy – 3 kolumny: Nazwa | Akcje | Pozwolenie */
 .list-head {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr 220px 140px;
   gap: .5rem;
   padding: .25rem .25rem .5rem;
   color: var(--muted);
@@ -50,10 +50,10 @@ h2 {
   padding: 0;
 }
 
-/* Wiersz */
+/* Wiersz – 3 kolumny jak w nagłówku */
 .row-item {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr 220px 140px;
   gap: .75rem;
   align-items: center;
   padding: .6rem .25rem;
@@ -65,6 +65,7 @@ h2 {
 .name-cell { display: flex; align-items: center; min-height: 40px; }
 .name-text { color: var(--text); font-size: 1rem; }
 
+/* Input nazwy */
 .name-input {
   width: 100%;
   padding: .55rem .7rem;
@@ -82,12 +83,20 @@ h2 {
   box-shadow: 0 0 0 2px rgba(37,99,235,.2);
 }
 
+/* Akcje – jedna linia, stała wysokość */
 .actions-cell {
   display: flex;
-  gap: .5rem;
   align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  justify-content: flex-start;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+/* Grupa przycisków w akcjach */
+.btn-group {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
 }
 
 /* Inline potwierdzenie usuwania */
@@ -111,7 +120,7 @@ h2 {
   box-shadow: 0 0 0 2px rgba(37,99,235,.2);
 }
 
-/* Przyciski (reuse z Twoich styli) */
+/* Przyciski */
 .btn {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -143,8 +152,227 @@ h2 {
   border-color: #dc2626;
 }
 
-/* Responsywność */
+
+/* ===== POZWOLENIA: widok i edycja ===== */
+.permit-cell {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 40px;
+}
+
+/* Przycisk „Wymaga / Nie wymaga” (widok) */
+.toggle-btn {
+  display: inline-block;
+  padding: .25rem .75rem;
+  border-radius: 9999px;
+  font-size: .85rem;
+  border: 1px solid var(--line);
+  background: #f3f4f6;
+  color: var(--text);
+  cursor: pointer;
+  transition: all .2s ease;
+  line-height: 1;
+}
+.toggle-btn:hover { background: #e5e7eb; }
+.toggle-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.toggle-btn.active:hover { background: var(--accent-hover); }
+
+/* Rozwijane szczegóły (widok) */
+.permit-details {
+  grid-column: 1 / -1;                /* na całą szerokość wiersza */
+  background: #f9fafb;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .75rem;
+  font-size: .92rem;
+  color: #374151;
+  line-height: 1.45;
+  overflow: hidden;
+  animation: detailsFadeIn .22s ease;
+  margin-top: .5rem;
+}
+.permit-details div + div { margin-top: .25rem; }
+@keyframes detailsFadeIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Edycja: checkbox inline */
+.inline-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-weight: 500;
+}
+
+/* Własny checkbox */
+.inline-checkbox .checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+}
+.inline-checkbox .checkbox::after {
+  content: "";
+  width: 10px; height: 10px;
+  transform: scale(0);
+  transition: transform .12s ease-in-out;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 18%, 80% 0, 43% 62%);
+  background: #fff;
+}
+.inline-checkbox .checkbox:checked { background: var(--accent); border-color: var(--accent); }
+.inline-checkbox .checkbox:checked::after { transform: scale(1); }
+.inline-checkbox .checkbox:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .25);
+}
+
+/* Edycja: pola pozwolenia */
+.permit-edit-fields {
+  width: 100%;
+  display: grid;
+  gap: .5rem;
+}
+.permit-edit-fields input[type="text"],
+.permit-edit-fields textarea {
+  width: 100%;
+  padding: .55rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #f9fafb;
+  font-size: .95rem;
+  color: var(--text);
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+  box-sizing: border-box;
+}
+.permit-edit-fields textarea { min-height: 5.5rem; resize: vertical; }
+.permit-edit-fields input[type="text"]:focus,
+.permit-edit-fields textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(37,99,235,.2);
+}
+
+/* Disabled wygląd spójny */
+.permit-edit-fields input[disabled],
+.permit-edit-fields textarea[disabled] {
+  background: #eef2f7;
+  color: #6b7280;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+}
+
+/* Chippy (opcjonalne) */
+.chip {
+  display: inline-block;
+  padding: .2rem .55rem;
+  border-radius: 9999px;
+  font-size: .8rem;
+  border: 1px solid var(--line);
+  background: #f3f4f6;
+  color: var(--text);
+}
+.chip--ok { background: rgba(37,99,235,.12); border-color: rgba(37,99,235,.3); color: var(--accent); }
+.chip--muted { color: var(--muted); }
+.muted { color: var(--muted); }
+
+/* Kolumna nagłówka dla pozwolenia (gdy chcesz szerszą) */
+.col-permit { min-width: 280px; }
+
+/* ===== WIDOK EDYCJI (rozciągnięty wiersz) ===== */
+.row-item.editing {
+  grid-column: 1 / -1;              /* rozciągnij na całą szerokość karty */
+  background: #f8fafc;              /* delikatne tło */
+  border: 2px solid var(--accent);  /* podkreślenie aktywnego wiersza */
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 1rem;
+  transition: all 0.25s ease;
+}
+
+/* Animacja wejścia edycji */
+.row-item.editing {
+  animation: editExpand 0.25s ease;
+}
+@keyframes editExpand {
+  from { transform: scale(0.98); opacity: 0.8; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Wewnątrz edytowanego wiersza — kolumny w pionie */
+.row-item.editing {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Input i pola wewnątrz edycji — pełna szerokość */
+.row-item.editing .name-input,
+.row-item.editing .permit-edit-fields input,
+.row-item.editing .permit-edit-fields textarea {
+  width: 100%;
+  font-size: 1rem;
+  background: #fff;
+}
+
+/* Przyciski zapisu/anulowania — większe, wyśrodkowane */
+.row-item.editing .actions-cell {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.row-item.editing .btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+}
+
+/* Dodaj delikatny hover dla całej sekcji */
+.row-item.editing:hover {
+  background: #f1f5f9;
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;   /* 🔹 odstęp między przyciskami */
+  margin-top: 0.5rem;
+}
+
+
+
+/* Na małych ekranach — lepszy odstęp */
 @media (max-width: 640px) {
+  .row-item.editing {
+    padding: 0.8rem;
+  }
+}
+
+
+/* Mobile – kolumny pod sobą */
+@media (max-width: 640px) {
+  .list-head,
+  .row-item { grid-template-columns: 1fr; }
+
+  .actions-cell,
+  .permit-cell { justify-content: flex-start; }
+
+  .actions-cell { margin-top: .25rem; }
+  .permit-cell { margin-top: .25rem; }
+
   .confirm-inline {
     grid-template-columns: 1fr;
     align-items: stretch;

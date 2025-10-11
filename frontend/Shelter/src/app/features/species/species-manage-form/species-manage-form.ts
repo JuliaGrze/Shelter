@@ -1,100 +1,160 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SpeciesService } from '../../../core/services/species.service';
-import { SpeciesDto } from '../../../core/models/species'
 import { RouterLink } from '@angular/router';
+import { SpeciesService } from '../../../core/services/species.service';
+import { SpeciesDto, CreateSpeciesDto } from '../../../core/models/species';
 
 type RowState = {
   editing: boolean;
+  // edytowane pola:
   tempName: string;
+  tempRequiresPermit: boolean;
+  tempPermitName: string;
+  tempPermitAuthority: string;
+  tempPermitNotes: string;
+
+  // usuwanie:
   confirmingDelete: boolean;
   confirmText: string;
+  showDetails: boolean;
 };
 
 @Component({
   selector: 'app-species-manage-form',
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterLink
-],
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './species-manage-form.html',
-  styleUrl: './species-manage-form.css'
+  styleUrls: ['./species-manage-form.css']
 })
-export class SpeciesManageForm implements OnInit{
-  private speciesService = inject(SpeciesService)
+export class SpeciesManageForm implements OnInit {
+  private speciesService = inject(SpeciesService);
 
-  loading = true
-  savingId: number | null = null
-  deletingId: number | null = null
-  error = ''
+  loading = true;
+  savingId: number | null = null;
+  deletingId: number | null = null;
+  error = '';
 
-  species: SpeciesDto[] = []
-  state = new Map<number, RowState>()
+  species: SpeciesDto[] = [];
+  state = new Map<number, RowState>();
 
   ngOnInit(): void {
-    this.load()
+    this.load();
   }
 
-  load(){
-    this.loading = true
-    this.error = ''
+  load() {
+    this.loading = true;
+    this.error = '';
     this.speciesService.getAllSpecies().subscribe({
       next: list => {
-        this.species = list
-        this.state.clear()
-        for(const s of list){
+        this.species = list;
+        this.state.clear();
+        for (const s of list) {
           this.state.set(s.id, {
             editing: false,
-            tempName: s.name,
+            tempName: s.name ?? '',
+            tempRequiresPermit: !!s.requiresPermit,
+            tempPermitName: s.permitName ?? '',
+            tempPermitAuthority: s.permitAuthority ?? '',
+            tempPermitNotes: s.permitNotes ?? '',
             confirmingDelete: false,
-            confirmText: ''
-          })
+            confirmText: '',
+            showDetails: false
+          });
         }
-        this.loading = false
+        this.loading = false;
       },
-      error: () =>{
+      error: () => {
         this.error = 'Nie udało się pobrać listy gatunków.';
         this.loading = false;
       }
-    })
+    });
   }
 
-  startEdit(s: SpeciesDto){
-    const st = this.state.get(s.id)
-    if(!st) return
-    st.tempName = s.name
-    st.editing = true
+  startEdit(s: SpeciesDto) {
+    const st = this.state.get(s.id);
+    if (!st) return;
+    st.tempName = s.name ?? '';
+    st.tempRequiresPermit = !!s.requiresPermit;
+    st.tempPermitName = s.permitName ?? '';
+    st.tempPermitAuthority = s.permitAuthority ?? '';
+    st.tempPermitNotes = s.permitNotes ?? '';
+    st.editing = true;
   }
 
   cancelEdit(s: SpeciesDto) {
     const st = this.state.get(s.id);
     if (!st) return;
-    st.tempName = s.name;
+    st.tempName = s.name ?? '';
+    st.tempRequiresPermit = !!s.requiresPermit;
+    st.tempPermitName = s.permitName ?? '';
+    st.tempPermitAuthority = s.permitAuthority ?? '';
+    st.tempPermitNotes = s.permitNotes ?? '';
     st.editing = false;
+  }
+
+  private buildDtoFromState(st: RowState): CreateSpeciesDto {
+    const requires = !!st.tempRequiresPermit;
+    return {
+      name: (st.tempName || '').trim(),
+      requiresPermit: requires,
+      permitName: requires ? ((st.tempPermitName || '').trim() || null) : null,
+      permitAuthority: requires ? ((st.tempPermitAuthority || '').trim() || null) : null,
+      permitNotes: ((st.tempPermitNotes || '').trim() || null)
+    };
+  }
+
+  private isValidState(st: RowState): boolean {
+    const nameOk = (st.tempName || '').trim().length >= 2;
+    if (!st.tempRequiresPermit) return nameOk;
+    const pnOk = (st.tempPermitName || '').trim().length > 0;
+    const paOk = (st.tempPermitAuthority || '').trim().length > 0;
+    return nameOk && pnOk && paOk;
   }
 
   save(s: SpeciesDto) {
     const st = this.state.get(s.id);
     if (!st) return;
-    const name = (st.tempName ?? '').trim();
-    if (!name || name === s.name) {
-      st.editing = false; // nic do zapisania
+
+    // walidacja
+    if (!this.isValidState(st)) {
+      alert('Uzupełnij wymagane pola (nazwa, a przy pozwoleniu: nazwa pozwolenia i organ).');
       return;
     }
+
+    const dto = this.buildDtoFromState(st);
+
+    // czy coś się faktycznie zmieniło?
+    const noChanges =
+      dto.name === (s.name || '').trim() &&
+      dto.requiresPermit === !!s.requiresPermit &&
+      (dto.permitName || null) === (s.permitName || null) &&
+      (dto.permitAuthority || null) === (s.permitAuthority || null) &&
+      (dto.permitNotes || null) === (s.permitNotes || null);
+
+    if (noChanges) {
+      st.editing = false;
+      return;
+    }
+
     this.savingId = s.id;
-    this.speciesService.editSpecies(s.id, name).subscribe({
+    this.speciesService.editSpecies(s.id, dto).subscribe({
       next: () => {
-        s.name = name;       // optymistycznie aktualizujemy UI
+        // optymistyczna aktualizacja UI
+        s.name = dto.name;
+        s.requiresPermit = dto.requiresPermit;
+        s.permitName = dto.permitName ?? undefined;
+        s.permitAuthority = dto.permitAuthority ?? undefined;
+        s.permitNotes = dto.permitNotes ?? undefined;
+
         st.editing = false;
         this.savingId = null;
       },
-      error: () => {
+      error: (err) => {
         this.savingId = null;
-        // zostaw edycję otwartą, pokaż komunikat
-        alert('Nie udało się zapisać zmian gatunku.');
-      },
+        const msg = err?.error?.message || 'Nie udało się zapisać zmian gatunku.';
+        alert(msg);
+      }
     });
   }
 
@@ -123,11 +183,11 @@ export class SpeciesManageForm implements OnInit{
         this.state.delete(s.id);
         this.deletingId = null;
       },
-      error: () => {
+      error: (err) => {
         this.deletingId = null;
-        alert('Nie udało się usunąć gatunku.');
-      },
+        const msg = err?.error?.message || 'Nie udało się usunąć gatunku.';
+        alert(msg);
+      }
     });
   }
-
 }

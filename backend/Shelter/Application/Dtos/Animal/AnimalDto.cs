@@ -25,8 +25,6 @@ namespace Application.Dtos.Animal
         public string AgeLabel { get; set; } = ""; // np. "2 lata, 3 mies."
 
         public string Description { get; set; } = "";
-        public bool Vaccinated { get; set; } //zaszczepiony?
-        public bool Neutered { get; set; } //kastrowany/sterilizowany?  
         public DateTime CreatedAt { get; set; } 
         public string PhotoUrl { get; set; } = "";
     }

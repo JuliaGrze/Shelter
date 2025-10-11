@@ -1,0 +1,1962 @@
+[
+  {
+    "AnimalId": 1,
+    "Type": "Vaccination",
+    "Date": "2025-02-14",
+    "NextDueDate": "2026-02-14",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 1,
+    "Type": "Deworming",
+    "Date": "2025-03-16",
+    "NextDueDate": "2025-11-21",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 1,
+    "Type": "Microchip",
+    "Date": "2025-02-19",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 1,
+    "Type": "Illness",
+    "Date": "2025-03-06",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Infekcja górnych dróg oddechowych – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 2,
+    "Type": "Vaccination",
+    "Date": "2025-06-02",
+    "NextDueDate": "2026-06-02",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 2,
+    "Type": "Deworming",
+    "Date": "2025-07-02",
+    "NextDueDate": "2025-12-29",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 2,
+    "Type": "Sterilization",
+    "Date": "2025-06-12",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 2,
+    "Type": "Microchip",
+    "Date": "2025-06-07",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 3,
+    "Type": "Vaccination",
+    "Date": "2025-04-09",
+    "NextDueDate": "2026-04-09",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 3,
+    "Type": "Deworming",
+    "Date": "2025-05-09",
+    "NextDueDate": "2025-11-05",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 3,
+    "Type": "Microchip",
+    "Date": "2025-04-14",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 4,
+    "Type": "Vaccination",
+    "Date": "2025-06-05",
+    "NextDueDate": "2026-06-05",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 4,
+    "Type": "Deworming",
+    "Date": "2025-07-05",
+    "NextDueDate": "2026-01-01",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 4,
+    "Type": "Sterilization",
+    "Date": "2025-06-15",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 5,
+    "Type": "Deworming",
+    "Date": "2025-03-10",
+    "NextDueDate": "2026-01-04",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 5,
+    "Type": "Microchip",
+    "Date": "2025-02-13",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 6,
+    "Type": "Vaccination",
+    "Date": "2025-04-27",
+    "NextDueDate": "2026-04-27",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 6,
+    "Type": "Deworming",
+    "Date": "2025-05-27",
+    "NextDueDate": "2025-11-23",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 6,
+    "Type": "Sterilization",
+    "Date": "2025-05-07",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 6,
+    "Type": "Illness",
+    "Date": "2025-05-17",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Zapalenie spojówek – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 7,
+    "Type": "Vaccination",
+    "Date": "2025-03-12",
+    "NextDueDate": "2026-03-12",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 7,
+    "Type": "Deworming",
+    "Date": "2025-04-11",
+    "NextDueDate": "2026-01-26",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 7,
+    "Type": "Sterilization",
+    "Date": "2025-03-22",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 8,
+    "Type": "Vaccination",
+    "Date": "2025-02-02",
+    "NextDueDate": "2026-02-02",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 8,
+    "Type": "Deworming",
+    "Date": "2025-03-04",
+    "NextDueDate": "2026-02-06",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 9,
+    "Type": "Vaccination",
+    "Date": "2025-07-08",
+    "NextDueDate": "2026-07-08",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 9,
+    "Type": "Deworming",
+    "Date": "2025-08-07",
+    "NextDueDate": "2026-02-03",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 9,
+    "Type": "Sterilization",
+    "Date": "2025-07-18",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 10,
+    "Type": "Vaccination",
+    "Date": "2025-03-03",
+    "NextDueDate": "2026-03-03",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 10,
+    "Type": "Deworming",
+    "Date": "2025-04-02",
+    "NextDueDate": "2026-02-28",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 10,
+    "Type": "Microchip",
+    "Date": "2025-03-08",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 11,
+    "Type": "Vaccination",
+    "Date": "2025-05-25",
+    "NextDueDate": "2026-05-25",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 11,
+    "Type": "Deworming",
+    "Date": "2025-06-24",
+    "NextDueDate": "2025-12-21",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 11,
+    "Type": "Illness",
+    "Date": "2025-06-14",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Kaszel kennelowy – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 12,
+    "Type": "Vaccination",
+    "Date": "2025-07-04",
+    "NextDueDate": "2026-07-04",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 12,
+    "Type": "Deworming",
+    "Date": "2025-08-03",
+    "NextDueDate": "2026-01-30",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 13,
+    "Type": "Deworming",
+    "Date": "2025-06-22",
+    "NextDueDate": "2025-12-19",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 13,
+    "Type": "Sterilization",
+    "Date": "2025-06-02",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 14,
+    "Type": "Vaccination",
+    "Date": "2025-03-11",
+    "NextDueDate": "2026-03-11",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 14,
+    "Type": "Deworming",
+    "Date": "2025-04-10",
+    "NextDueDate": "2026-04-13",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 14,
+    "Type": "Sterilization",
+    "Date": "2025-03-21",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 15,
+    "Type": "Vaccination",
+    "Date": "2025-06-19",
+    "NextDueDate": "2026-06-19",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 15,
+    "Type": "Deworming",
+    "Date": "2025-07-19",
+    "NextDueDate": "2026-01-15",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 15,
+    "Type": "Sterilization",
+    "Date": "2025-06-29",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 15,
+    "Type": "Microchip",
+    "Date": "2025-06-24",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 16,
+    "Type": "Vaccination",
+    "Date": "2025-04-28",
+    "NextDueDate": "2026-04-28",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 16,
+    "Type": "Deworming",
+    "Date": "2025-05-28",
+    "NextDueDate": "2025-11-24",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 16,
+    "Type": "Sterilization",
+    "Date": "2025-05-08",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 16,
+    "Type": "Microchip",
+    "Date": "2025-05-03",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 16,
+    "Type": "Illness",
+    "Date": "2025-05-18",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Biegunka o podłożu dietetycznym – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 17,
+    "Type": "Vaccination",
+    "Date": "2025-02-02",
+    "NextDueDate": "2026-02-02",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 17,
+    "Type": "Deworming",
+    "Date": "2025-03-04",
+    "NextDueDate": "2026-05-16",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 17,
+    "Type": "Sterilization",
+    "Date": "2025-02-12",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 18,
+    "Type": "Vaccination",
+    "Date": "2025-02-21",
+    "NextDueDate": "2026-02-21",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 18,
+    "Type": "Deworming",
+    "Date": "2025-03-23",
+    "NextDueDate": "2026-05-27",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 18,
+    "Type": "Sterilization",
+    "Date": "2025-03-03",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 19,
+    "Type": "Deworming",
+    "Date": "2025-03-29",
+    "NextDueDate": "2026-06-07",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 20,
+    "Type": "Vaccination",
+    "Date": "2025-07-11",
+    "NextDueDate": "2026-07-11",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 20,
+    "Type": "Deworming",
+    "Date": "2025-08-10",
+    "NextDueDate": "2026-02-06",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 20,
+    "Type": "Microchip",
+    "Date": "2025-07-16",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 21,
+    "Type": "Vaccination",
+    "Date": "2025-05-13",
+    "NextDueDate": "2026-05-13",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 21,
+    "Type": "Deworming",
+    "Date": "2025-06-12",
+    "NextDueDate": "2025-12-09",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 21,
+    "Type": "Illness",
+    "Date": "2025-06-02",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Infekcja górnych dróg oddechowych – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 22,
+    "Type": "Vaccination",
+    "Date": "2025-06-18",
+    "NextDueDate": "2026-06-18",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 22,
+    "Type": "Deworming",
+    "Date": "2025-07-18",
+    "NextDueDate": "2026-01-14",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 23,
+    "Type": "Vaccination",
+    "Date": "2025-05-25",
+    "NextDueDate": "2026-05-25",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 23,
+    "Type": "Deworming",
+    "Date": "2025-06-24",
+    "NextDueDate": "2025-12-21",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 23,
+    "Type": "Sterilization",
+    "Date": "2025-06-04",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 24,
+    "Type": "Vaccination",
+    "Date": "2025-02-04",
+    "NextDueDate": "2026-02-04",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 24,
+    "Type": "Deworming",
+    "Date": "2025-03-06",
+    "NextDueDate": "2026-01-03",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 25,
+    "Type": "Vaccination",
+    "Date": "2025-05-30",
+    "NextDueDate": "2026-05-30",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 25,
+    "Type": "Deworming",
+    "Date": "2025-06-29",
+    "NextDueDate": "2025-12-26",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 25,
+    "Type": "Microchip",
+    "Date": "2025-06-04",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 26,
+    "Type": "Vaccination",
+    "Date": "2025-06-13",
+    "NextDueDate": "2026-06-13",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 26,
+    "Type": "Deworming",
+    "Date": "2025-07-13",
+    "NextDueDate": "2026-01-09",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 26,
+    "Type": "Illness",
+    "Date": "2025-07-03",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Zapalenie spojówek – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 27,
+    "Type": "Vaccination",
+    "Date": "2025-07-04",
+    "NextDueDate": "2026-07-04",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 27,
+    "Type": "Deworming",
+    "Date": "2025-08-03",
+    "NextDueDate": "2026-01-30",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 27,
+    "Type": "Sterilization",
+    "Date": "2025-07-14",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 28,
+    "Type": "Vaccination",
+    "Date": "2025-06-28",
+    "NextDueDate": "2026-06-28",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 28,
+    "Type": "Deworming",
+    "Date": "2025-07-28",
+    "NextDueDate": "2026-01-24",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 28,
+    "Type": "Sterilization",
+    "Date": "2025-07-08",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 29,
+    "Type": "Vaccination",
+    "Date": "2025-05-31",
+    "NextDueDate": "2026-05-31",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 29,
+    "Type": "Deworming",
+    "Date": "2025-06-30",
+    "NextDueDate": "2025-12-27",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 29,
+    "Type": "Sterilization",
+    "Date": "2025-06-10",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 30,
+    "Type": "Vaccination",
+    "Date": "2025-07-12",
+    "NextDueDate": "2026-07-12",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 30,
+    "Type": "Deworming",
+    "Date": "2025-08-11",
+    "NextDueDate": "2026-02-07",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 30,
+    "Type": "Sterilization",
+    "Date": "2025-07-22",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 30,
+    "Type": "Microchip",
+    "Date": "2025-07-17",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 31,
+    "Type": "Vaccination",
+    "Date": "2025-06-21",
+    "NextDueDate": "2026-06-21",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 31,
+    "Type": "Deworming",
+    "Date": "2025-07-21",
+    "NextDueDate": "2026-01-17",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 31,
+    "Type": "Illness",
+    "Date": "2025-07-11",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Kaszel kennelowy – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 32,
+    "Type": "Vaccination",
+    "Date": "2025-06-29",
+    "NextDueDate": "2026-06-29",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 32,
+    "Type": "Deworming",
+    "Date": "2025-07-29",
+    "NextDueDate": "2026-01-25",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 32,
+    "Type": "Sterilization",
+    "Date": "2025-07-09",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 33,
+    "Type": "Vaccination",
+    "Date": "2025-02-21",
+    "NextDueDate": "2026-02-21",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 33,
+    "Type": "Deworming",
+    "Date": "2025-03-23",
+    "NextDueDate": "2026-04-12",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 34,
+    "Type": "Vaccination",
+    "Date": "2025-03-15",
+    "NextDueDate": "2026-03-15",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 34,
+    "Type": "Deworming",
+    "Date": "2025-04-14",
+    "NextDueDate": "2025-10-11",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 34,
+    "Type": "Sterilization",
+    "Date": "2025-03-25",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 35,
+    "Type": "Vaccination",
+    "Date": "2025-03-26",
+    "NextDueDate": "2026-03-26",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 35,
+    "Type": "Deworming",
+    "Date": "2025-04-25",
+    "NextDueDate": "2025-10-22",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 35,
+    "Type": "Microchip",
+    "Date": "2025-03-31",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 36,
+    "Type": "Vaccination",
+    "Date": "2025-03-05",
+    "NextDueDate": "2026-03-05",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 36,
+    "Type": "Deworming",
+    "Date": "2025-04-04",
+    "NextDueDate": "2026-05-15",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 36,
+    "Type": "Microchip",
+    "Date": "2025-03-10",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 36,
+    "Type": "Illness",
+    "Date": "2025-03-25",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Biegunka o podłożu dietetycznym – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 37,
+    "Type": "Vaccination",
+    "Date": "2025-10-01",
+    "NextDueDate": "2026-10-01",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 37,
+    "Type": "Deworming",
+    "Date": "2025-10-04",
+    "NextDueDate": "2026-04-02",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 37,
+    "Type": "Sterilization",
+    "Date": "2025-09-21",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 38,
+    "Type": "Vaccination",
+    "Date": "2025-02-25",
+    "NextDueDate": "2026-02-25",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 38,
+    "Type": "Deworming",
+    "Date": "2025-03-27",
+    "NextDueDate": "2026-06-06",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 39,
+    "Type": "Vaccination",
+    "Date": "2025-07-12",
+    "NextDueDate": "2026-07-12",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 39,
+    "Type": "Deworming",
+    "Date": "2025-08-11",
+    "NextDueDate": "2026-02-07",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 39,
+    "Type": "Sterilization",
+    "Date": "2025-07-22",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 40,
+    "Type": "Vaccination",
+    "Date": "2025-03-02",
+    "NextDueDate": "2026-03-02",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 40,
+    "Type": "Deworming",
+    "Date": "2025-04-01",
+    "NextDueDate": "2025-11-30",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 40,
+    "Type": "Sterilization",
+    "Date": "2025-03-12",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 40,
+    "Type": "Microchip",
+    "Date": "2025-03-07",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 41,
+    "Type": "Deworming",
+    "Date": "2025-05-28",
+    "NextDueDate": "2025-11-24",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 41,
+    "Type": "Sterilization",
+    "Date": "2025-05-08",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 41,
+    "Type": "Illness",
+    "Date": "2025-05-18",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Infekcja górnych dróg oddechowych – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 42,
+    "Type": "Vaccination",
+    "Date": "2025-06-19",
+    "NextDueDate": "2026-06-19",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 42,
+    "Type": "Deworming",
+    "Date": "2025-07-19",
+    "NextDueDate": "2026-01-15",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 42,
+    "Type": "Sterilization",
+    "Date": "2025-06-29",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 42,
+    "Type": "Microchip",
+    "Date": "2025-06-24",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 43,
+    "Type": "Vaccination",
+    "Date": "2025-03-13",
+    "NextDueDate": "2026-03-13",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 43,
+    "Type": "Deworming",
+    "Date": "2025-04-12",
+    "NextDueDate": "2026-01-02",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 43,
+    "Type": "Sterilization",
+    "Date": "2025-03-23",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 44,
+    "Type": "Vaccination",
+    "Date": "2025-03-27",
+    "NextDueDate": "2026-03-27",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 44,
+    "Type": "Deworming",
+    "Date": "2025-04-26",
+    "NextDueDate": "2025-10-23",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 44,
+    "Type": "Microchip",
+    "Date": "2025-04-01",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 45,
+    "Type": "Deworming",
+    "Date": "2025-10-01",
+    "NextDueDate": "2026-03-30",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 45,
+    "Type": "Sterilization",
+    "Date": "2025-09-21",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 45,
+    "Type": "Microchip",
+    "Date": "2025-09-06",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 46,
+    "Type": "Vaccination",
+    "Date": "2025-09-26",
+    "NextDueDate": "2026-09-26",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 46,
+    "Type": "Deworming",
+    "Date": "2025-10-04",
+    "NextDueDate": "2026-04-02",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 46,
+    "Type": "Illness",
+    "Date": "2025-10-08",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Zapalenie spojówek – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 47,
+    "Type": "Vaccination",
+    "Date": "2025-04-29",
+    "NextDueDate": "2026-04-29",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 47,
+    "Type": "Deworming",
+    "Date": "2025-05-29",
+    "NextDueDate": "2025-11-25",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 48,
+    "Type": "Vaccination",
+    "Date": "2025-01-24",
+    "NextDueDate": "2026-01-24",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 48,
+    "Type": "Deworming",
+    "Date": "2025-02-23",
+    "NextDueDate": "2026-02-26",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 48,
+    "Type": "Sterilization",
+    "Date": "2025-02-03",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 49,
+    "Type": "Vaccination",
+    "Date": "2025-04-11",
+    "NextDueDate": "2026-04-11",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 49,
+    "Type": "Deworming",
+    "Date": "2025-05-11",
+    "NextDueDate": "2025-11-07",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 49,
+    "Type": "Sterilization",
+    "Date": "2025-04-21",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 50,
+    "Type": "Vaccination",
+    "Date": "2025-03-24",
+    "NextDueDate": "2026-03-24",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 50,
+    "Type": "Deworming",
+    "Date": "2025-04-23",
+    "NextDueDate": "2025-10-20",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 50,
+    "Type": "Microchip",
+    "Date": "2025-03-29",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 51,
+    "Type": "Vaccination",
+    "Date": "2025-05-06",
+    "NextDueDate": "2026-05-06",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 51,
+    "Type": "Deworming",
+    "Date": "2025-06-05",
+    "NextDueDate": "2025-12-02",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 51,
+    "Type": "Sterilization",
+    "Date": "2025-05-16",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 51,
+    "Type": "Illness",
+    "Date": "2025-05-26",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Kaszel kennelowy – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 52,
+    "Type": "Vaccination",
+    "Date": "2025-01-20",
+    "NextDueDate": "2026-01-20",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 52,
+    "Type": "Deworming",
+    "Date": "2025-02-19",
+    "NextDueDate": "2026-04-11",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 52,
+    "Type": "Microchip",
+    "Date": "2025-01-25",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 53,
+    "Type": "Vaccination",
+    "Date": "2025-02-04",
+    "NextDueDate": "2026-02-04",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 53,
+    "Type": "Deworming",
+    "Date": "2025-03-06",
+    "NextDueDate": "2026-04-22",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 54,
+    "Type": "Vaccination",
+    "Date": "2025-04-24",
+    "NextDueDate": "2026-04-24",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 54,
+    "Type": "Deworming",
+    "Date": "2025-05-24",
+    "NextDueDate": "2025-11-20",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 54,
+    "Type": "Sterilization",
+    "Date": "2025-05-04",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 55,
+    "Type": "Vaccination",
+    "Date": "2025-03-15",
+    "NextDueDate": "2026-03-15",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 55,
+    "Type": "Deworming",
+    "Date": "2025-04-14",
+    "NextDueDate": "2025-10-11",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 55,
+    "Type": "Sterilization",
+    "Date": "2025-03-25",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 55,
+    "Type": "Microchip",
+    "Date": "2025-03-20",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 56,
+    "Type": "Vaccination",
+    "Date": "2025-10-01",
+    "NextDueDate": "2026-10-01",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 56,
+    "Type": "Deworming",
+    "Date": "2025-10-04",
+    "NextDueDate": "2026-04-02",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 56,
+    "Type": "Sterilization",
+    "Date": "2025-09-21",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 56,
+    "Type": "Microchip",
+    "Date": "2025-10-06",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 56,
+    "Type": "Illness",
+    "Date": "2025-10-08",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Biegunka o podłożu dietetycznym – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 57,
+    "Type": "Vaccination",
+    "Date": "2025-01-19",
+    "NextDueDate": "2026-01-19",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 57,
+    "Type": "Deworming",
+    "Date": "2025-02-18",
+    "NextDueDate": "2026-06-05",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 57,
+    "Type": "Sterilization",
+    "Date": "2025-01-29",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 58,
+    "Type": "Vaccination",
+    "Date": "2025-07-10",
+    "NextDueDate": "2026-07-10",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 58,
+    "Type": "Deworming",
+    "Date": "2025-08-09",
+    "NextDueDate": "2026-02-05",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 58,
+    "Type": "Sterilization",
+    "Date": "2025-07-20",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 59,
+    "Type": "Vaccination",
+    "Date": "2025-02-25",
+    "NextDueDate": "2026-02-25",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 59,
+    "Type": "Deworming",
+    "Date": "2025-03-27",
+    "NextDueDate": "2025-11-29",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 59,
+    "Type": "Sterilization",
+    "Date": "2025-03-07",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 60,
+    "Type": "Vaccination",
+    "Date": "2025-04-18",
+    "NextDueDate": "2026-04-18",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 60,
+    "Type": "Deworming",
+    "Date": "2025-05-18",
+    "NextDueDate": "2025-11-14",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 60,
+    "Type": "Microchip",
+    "Date": "2025-04-23",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 61,
+    "Type": "Vaccination",
+    "Date": "2025-03-23",
+    "NextDueDate": "2026-03-23",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 61,
+    "Type": "Deworming",
+    "Date": "2025-04-22",
+    "NextDueDate": "2025-10-19",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 61,
+    "Type": "Sterilization",
+    "Date": "2025-04-02",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 61,
+    "Type": "Illness",
+    "Date": "2025-04-12",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Infekcja górnych dróg oddechowych – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 62,
+    "Type": "Vaccination",
+    "Date": "2025-08-15",
+    "NextDueDate": "2026-08-15",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 62,
+    "Type": "Deworming",
+    "Date": "2025-09-14",
+    "NextDueDate": "2026-03-13",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 62,
+    "Type": "Sterilization",
+    "Date": "2025-09-21",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 63,
+    "Type": "Vaccination",
+    "Date": "2025-07-15",
+    "NextDueDate": "2026-07-15",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 63,
+    "Type": "Deworming",
+    "Date": "2025-08-14",
+    "NextDueDate": "2026-02-10",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 63,
+    "Type": "Sterilization",
+    "Date": "2025-07-25",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 64,
+    "Type": "Vaccination",
+    "Date": "2025-02-27",
+    "NextDueDate": "2026-02-27",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 64,
+    "Type": "Deworming",
+    "Date": "2025-03-29",
+    "NextDueDate": "2026-01-23",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 64,
+    "Type": "Sterilization",
+    "Date": "2025-03-09",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 65,
+    "Type": "Deworming",
+    "Date": "2025-07-14",
+    "NextDueDate": "2026-01-10",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 65,
+    "Type": "Microchip",
+    "Date": "2025-06-19",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 66,
+    "Type": "Vaccination",
+    "Date": "2025-07-10",
+    "NextDueDate": "2026-07-10",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 66,
+    "Type": "Deworming",
+    "Date": "2025-08-09",
+    "NextDueDate": "2026-02-05",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 66,
+    "Type": "Illness",
+    "Date": "2025-07-30",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Zapalenie spojówek – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 67,
+    "Type": "Vaccination",
+    "Date": "2025-05-23",
+    "NextDueDate": "2026-05-23",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 67,
+    "Type": "Deworming",
+    "Date": "2025-06-22",
+    "NextDueDate": "2025-12-19",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 67,
+    "Type": "Sterilization",
+    "Date": "2025-08-10",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 67,
+    "Type": "Microchip",
+    "Date": "2025-05-28",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 68,
+    "Type": "Vaccination",
+    "Date": "2025-02-25",
+    "NextDueDate": "2026-02-25",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 68,
+    "Type": "Deworming",
+    "Date": "2025-03-27",
+    "NextDueDate": "2026-03-08",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 68,
+    "Type": "Sterilization",
+    "Date": "2025-03-07",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 69,
+    "Type": "Deworming",
+    "Date": "2025-10-04",
+    "NextDueDate": "2026-04-02",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 69,
+    "Type": "Sterilization",
+    "Date": "2025-09-21",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 69,
+    "Type": "Microchip",
+    "Date": "2025-09-23",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 70,
+    "Type": "Vaccination",
+    "Date": "2025-02-18",
+    "NextDueDate": "2026-02-18",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 70,
+    "Type": "Deworming",
+    "Date": "2025-03-20",
+    "NextDueDate": "2026-03-30",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 70,
+    "Type": "Microchip",
+    "Date": "2025-02-23",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 71,
+    "Type": "Deworming",
+    "Date": "2025-06-22",
+    "NextDueDate": "2025-12-19",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 71,
+    "Type": "Illness",
+    "Date": "2025-06-12",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Kaszel kennelowy – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 72,
+    "Type": "Vaccination",
+    "Date": "2025-01-19",
+    "NextDueDate": "2026-01-19",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 72,
+    "Type": "Deworming",
+    "Date": "2025-02-18",
+    "NextDueDate": "2026-04-21",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 72,
+    "Type": "Sterilization",
+    "Date": "2025-01-29",
+    "NextDueDate": null,
+    "Vet": "dr Jan Nowak",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 73,
+    "Type": "Vaccination",
+    "Date": "2025-04-29",
+    "NextDueDate": "2026-04-29",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 73,
+    "Type": "Deworming",
+    "Date": "2025-05-29",
+    "NextDueDate": "2025-11-25",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 73,
+    "Type": "Sterilization",
+    "Date": "2025-05-09",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 74,
+    "Type": "Vaccination",
+    "Date": "2025-03-29",
+    "NextDueDate": "2026-03-29",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 74,
+    "Type": "Deworming",
+    "Date": "2025-04-28",
+    "NextDueDate": "2025-10-25",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 74,
+    "Type": "Sterilization",
+    "Date": "2025-04-08",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 75,
+    "Type": "Vaccination",
+    "Date": "2025-07-05",
+    "NextDueDate": "2026-07-05",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 75,
+    "Type": "Deworming",
+    "Date": "2025-08-04",
+    "NextDueDate": "2026-01-31",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 75,
+    "Type": "Sterilization",
+    "Date": "2025-07-15",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 75,
+    "Type": "Microchip",
+    "Date": "2025-07-10",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 76,
+    "Type": "Vaccination",
+    "Date": "2025-04-30",
+    "NextDueDate": "2026-04-30",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 76,
+    "Type": "Deworming",
+    "Date": "2025-05-30",
+    "NextDueDate": "2025-11-26",
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 76,
+    "Type": "Sterilization",
+    "Date": "2025-05-10",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 76,
+    "Type": "Illness",
+    "Date": "2025-05-20",
+    "NextDueDate": null,
+    "Vet": "dr Anna Kowalska",
+    "Notes": "Biegunka o podłożu dietetycznym – leczenie zakończone, bez nawrotów."
+  },
+  {
+    "AnimalId": 77,
+    "Type": "Vaccination",
+    "Date": "2025-07-15",
+    "NextDueDate": "2026-07-15",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 77,
+    "Type": "Deworming",
+    "Date": "2025-08-14",
+    "NextDueDate": "2026-02-10",
+    "Vet": "dr Jan Nowak",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 78,
+    "Type": "Vaccination",
+    "Date": "2025-02-27",
+    "NextDueDate": "2026-02-27",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 78,
+    "Type": "Deworming",
+    "Date": "2025-03-29",
+    "NextDueDate": "2025-11-28",
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 78,
+    "Type": "Sterilization",
+    "Date": "2025-03-09",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 78,
+    "Type": "Microchip",
+    "Date": "2025-03-04",
+    "NextDueDate": null,
+    "Vet": "dr Marta Zielińska",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  },
+  {
+    "AnimalId": 79,
+    "Type": "Vaccination",
+    "Date": "2025-02-12",
+    "NextDueDate": "2026-02-12",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 79,
+    "Type": "Deworming",
+    "Date": "2025-03-14",
+    "NextDueDate": "2025-12-09",
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 79,
+    "Type": "Sterilization",
+    "Date": "2025-02-22",
+    "NextDueDate": null,
+    "Vet": "dr Piotr Wiśniewski",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 80,
+    "Type": "Vaccination",
+    "Date": "2025-02-12",
+    "NextDueDate": "2026-02-12",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Szczepienie podstawowe."
+  },
+  {
+    "AnimalId": 80,
+    "Type": "Deworming",
+    "Date": "2025-03-14",
+    "NextDueDate": "2025-12-20",
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Profilaktyczne odrobaczanie."
+  },
+  {
+    "AnimalId": 80,
+    "Type": "Sterilization",
+    "Date": "2025-02-22",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Zabieg sterylizacji/kastracji – przebieg bez powikłań."
+  },
+  {
+    "AnimalId": 80,
+    "Type": "Microchip",
+    "Date": "2025-02-17",
+    "NextDueDate": null,
+    "Vet": "dr Ewa Kaczmarek",
+    "Notes": "Nadano mikrochip i zarejestrowano w bazie."
+  }
+]

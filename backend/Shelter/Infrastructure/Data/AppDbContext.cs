@@ -16,6 +16,7 @@ namespace Infrastructure.Data
 
         public DbSet<Species> Species { get; set; }
         public DbSet<Animal> Animals { get; set; }
+        public DbSet<MedicalRecord> MedicalRecords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

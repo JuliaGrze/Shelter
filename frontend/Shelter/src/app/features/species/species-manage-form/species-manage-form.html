@@ -1,65 +1,161 @@
 <h2>Zarządzaj gatunkami</h2>
 
 @if (loading) {
-<div>Ładowanie...</div>
+  <div>Ładowanie...</div>
 }
 
 @if (!loading && error) {
-<div class="error">{{ error }}</div>
+  <div class="error">{{ error }}</div>
 }
 
 @if (!loading && !error) {
-<section class="card">
+  <section class="card">
     <div class="list-head">
-        <span class="col-name">Nazwa gatunku</span>
-        <span class="col-actions">Akcje</span>
+      <span class="col-name">Nazwa gatunku</span>
+      <span class="col-permit">Pozwolenie</span>
+      <span class="col-actions">Akcje</span>
     </div>
 
     <ul class="species-list">
-        @for (s of species; track s.id) {
-        <li class="row-item">
+      @for (s of species; track s.id) {
+        <li class="row-item" [class.editing]="state.get(s.id)?.editing">
+
+          @if (!state.get(s.id)?.editing) {
+            <!-- ===== WIDOK ZWYKŁY: 3 kolumny ===== -->
+            <!-- Kolumna: nazwa -->
             <div class="name-cell">
-                @if (state.get(s.id)?.editing) {
-                <input type="text" [(ngModel)]="state.get(s.id)!.tempName" [disabled]="savingId === s.id"
-                    placeholder="Nazwa gatunku" class="name-input" />
-                } @else {
-                <span class="name-text">{{ s.name }}</span>
-                }
+              <span class="name-text">{{ s.name }}</span>
             </div>
 
+            <!-- Kolumna: pozwolenie -->
+            <div class="permit-cell">
+              <div class="permit-view">
+                <button type="button"
+                        class="toggle-btn"
+                        (click)="state.get(s.id)!.showDetails = !state.get(s.id)!.showDetails"
+                        [class.active]="s.requiresPermit">
+                  {{ s.requiresPermit ? 'Wymaga' : 'Nie wymaga' }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Kolumna: akcje -->
             <div class="actions-cell">
-                @if (!state.get(s.id)?.editing) {
+              <div class="btn-group">
                 <button class="btn ghost" (click)="startEdit(s)">Edytuj</button>
-                } @else {
-                <button class="btn" (click)="save(s)"
-                    [disabled]="savingId === s.id || !(state.get(s.id)!.tempName.trim())">
-                    {{ savingId === s.id ? 'Zapisywanie…' : 'Zapisz' }}
-                </button>
-                <button class="btn ghost" (click)="cancelEdit(s)" [disabled]="savingId === s.id">
-                    Anuluj
-                </button>
-                }
-
-                <!-- Usuwanie -->
-                @if (!state.get(s.id)?.confirmingDelete) {
                 <button class="btn danger" (click)="openDelete(s)">Usuń</button>
-                } @else {
-                <div class="confirm-inline">
-                    <span>Potwierdź: wpisz <strong>{{ s.name }}</strong></span>
-                    <input type="text" [(ngModel)]="state.get(s.id)!.confirmText" [disabled]="deletingId === s.id"
-                        placeholder="Wpisz dokładnie nazwę" />
-                    <button class="btn danger" (click)="confirmDelete(s)"
-                        [disabled]="deletingId === s.id || state.get(s.id)!.confirmText !== s.name">
-                        {{ deletingId === s.id ? 'Usuwanie…' : 'Potwierdź' }}
-                    </button>
-                    <button class="btn ghost" (click)="cancelDelete(s)" [disabled]="deletingId === s.id">
-                        Anuluj
-                    </button>
-                </div>
-                }
+              </div>
             </div>
+
+            <!-- Rozwijane szczegóły pozwolenia (pełna szerokość pod wierszem) -->
+            @if (state.get(s.id)?.showDetails && s.requiresPermit) {
+              <div class="permit-details">
+                <div><strong>Pozwolenie:</strong> {{ s.permitName || '—' }}</div>
+                <div><strong>Organ:</strong> {{ s.permitAuthority || '—' }}</div>
+                <div><strong>Notatki:</strong> {{ s.permitNotes || '—' }}</div>
+              </div>
+            }
+
+            <!-- Potwierdzenie usunięcia (inline, pod wierszem) -->
+            @if (state.get(s.id)?.confirmingDelete) {
+              <div class="permit-details">
+                <div class="confirm-inline">
+                  <span>Potwierdź: wpisz <strong>{{ s.name }}</strong></span>
+                  <input type="text"
+                         [(ngModel)]="state.get(s.id)!.confirmText"
+                         [disabled]="deletingId === s.id"
+                         placeholder="Wpisz dokładnie nazwę" />
+                  <button class="btn danger"
+                          (click)="confirmDelete(s)"
+                          [disabled]="deletingId === s.id || state.get(s.id)!.confirmText !== s.name">
+                    {{ deletingId === s.id ? 'Usuwanie…' : 'Potwierdź' }}
+                  </button>
+                  <button class="btn ghost"
+                          (click)="cancelDelete(s)"
+                          [disabled]="deletingId === s.id">
+                    Anuluj
+                  </button>
+                </div>
+              </div>
+            }
+
+          } @else {
+            <!-- ===== TRYB EDYCJI: panel na całą szerokość ===== -->
+            <div class="edit-panel">
+              <div class="edit-row">
+                <input class="name-input"
+                       type="text"
+                       [(ngModel)]="state.get(s.id)!.tempName"
+                       [disabled]="savingId === s.id"
+                       placeholder="Nazwa gatunku" />
+
+                <label class="inline-checkbox">
+                  <input type="checkbox"
+                         class="checkbox"
+                         [(ngModel)]="state.get(s.id)!.tempRequiresPermit" />
+                  <span>Wymaga pozwolenia</span>
+                </label>
+              </div>
+
+              @if (state.get(s.id)?.tempRequiresPermit) {
+                <div class="permit-edit-fields">
+                  <input type="text"
+                         [(ngModel)]="state.get(s.id)!.tempPermitName"
+                         [disabled]="savingId === s.id"
+                         placeholder="Nazwa pozwolenia" />
+
+                  <input type="text"
+                         [(ngModel)]="state.get(s.id)!.tempPermitAuthority"
+                         [disabled]="savingId === s.id"
+                         placeholder="Organ wydający" />
+
+                  <textarea rows="3"
+                            [(ngModel)]="state.get(s.id)!.tempPermitNotes"
+                            [disabled]="savingId === s.id"
+                            placeholder="Notatki (opcjonalnie)"></textarea>
+                </div>
+              }
+
+              <div class="edit-actions">
+                <button class="btn"
+                        (click)="save(s)"
+                        [disabled]="savingId === s.id">
+                  {{ savingId === s.id ? 'Zapisywanie…' : 'Zapisz' }}
+                </button>
+                <button class="btn ghost"
+                        (click)="cancelEdit(s)"
+                        [disabled]="savingId === s.id">
+                  Anuluj
+                </button>
+
+                <!-- Szybkie usuwanie także w panelu -->
+                @if (!state.get(s.id)?.confirmingDelete) {
+                  <button class="btn danger" (click)="openDelete(s)">Usuń</button>
+                } @else {
+                  <div class="confirm-inline">
+                    <span>Potwierdź: wpisz <strong>{{ s.name }}</strong></span>
+                    <input type="text"
+                           [(ngModel)]="state.get(s.id)!.confirmText"
+                           [disabled]="deletingId === s.id"
+                           placeholder="Wpisz dokładnie nazwę" />
+                    <button class="btn danger"
+                            (click)="confirmDelete(s)"
+                            [disabled]="deletingId === s.id || state.get(s.id)!.confirmText !== s.name">
+                      {{ deletingId === s.id ? 'Usuwanie…' : 'Potwierdź' }}
+                    </button>
+                    <button class="btn ghost"
+                            (click)="cancelDelete(s)"
+                            [disabled]="deletingId === s.id">
+                      Anuluj
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
         </li>
-        }
+      }
     </ul>
-</section>
+  </section>
 }

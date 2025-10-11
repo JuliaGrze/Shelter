@@ -28,8 +28,8 @@ namespace Application.Mapping
                 Status = Enum.TryParse<AnimalStatus>(animal.Status, true, out var st) ? st : AnimalStatus.NotAvailable,
 
                 Description = animal.Description ?? "",
-                Vaccinated = animal.Vaccinated,
-                Neutered = animal.Neutered,
+                //Vaccinated = animal.Vaccinated,
+                //Neutered = animal.Neutered,
                 CreatedAt = animal.CreatedAt,
                 PhotoUrl = animal.PhotoUrl ?? "",
 
@@ -48,8 +48,8 @@ namespace Application.Mapping
             Sex = animalDto.Sex.ToString(),
             Status = animalDto.Status.ToString(),
             Description = animalDto.Description ?? "",
-            Vaccinated = animalDto.Vaccinated,
-            Neutered = animalDto.Neutered,
+            //Vaccinated = animalDto.Vaccinated,
+            //Neutered = animalDto.Neutered,
             PhotoUrl = animalDto.PhotoUrl ?? ""
         };
 

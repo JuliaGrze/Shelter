@@ -4,10 +4,13 @@
   --accent: #2563eb;
   --accent-hover: #1e40af;
   --text: #1f2937;
+  --error: #dc2626;
   display: block;
   padding: 1rem;
   max-width: 500px;
   margin: 0 auto;
+  font-family: "Inter", system-ui, sans-serif;
+  background: #f9fafb;
 }
 
 /* ====== NAGŁÓWEK ====== */
@@ -15,7 +18,8 @@ h2 {
   text-align: center;
   color: var(--text);
   margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 600;
 }
 
 /* ====== FORMULARZ ====== */
@@ -26,8 +30,8 @@ form {
   background: #fff;
   border-radius: var(--radius);
   border: 1px solid var(--line);
-  box-shadow: 0 4px 10px rgba(0,0,0,.05);
-  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.25rem;
 }
 
 /* ====== LABEL ====== */
@@ -39,22 +43,109 @@ label {
   gap: 0.3rem;
 }
 
-/* ====== INPUT ====== */
-input[type="text"] {
+/* ====== INPUT & TEXTAREA ====== */
+input[type="text"],
+textarea {
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   font-size: 0.95rem;
   color: var(--text);
   background: #f9fafb;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  resize: vertical;
+  min-height: 2.5rem;
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus,
+textarea:focus {
   border-color: var(--accent);
   background: #fff;
   outline: none;
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* ====== BŁĘDY ====== */
+.input-error {
+  border-color: var(--error) !important;
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.15);
+}
+
+.hint.error {
+  color: var(--error);
+  font-size: 0.85rem;
+  margin-top: -0.25rem;
+}
+
+/* Wrapper */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Sam checkbox – rysujemy go sami */
+.checkbox-row .checkbox {
+  appearance: none;          /* reset natywnego stylu */
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+}
+
+/* „fajka” (checkmark) */
+.checkbox-row .checkbox::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  transform: scale(0);
+  transition: transform .12s ease-in-out;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 18%, 80% 0, 43% 62%);
+  background: #fff;
+}
+
+/* Po zaznaczeniu */
+.checkbox-row .checkbox:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkbox-row .checkbox:checked::after {
+  transform: scale(1);
+}
+
+/* Focus – obwódka dostępności */
+.checkbox-row .checkbox:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+
+/* Disabled – gdy kontrolka jest wyłączona */
+input[disabled],
+textarea[disabled] {
+  background: #eef2f7;
+  color: #6b7280;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+}
+
+
+/* ====== SEKCJA POZWOLEŃ ====== */
+.permit-section {
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+  background: #f9fafb;
+  border-radius: var(--radius);
+  padding: 1rem;
 }
 
 /* ====== PRZYCISKI ====== */
@@ -101,13 +192,47 @@ input[type="text"]:focus {
   color: #fff;
 }
 
+/* Textarea jak input */
+.textarea,
+textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  color: var(--text);
+  background: #f9fafb;
+  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+  resize: vertical;      /* tylko pionowy resize */
+  min-height: 6.5rem;    /* wygodniejsza wysokość startowa */
+  box-sizing: border-box;
+}
+
+.textarea:focus,
+textarea:focus {
+  border-color: var(--accent);
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+
 /* ====== RESPONSYWNOŚĆ ====== */
 @media (max-width: 640px) {
   :host {
+    padding: 0.75rem;
+  }
+
+  form {
     padding: 1rem;
   }
 
   h2 {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
   }
 }

@@ -1,55 +1,116 @@
-<div *ngIf="loading">Ładowanie...</div>
-<div *ngIf="!loading && error" class="error">{{ error }}</div>
+@if (loading) {
+  <div>Ładowanie...</div>
+}
 
-<div class="animal-details">
+@if (!loading && error) {
+  <div class="error">{{ error }}</div>
+}
+
+@if (!loading && !error && animal) {
+  <div class="animal-details">
+    <!-- Kolumna 1: zdjęcie -->
     <div class="media">
-        <img [src]="animal?.photoUrl" [alt]="animal?.name || 'Zdjęcie zwierzaka'">
+      <img [src]="animal.photoUrl" [alt]="animal.name || 'Zdjęcie zwierzaka'">
     </div>
 
+    <!-- Kolumna 2: informacje -->
     <div class="info">
-        <h1>{{animal?.name}}</h1>
+      <h1>{{ animal.name }}</h1>
 
-        <div class="general-info">
-            <p>Gatunek: {{animal?.speciesName}}</p>
-            <p class="sex-chip" [ngClass]="(animal?.sex?.toLowerCase() || 'unknown')">
-                Płeć: <strong>{{ animal?.sex | sexPl }}</strong>
-            </p>
-            <p class="status-chip" [ngClass]="(animal?.status?.toLowerCase() || 'unknown')">
-                Status: <strong>{{animal?.status | statusPl}}</strong>
-            </p>
-        </div>
+      <div class="general-info">
+        <p>Gatunek: {{ animal.speciesName }}</p>
+        <p class="sex-chip" [ngClass]="(animal.sex.toLowerCase() || 'unknown')">
+          Płeć: <strong>{{ animal.sex | sexPl }}</strong>
+        </p>
+        <p class="status-chip" [ngClass]="(animal.status.toLowerCase() || 'unknown')">
+          Status: <strong>{{ animal.status | statusPl }}</strong>
+        </p>
+      </div>
 
-        <div class="detailed-info">
-            <p>Wiek: {{animal?.ageLabel}} </p>
-            <p class="description">Opis: <span>{{animal?.description}}</span></p>       
-        </div>
+      <div class="detailed-info">
+        <p>Wiek: {{ animal.ageLabel }}</p>
+        <p class="description">Opis: <span>{{ animal.description }}</span></p>
+      </div>
 
-        <ul class="facts">
-            <li>
-                Data urodzenia: 
-                <strong>{{ animal?.birthDate | date:'yyyy-MM-dd' }}</strong>
-            </li>
-            <li>
-                Szczepiony: 
-                <strong [ngClass]="animal?.vaccinated ? 'yes' : 'no'">
-                {{ animal?.vaccinated ? 'tak' : 'nie' }}
-                </strong>
-            </li>
-            <li>
-                Wykastrowany/a: 
-                <strong [ngClass]="animal?.neutered ? 'yes' : 'no'">
-                {{ animal?.neutered ? 'tak' : 'nie' }}
-                </strong>
-            </li>
-            <li>
-                W schronisku od: 
-                <strong>{{ animal?.createdAt | date:'yyyy-MM-dd HH:mm' }}</strong>
-            </li>
-        </ul>
+      <ul class="facts">
+        <li>
+          Data urodzenia:
+          <strong>{{ animal.birthDate | date:'yyyy-MM-dd' }}</strong>
+        </li>
+        <li>
+          Szczepiony:
+          <strong [ngClass]="vaccinated ? 'yes' : 'no'">
+            {{ vaccinated ? 'tak' : 'nie' }}
+          </strong>
+        </li>
+        <li>
+          Wykastrowany/a:
+          <strong [ngClass]="neutered ? 'yes' : 'no'">
+            {{ neutered ? 'tak' : 'nie' }}
+          </strong>
+        </li>
+        <li>
+          W schronisku od:
+          <strong>{{ animal.createdAt | date:'yyyy-MM-dd HH:mm' }}</strong>
+        </li>
+      </ul>
 
-    </div>
+      <div class="actions">
+        <button class="btn" (click)="toggleMedicalHistory()">
+          {{ showMedicalHistory ? 'Ukryj kartę medyczną' : 'Pokaż kartę medyczną' }}
+        </button>
+        <a class="back-btn" [routerLink]="['/animals']">← Wróć</a>
+      </div>
+    </div> <!-- /info -->
 
-    <div class="actions">
-        <a class="back-btn" [routerLink]="['animals']">← Wróć</a>
-    </div>
-</div>
+    <!-- ⬇️ KARTA MEDYCZNA POZA .info → pełna szerokość grida -->
+    @if (showMedicalHistory) {
+      <div class="medical-history">
+        @if (recLoading) {
+          <div>Ładowanie historii...</div>
+        }
+
+        @if (!recLoading && recError) {
+          <div class="error">{{ recError }}</div>
+        }
+
+        @if (!recLoading && !recError && records.length) {
+          <div class="history-scroll">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Typ</th>
+                  <th>Następny termin</th>
+                  <th>Weterynarz</th>
+                  <th>Notatki</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (r of records; track r.id) {
+                  <tr>
+                    <td>{{ r.date | date:'yyyy-MM-dd' }}</td>
+                    <td><span class="badge">{{ r.type }}</span></td>
+                    <td>
+                      @if (r.nextDueDate) {
+                        {{ r.nextDueDate | date:'yyyy-MM-dd' }}
+                      } @else {
+                        —
+                      }
+                    </td>
+                    <td>{{ r.vet || '—' }}</td>
+                    <td>{{ r.notes || '—' }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+
+        @if (!recLoading && !recError && (!records || records.length === 0)) {
+          <div class="muted">Brak wpisów medycznych.</div>
+        }
+      </div>
+    }
+  </div>
+}

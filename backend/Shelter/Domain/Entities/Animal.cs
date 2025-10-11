@@ -21,8 +21,7 @@ namespace Domain.Entities
         public string Status { get; set; } = "Available"; //Available, Reserved, Adopted, NotAvailable
 
         public string? Description { get; set; }
-        public bool Vaccinated { get; set; } //zaszczepiony?
-        public bool Neutered { get; set; } //kastrowany/sterilizowany?  
+        public ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public string? PhotoUrl { get; set; }
     }

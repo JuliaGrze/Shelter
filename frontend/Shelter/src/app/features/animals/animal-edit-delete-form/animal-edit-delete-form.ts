@@ -81,8 +81,8 @@ export class AnimalEditDeleteForm implements OnInit {
         sex: animal.sex as Sex,
         status: animal.status as AnimalStatus,
         description: animal.description ?? '',
-        vaccinated: !!animal.vaccinated,
-        neutered: !!animal.neutered,
+        // vaccinated: !!animal.vaccinated,
+        // neutered: !!animal.neutered,
       })
     })
     .catch(() => {

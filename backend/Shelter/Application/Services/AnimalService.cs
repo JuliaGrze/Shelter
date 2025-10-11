@@ -62,8 +62,8 @@ namespace Application.Services
 
             entity.Status = dto.Status.ToString();
             entity.Description = dto.Description?.Trim() ?? "";
-            entity.Vaccinated = dto.Vaccinated;
-            entity.Neutered = dto.Neutered;
+            //entity.Vaccinated = dto.Vaccinated;
+            //entity.Neutered = dto.Neutered;
             entity.PhotoUrl = string.IsNullOrWhiteSpace(dto.PhotoUrl) ? null : dto.PhotoUrl.Trim();
 
             _repository.Update(entity);
@@ -109,11 +109,11 @@ namespace Application.Services
             }
 
             // Vaccinated / Neutered flags
-            if (q.Vaccinated.HasValue)
-                query = query.Where(a => a.Vaccinated == q.Vaccinated.Value);
+            //if (q.Vaccinated.HasValue)
+            //    query = query.Where(a => a.Vaccinated == q.Vaccinated.Value);
 
-            if (q.Neutered.HasValue)
-                query = query.Where(a => a.Neutered == q.Neutered.Value);
+            //if (q.Neutered.HasValue)
+            //    query = query.Where(a => a.Neutered == q.Neutered.Value);
 
             // Age (in months) -> convert to BirthDate range using DateOnly
             var today = DateOnly.FromDateTime(DateTime.UtcNow.Date);

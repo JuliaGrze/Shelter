@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Shelter.API.Middleware;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -30,6 +31,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAnimalService, AnimalService>();
 builder.Services.AddScoped<ISpeciesService, SpeciesService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
 
 // === OpenAPI
 builder.Services.AddOpenApi();
@@ -114,6 +116,9 @@ app.UseCors("dev");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Globalna obs³uga wyj¹tków
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 

@@ -1,17 +1,71 @@
 <h2>Dodaj gatunek</h2>
 
-<form [formGroup]="form" (ngSubmit)="submit()">
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="card">
+
+    <!-- Nazwa gatunku -->
     <label>
         Nazwa gatunku
-        <input
-        type="text"
-        formControlName="name"
-        placeholder="np. pies"
-        >
+        <input type="text" formControlName="name" placeholder="np. Papuga"
+            [class.input-error]="submitted && f.name.invalid">
     </label>
 
+    @if (submitted && f.name.invalid) {
+    <small class="hint error">
+        Nazwa jest wymagana (min. 2 znaki).
+    </small>
+    }
+
+    <!-- Czy wymaga pozwolenia -->
+    <label class="checkbox-row">
+        <input type="checkbox" class="checkbox" formControlName="requiresPermit">
+        <span>Wymaga pozwolenia?</span>
+    </label>
+
+
+    <!-- Pola pozwolenia (pokazują się tylko, gdy zaznaczono checkbox) -->
+    @if (form.value.requiresPermit) {
+    <div class="permit-section">
+        <label>
+            Nazwa pozwolenia
+            <input type="text" formControlName="permitName" placeholder="np. Zezwolenie na hodowlę gatunku egzotycznego"
+                [class.input-error]="submitted && f.permitName.invalid">
+        </label>
+
+        @if (submitted && f.permitName.invalid) {
+        <small class="hint error">
+            Pole wymagane, jeśli gatunek wymaga pozwolenia.
+        </small>
+        }
+
+        <label>
+            Organ wydający
+            <input type="text" formControlName="permitAuthority"
+                placeholder="np. Regionalna Dyrekcja Ochrony Środowiska"
+                [class.input-error]="submitted && f.permitAuthority.invalid">
+        </label>
+
+        @if (submitted && f.permitAuthority.invalid) {
+        <small class="hint error">
+            Pole wymagane, jeśli gatunek wymaga pozwolenia.
+        </small>
+        }
+
+        <label>
+            Notatki (opcjonalnie)
+            <textarea class="textarea" formControlName="permitNotes" rows="3"
+                placeholder="np. Dotyczy gatunków objętych konwencją CITES"></textarea>
+        </label>
+    </div>
+    }
+
+    <!-- Przycisk i anulowanie -->
     <div class="actions">
         <a routerLink="/animals" class="btn ghost">Anuluj</a>
         <button class="btn" type="submit" [disabled]="loading || form.invalid">Zapisz</button>
     </div>
+
+    <!-- Komunikat błędu API -->
+    @if (apiError) {
+    <p class="hint error">{{ apiError }}</p>
+    }
 </form>

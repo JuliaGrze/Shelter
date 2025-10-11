@@ -19,6 +19,19 @@ namespace Infrastructure.Data.Configurations
 
             // Unique name – np. "Dog", "Cat"
             e.HasIndex(x => x.Name).IsUnique();
+
+            //  pozwolenia
+            e.Property(x => x.RequiresPermit)
+             .HasDefaultValue(false);
+
+            e.Property(x => x.PermitName)
+             .HasMaxLength(200);
+
+            e.Property(x => x.PermitAuthority)
+             .HasMaxLength(200);
+
+            e.Property(x => x.PermitNotes)
+             .HasMaxLength(1000);
         }
     }
 }

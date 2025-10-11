@@ -13,5 +13,12 @@ namespace Domain.Entities
 
         //Relationships one-to-many
         public ICollection<Animal> Animals { get; set; } = new List<Animal>();
+
+        //Permisions
+        public bool RequiresPermit { get; set; }
+        public string? PermitName { get; set; }
+        public string? PermitAuthority { get; set; }
+        public string? PermitNotes { get; set; }
+
     }
 }

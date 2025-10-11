@@ -31,8 +31,8 @@ namespace Application.Queries
         public DateTime? CreatedTo { get; set; }
 
         // flags
-        public bool? Vaccinated { get; set; }
-        public bool? Neutered { get; set; }
+        //public bool? Vaccinated { get; set; }
+        //public bool? Neutered { get; set; }
 
 
     }

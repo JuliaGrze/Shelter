@@ -50,17 +50,95 @@
         }
     </div>
 
-    <label class="row">
-        <input type="checkbox" formControlName="vaccinated"> Szczepiony
-    </label>
-    <label class="row">
-        <input type="checkbox" formControlName="neutered"> Wykastrowany/Wysterylizowany
-    </label>
-
     <label>
         Opis
         <textarea formControlName="description" placeholder="Kilka słów o zwierzaku..."></textarea>
     </label>
+
+    <!-- === Wpisy medyczne (opcjonalne) === -->
+    <div class="medical-box">
+        <button class="btn ghost" type="button" (click)="toggleMedicalForm()">
+            {{ showMedicalForm ? 'Ukryj formularz wpisu medycznego' : '+ Dodaj wpis medyczny' }}
+        </button>
+
+        @if (showMedicalForm) {
+        <div class="medical-form">
+            <div class="grid">
+                <label>
+                    Typ wpisu
+                    <select [formControl]="medicalRecordForm.controls.type">
+                        <option value="Vaccination">Szczepienie</option>
+                        <option value="Deworming">Odrobaczenie</option>
+                        <option value="Sterilization">Sterylizacja/Kastracja</option>
+                        <option value="Microchip">Mikrochip</option>
+                        <option value="Illness">Choroba</option>
+                    </select>
+                </label>
+
+                <label>
+                    Data
+                    <input type="date" [formControl]="medicalRecordForm.controls.date">
+                </label>
+
+                <label>
+                    Następny termin
+                    <input type="date" [formControl]="medicalRecordForm.controls.nextDueDate"
+                        [disabled]="disableNextDueDate" />
+                    <small class="hint" *ngIf="disableNextDueDate">Dla sterylizacji termin nie dotyczy.</small>
+                </label>
+
+                <label>
+                    Weterynarz (opcjonalnie)
+                    <input type="text" [formControl]="medicalRecordForm.controls.vet" placeholder="np. dr Kowalski">
+                </label>
+            </div>
+
+            <label>
+                Notatki (opcjonalnie)
+                <textarea rows="3" [formControl]="medicalRecordForm.controls.notes"
+                    placeholder="np. seria szczepień, uwagi, zalecenia..."></textarea>
+            </label>
+
+            <div class="actions">
+                <button class="btn" type="button" (click)="addMedicalRecord()" [disabled]="!medicalRecordForm.valid">
+                    Dodaj do listy
+                </button>
+                <button class="btn ghost" type="button" (click)="resetMedicalForm()">Wyczyść</button>
+            </div>
+        </div>
+        }
+
+        @if (pendingMedical.length) {
+        <div class="medical-list">
+            <h4>Wpisy do utworzenia ({{ pendingMedical.length }})</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Typ</th>
+                        <th>Następny termin</th>
+                        <th>Weterynarz</th>
+                        <th>Notatki</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (m of pendingMedical; let i = $index; track i) {
+                    <tr>
+                        <td>{{ m.date }}</td>
+                        <td>{{ m.type }}</td>
+                        <td>{{ m.nextDueDate || '—' }}</td>
+                        <td>{{ m.vet || '—' }}</td>
+                        <td>{{ m.notes || '—' }}</td>
+                        <td><button type="button" class="btn danger" (click)="removeMedicalRecord(i)">Usuń</button></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+
 
 
     <div class="actions">

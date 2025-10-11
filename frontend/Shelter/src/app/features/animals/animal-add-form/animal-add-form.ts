@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
@@ -9,6 +9,12 @@ import { SpeciesService } from '../../../core/services/species.service';
 import { SpeciesDto } from '../../../core/models/species';
 import { AnimalStatus, Sex } from '../../../core/models/animal';
 import { enviroment } from '../../../../environments/environment';
+
+import {
+  CreateMedicalRecord,
+  MedicalRecordType,
+} from '../../../core/models/medical-record';
+import { MedicalRecordService } from '../../../core/services/medical-record.service';
 
 @Component({
   selector: 'app-animal-add-form',
@@ -21,6 +27,7 @@ export class AnimalAddForm implements OnInit {
   private fb = inject(FormBuilder);
   private animalService = inject(AnimalService);
   private speciesService = inject(SpeciesService);
+  private medicalService = inject(MedicalRecordService);
   private http = inject(HttpClient);
   private router = inject(Router);
 
@@ -32,19 +39,74 @@ export class AnimalAddForm implements OnInit {
   private pickedFile: File | null = null;
   uploadError: string | null = null;
 
+  // panel „Dodaj wpis medyczny”
+  showMedicalForm = false;
+  disableNextDueDate = false;
+  pendingMedical: Omit<CreateMedicalRecord, 'animalId'>[] = [];
+
   form = this.fb.group({
     name: ['', Validators.required],
     speciesId: (null as number | null),
     birthDate: ['', Validators.required],
     sex: ('Unknown' as Sex),
     status: ('Available' as AnimalStatus),
-    description: [''],
-    vaccinated: [false],
-    neutered: [false],
+    description: ['']
+  });
+
+  // formularz pojedynczego wpisu medycznego
+  medicalRecordForm = this.fb.nonNullable.group({
+    type: new FormControl<MedicalRecordType>('Vaccination', { nonNullable: true }),
+    date: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    nextDueDate: new FormControl<string | null>(null),
+    vet: new FormControl<string | null>(null),
+    notes: new FormControl<string | null>(null),
   });
 
   ngOnInit(): void {
     this.speciesService.getAllSpecies().subscribe(list => (this.speciesList = list));
+
+    // Dla typu Sterilization — „Następny termin” nie dotyczy
+    this.medicalRecordForm.controls.type.valueChanges.subscribe(t => {
+      this.disableNextDueDate = t === 'Sterilization';
+      if (this.disableNextDueDate) {
+        this.medicalRecordForm.controls.nextDueDate.setValue(null);
+      }
+    });
+  }
+
+  toggleMedicalForm() {
+    this.showMedicalForm = !this.showMedicalForm;
+  }
+
+  resetMedicalForm() {
+    this.medicalRecordForm.reset({
+      type: 'Vaccination',
+      date: '',
+      nextDueDate: null,
+      vet: null,
+      notes: null
+    });
+    this.disableNextDueDate = false;
+  }
+
+  addMedicalRecord() {
+    if (!this.medicalRecordForm.valid) return;
+    const v = this.medicalRecordForm.getRawValue();
+
+    this.pendingMedical.push({
+      type: v.type,
+      date: v.date,
+      nextDueDate: this.disableNextDueDate ? null : (v.nextDueDate || null),
+      vet: (v.vet ?? '').trim() || null,
+      notes: (v.notes ?? '').trim() || null,
+    });
+
+    this.resetMedicalForm();
+    this.showMedicalForm = false;
+  }
+
+  removeMedicalRecord(index: number) {
+    this.pendingMedical.splice(index, 1);
   }
 
   onLocalPhotoPicked(e: Event) {
@@ -73,21 +135,19 @@ export class AnimalAddForm implements OnInit {
 
     this.loading = true;
     try {
-      // 1) CREATE → backend zwraca id
+      // 1) Utwórz zwierzaka
       const dto = {
         name: (this.form.value.name ?? '').trim(),
-        speciesId: this.form.value.speciesId!,
-        birthDate: this.form.value.birthDate!,
-        sex: this.form.value.sex!,
-        status: this.form.value.status!,
+        speciesId: this.form.value.speciesId!,     // number
+        birthDate: this.form.value.birthDate!,     // 'YYYY-MM-DD'
+        sex: this.form.value.sex!,                 // 'Unknown' | 'Female' | 'Male'
+        status: this.form.value.status!,           // 'Available' | 'Reserved' | 'Adopted' | 'NotAvailable'
         description: (this.form.value.description ?? '').trim(),
-        vaccinated: !!this.form.value.vaccinated,
-        neutered: !!this.form.value.neutered,
-        photoUrl: '' // uzupełnimy po uploadzie, jeśli jest plik
+        photoUrl: ''                                // uzupełnimy po uploadzie, jeśli jest plik
       };
       const id = await firstValueFrom(this.animalService.addAnimal(dto));
 
-      // 2) Jeśli wybrano plik → upload po speciesName + id → update photoUrl
+      // 2) Upload zdjęcia (opcjonalnie) → update photoUrl
       if (this.pickedFile) {
         const speciesName = this.speciesList.find(s => s.id === dto.speciesId)?.name;
         if (!speciesName) throw new Error('Nie znaleziono nazwy gatunku.');
@@ -95,7 +155,13 @@ export class AnimalAddForm implements OnInit {
         await firstValueFrom(this.animalService.updateAnimal(id, { ...dto, photoUrl: url }));
       }
 
-      // 3) powrót
+      // 3) Utwórz wpisy medyczne (jeśli są w pending)
+      for (const rec of this.pendingMedical) {
+        const payload: CreateMedicalRecord = { animalId: id, ...rec };
+        await firstValueFrom(this.medicalService.createMedicalRecord(payload));
+      }
+
+      // 4) Powrót
       this.router.navigateByUrl('/animals');
     } finally {
       this.loading = false;

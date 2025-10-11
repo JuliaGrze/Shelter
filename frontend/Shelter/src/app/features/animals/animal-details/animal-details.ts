@@ -12,7 +12,7 @@ import { MedicalRecord } from '../../../core/models/medical-record';
 
 @Component({
   selector: 'app-animal-details',
-  imports: [NgIf, NgFor, DatePipe, RouterLink, SexPlPipe, StatusPlPipe, NgClass],
+  imports: [DatePipe, RouterLink, SexPlPipe, StatusPlPipe, NgClass],
   templateUrl: './animal-details.html',
   styleUrl: './animal-details.css',
   standalone: true

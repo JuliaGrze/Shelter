@@ -113,25 +113,6 @@
         <input type="date" [(ngModel)]="createdTo">
       </label>
     </div>
-
-    <!-- Szczepienie / Kastracja – tri-state -->
-    <label class="field">
-      <span>Szczepiony</span>
-      <select [ngModel]="vaccinated === undefined ? '' : (vaccinated ? 'true' : 'false')" (ngModelChange)="onTriStateChangeVaccinated($event)">
-        <option value="">— dowolnie —</option>
-        <option value="true">Tak</option>
-        <option value="false">Nie</option>
-      </select>
-    </label>
-
-    <label class="field">
-      <span>Wykastrowany/Wysterylizowany</span>
-      <select [ngModel]="neutered === undefined ? '' : (neutered ? 'true' : 'false')" (ngModelChange)="onTriStateChangeNeutered($event)">
-        <option value="">— dowolnie —</option>
-        <option value="true">Tak</option>
-        <option value="false">Nie</option>
-      </select>
-    </label>
   </div>
 
   <footer class="filters-footer">

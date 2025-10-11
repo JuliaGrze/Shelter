@@ -67,8 +67,6 @@ export class AnimalList implements OnInit {
   ageMaxYears?: number;
   createdFrom?: string;   // yyyy-MM-dd
   createdTo?: string;     // yyyy-MM-dd
-  vaccinated?: boolean;
-  neutered?: boolean;
 
   ngOnInit(): void {
     this.getAllSpecies()
@@ -94,9 +92,6 @@ export class AnimalList implements OnInit {
 
       createdFrom: this.createdFrom || undefined,
       createdTo:   this.createdTo   || undefined,
-
-      vaccinated: this.vaccinated,
-      neutered:   this.neutered
     }).subscribe({
       next: (res: PagedResult<AnimalDto>) => {
         this.animals = res.items;
@@ -201,8 +196,6 @@ export class AnimalList implements OnInit {
     this.ageMaxYears = undefined;
     this.createdFrom = undefined;
     this.createdTo = undefined;
-    this.vaccinated = undefined;  // tri-state: undefined = brak filtra
-    this.neutered   = undefined;  // tri-state
     this.page = 0;
     this.load();
   }
@@ -222,18 +215,8 @@ export class AnimalList implements OnInit {
       this.ageMinYears !== undefined ||
       this.ageMaxYears !== undefined ||
       this.createdFrom ||
-      this.createdTo ||
-      this.vaccinated !== undefined ||
-      this.neutered !== undefined
+      this.createdTo
     );
-  }
-
-  // Pomocniki do tri-state <select>
-  onTriStateChangeVaccinated(val: string) {
-    this.vaccinated = val === '' ? undefined : (val === 'true');
-  }
-  onTriStateChangeNeutered(val: string) {
-    this.neutered = val === '' ? undefined : (val === 'true');
   }
 
   selectSpecies(id: number | null){

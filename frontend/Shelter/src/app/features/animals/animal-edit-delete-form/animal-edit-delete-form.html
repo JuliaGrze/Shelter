@@ -1,107 +1,303 @@
 <h2>Edytuj zwierzę</h2>
 
 @if (loading) {
-    <div>Ładowanie...</div>
+<div>Ładowanie...</div>
 }
 
 @if (!loading && error) {
-    <div class="class">{{error}}</div>
+<div class="class">{{error}}</div>
 }
 
-@if (!loading && !error) 
-{
-    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="card">
-        <div class="grid">
-            <label>
-                Imię
-                <input type="text" formControlName="name" placeholder="Azor">
-            </label>
+@if (!loading && !error) {
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="card">
+  <div class="grid">
+    <label>
+      Imię
+      <input type="text" formControlName="name" placeholder="Azor">
+    </label>
 
-            <label>
-                Gatunek
-                <select formControlName="speciesId">
-                    <option [ngValue]="null" disabled>— wybierz —</option>
-                    @for (species of speciesList; track $index) {
-                    <option [ngValue]="species.id">{{ species.name }}</option>
-                    }
-                </select>
-            </label>
+    <label>
+      Gatunek
+      <select formControlName="speciesId">
+        <option [ngValue]="null" disabled>— wybierz —</option>
+        @for (species of speciesList; track $index) {
+        <option [ngValue]="species.id">{{ species.name }}</option>
+        }
+      </select>
+    </label>
 
-            <label>
-                Data urodzenia
-                <input type="date" formControlName="birthDate">
-            </label>
+    <label>
+      Data urodzenia
+      <input type="date" formControlName="birthDate">
+    </label>
 
-            <label>
-                Płeć
-                <select formControlName="sex">
-                    <option value="Unknown">Nieznana</option>
-                    <option value="Female">Samica</option>
-                    <option value="Male">Samiec</option>
-                </select>
-            </label>
+    <label>
+      Płeć
+      <select formControlName="sex">
+        <option value="Unknown">Nieznana</option>
+        <option value="Female">Samica</option>
+        <option value="Male">Samiec</option>
+      </select>
+    </label>
 
-            <label>
-                Status
-                <select formControlName="status">
-                    <option value="Available">Dostępny</option>
-                    <option value="Reserved">Zarezerwowany</option>
-                    <option value="Adopted">Adoptowany</option>
-                    <option value="NotAvailable">Niedostępny</option>
-                </select>
-            </label>
-        </div>
+    <label>
+      Status
+      <select formControlName="status">
+        <option value="Available">Dostępny</option>
+        <option value="Reserved">Zarezerwowany</option>
+        <option value="Adopted">Adoptowany</option>
+        <option value="NotAvailable">Niedostępny</option>
+      </select>
+    </label>
+  </div>
 
-        <!-- podgląd i wybór zdjęcia -->
-        <section class="photo-field">
-            <div class="thumb">
-                <img
-                [src]="currentAnimal?.photoUrl"
-                alt="Podgląd zdjęcia"
-                class="thumb-img"
-                />
-            </div>
+  <!-- podgląd i wybór zdjęcia -->
+  <section class="photo-field">
+    <div class="thumb">
+      <img [src]="currentAnimal?.photoUrl" alt="Podgląd zdjęcia" class="thumb-img" />
+    </div>
 
-            <div class="file-side">
-                <label class="btn outline file-btn">
-                Wybierz zdjęcie
-                <input type="file" accept="image/*" (change)="onLocalPhotoPicked($event)" />
-                </label>
+    <div class="file-side">
+      <label class="btn outline file-btn">
+        Wybierz zdjęcie
+        <input type="file" accept="image/*" (change)="onLocalPhotoPicked($event)" />
+      </label>
 
-                <p class="file-name" aria-live="polite">
-                <ng-container *ngIf="selectedFileName; else noFile">
-                    Wybrano: <strong>{{ selectedFileName }}</strong>
-                </ng-container>
-                <ng-template #noFile>
-                    <span class="muted">Zdjęcie nie wybrane</span>
-                </ng-template>
-                </p>
+      <p class="file-name" aria-live="polite">
+        @if (selectedFileName) {
+        Wybrano: <strong>{{ selectedFileName }}</strong>
+        } @else {
+        <span class="muted">Zdjęcie nie wybrane</span>
+        }
+      </p>
 
-                <p class="file-help muted">Obsługiwane: JPG, PNG, WEBP · max 5 MB</p>
-                <small class="hint error" *ngIf="uploadError">{{ uploadError }}</small>
-            </div>
-        </section>
+      <p class="file-help muted">Obsługiwane: JPG, PNG, WEBP · max 5 MB</p>
+      @if (uploadError) {
+      <small class="hint error">{{ uploadError }}</small>
+      }
+    </div>
+  </section>
 
+  <!-- OPIS -->
+  <label>
+    Opis
+    <textarea formControlName="description" placeholder="Kilka słów o zwierzaku..."></textarea>
+  </label>
 
+  <!-- === Wpisy medyczne (dodawanie w edycji) === -->
+  <div class="medical-box">
+    <button class="btn ghost" type="button" (click)="toggleMedicalForm()">
+      {{ showMedicalForm ? 'Ukryj formularz wpisu medycznego' : '+ Dodaj wpis medyczny' }}
+    </button>
 
-
-        <label class="row">
-            <input type="checkbox" formControlName="vaccinated"> Szczepiony
-        </label>
-        <label class="row">
-            <input type="checkbox" formControlName="neutered"> Wykastrowany/Wysterylizowany
+    @if (showMedicalForm) {
+    <div class="medical-form">
+      <div class="grid">
+        <label>
+          Typ wpisu
+          <select [formControl]="medicalRecordForm.controls.type">
+            <option value="Vaccination">Szczepienie</option>
+            <option value="Deworming">Odrobaczenie</option>
+            <option value="Sterilization">Sterylizacja/Kastracja</option>
+            <option value="Microchip">Mikrochip</option>
+            <option value="Illness">Choroba</option>
+          </select>
         </label>
 
         <label>
-            Opis
-            <textarea formControlName="description" placeholder="Kilka słów o zwierzaku..."></textarea>
+          Data
+          <input type="date" [formControl]="medicalRecordForm.controls.date">
         </label>
 
-        <div class="actions">
-            <a routerLink="/animals" class="btn ghost">Anuluj</a>
-            <button class="btn" type="submit" [disabled]="saving || form.invalid">Zapisz zmiany</button>
-        </div>
-    </form>
+        <label>
+          Następny termin
+          <input type="date" [formControl]="medicalRecordForm.controls.nextDueDate" [disabled]="disableNextDueDate" />
+          @if (disableNextDueDate) {
+          <small class="hint">Dla sterylizacji termin nie dotyczy.</small>
+          }
+        </label>
+
+        <label>
+          Weterynarz (opcjonalnie)
+          <input type="text" [formControl]="medicalRecordForm.controls.vet" placeholder="np. dr Kowalski">
+        </label>
+      </div>
+
+      <label>
+        Notatki (opcjonalnie)
+        <textarea rows="3" [formControl]="medicalRecordForm.controls.notes"
+          placeholder="np. seria szczepień, uwagi, zalecenia..."></textarea>
+      </label>
+
+      <div class="actions">
+        <button class="btn" type="button" (click)="addMedicalRecord()" [disabled]="!medicalRecordForm.valid">
+          Dodaj do listy
+        </button>
+        <button class="btn ghost" type="button" (click)="resetMedicalForm()">Wyczyść</button>
+      </div>
+    </div>
+    }
+
+    @if (pendingMedical.length) {
+    <div class="medical-list">
+      <h4>Wpisy do utworzenia ({{ pendingMedical.length }})</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Typ</th>
+            <th>Następny termin</th>
+            <th>Weterynarz</th>
+            <th>Notatki</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (m of pendingMedical; let i = $index; track i) {
+          <tr>
+            <td>{{ m.date }}</td>
+            <td>{{ m.type }}</td>
+            <td>{{ m.nextDueDate || '—' }}</td>
+            <td>{{ m.vet || '—' }}</td>
+            <td>{{ m.notes || '—' }}</td>
+            <td>
+              <button type="button" class="btn danger" (click)="removeMedicalRecord(i)">Usuń</button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+  </div>
+
+  <!-- === ISTNIEJĄCE WPISY MEDYCZNE (z edycją w wierszu poniżej) === -->
+  <div class="medical-list existing">
+    <h4>Dotychczasowe wpisy medyczne</h4>
+
+    @if (recLoading) {
+    <div>Ładowanie historii...</div>
+    }
+
+    @if (!recLoading && recError) {
+    <div class="error">{{ recError }}</div>
+    }
+
+    @if (!recLoading && !recError && records.length) {
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Typ</th>
+          <th>Następny termin</th>
+          <th>Weterynarz</th>
+          <th>Notatki</th>
+          <th style="width: 210px;">Akcje</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of records; track r.id) {
+        <!-- Wiersz widoku -->
+        <tr>
+          <td>{{ r.date | date:'yyyy-MM-dd' }}</td>
+          <td><span class="badge">{{ r.type }}</span></td>
+          <td>{{ r.nextDueDate ? (r.nextDueDate | date:'yyyy-MM-dd') : '—' }}</td>
+          <td>{{ r.vet || '—' }}</td>
+          <td>{{ r.notes || '—' }}</td>
+          <td class="cell-actions">
+            <div class="btn-group">
+              @if (!recState.get(r.id)?.editing) {
+              <button type="button" class="btn ghost" (click)="startEditRec(r)"
+                style="margin-right: 10px;">Edytuj</button>
+              @if (!recState.get(r.id)?.confirmDelete) {
+              <button type="button" class="btn danger" (click)="openDeleteRec(r)">Usuń</button>
+              } @else {
+              <div class="confirm-inline">
+                <input type="text" [(ngModel)]="recState.get(r.id)!.confirmText" [ngModelOptions]="{standalone:true}"
+                  [disabled]="recState.get(r.id)!.deleting" placeholder="Przepisz typ: {{ r.type }}"
+                  title="Wpisz dokładnie: {{ r.type }}" />
+                <button class="btn danger" type="button" (click)="confirmDeleteRec(r)"
+                  [disabled]="recState.get(r.id)!.deleting || recState.get(r.id)!.confirmText !== r.type">
+                  {{ recState.get(r.id)!.deleting ? 'Usuwanie…' : 'Potwierdź' }}
+                </button>
+                <button class="btn ghost" type="button" (click)="cancelDeleteRec(r)"
+                  [disabled]="recState.get(r.id)!.deleting">
+                  Anuluj
+                </button>
+              </div>
+              }
+              } @else {
+              <button class="btn ghost" type="button" (click)="cancelEditRec(r)">Anuluj</button>
+              }
+            </div>
+          </td>
+        </tr>
+
+        <!-- Wiersz edycji (tylko gdy editing=true) -->
+        @if (recState.get(r.id)?.editing) {
+        <tr class="rec-edit-row">
+          <td colspan="6">
+            <div class="edit-panel">
+              <label>
+                Data
+                <input type="date" [(ngModel)]="recState.get(r.id)!.draft.date" [ngModelOptions]="{standalone:true}"
+                  [disabled]="recState.get(r.id)!.saving" />
+              </label>
+
+              <label>
+                Typ
+                <span class="badge" title="Zmiana typu zablokowana w backendzie">{{ r.type }}</span>
+              </label>
+
+              <label>
+                Następny termin
+                <input type="date" [(ngModel)]="recState.get(r.id)!.draft.nextDueDate"
+                  [ngModelOptions]="{standalone:true}"
+                  [disabled]="recState.get(r.id)!.disableNext || recState.get(r.id)!.saving" />
+                @if (recState.get(r.id)?.disableNext) {
+                <small class="hint">Dla sterylizacji termin nie dotyczy.</small>
+                }
+              </label>
+
+              <label>
+                Weterynarz
+                <input type="text" [(ngModel)]="recState.get(r.id)!.draft.vet" [ngModelOptions]="{standalone:true}"
+                  [disabled]="recState.get(r.id)!.saving" placeholder="np. dr Kowalski" />
+              </label>
+
+              <label class="span-2">
+                Notatki
+                <input type="text" [(ngModel)]="recState.get(r.id)!.draft.notes" [ngModelOptions]="{standalone:true}"
+                  [disabled]="recState.get(r.id)!.saving" placeholder="Notatki" />
+              </label>
+
+              <div class="edit-actions">
+                <button class="btn" type="button" (click)="saveEditRec(r)" [disabled]="recState.get(r.id)!.saving">
+                  {{ recState.get(r.id)!.saving ? 'Zapisywanie…' : 'Zapisz' }}
+                </button>
+                <button class="btn ghost" type="button" (click)="cancelEditRec(r)" [disabled]="recState.get(r.id)!.saving">
+                  Anuluj
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        }
+        }
+      </tbody>
+    </table>
+    }
+
+    @if (!recLoading && !recError && (!records || records.length === 0)) {
+    <div class="muted">Brak wpisów medycznych.</div>
+    }
+  </div>
+
+  <div class="actions">
+    <a routerLink="/animals" class="btn ghost">Anuluj</a>
+    <button class="btn" type="submit" [disabled]="saving || form.invalid">Zapisz zmiany</button>
+  </div>
+</form>
 }
 
 <!-- === Strefa niebezpieczna: usuwanie === -->
@@ -111,46 +307,31 @@
     Operacja nieodwracalna. Po usunięciu tego wpisu nie będzie możliwości przywrócenia danych.
   </p>
 
-  <div class="danger-actions" *ngIf="!confirmOpen; else confirmStep">
+  @if (!confirmOpen) {
+  <div class="danger-actions">
     <button type="button" class="btn danger" (click)="openDeleteConfirm()">
       Usuń zwierzaka
     </button>
   </div>
+  } @else {
+  <div class="confirm-box">
+    <p>
+      Aby potwierdzić, wpisz <strong>{{ currentAnimal?.name }}</strong> w polu poniżej.
+    </p>
+    <input type="text" [(ngModel)]="confirmText" [ngModelOptions]="{standalone:true}" [disabled]="deleting"
+      placeholder="Wpisz dokładnie nazwę" aria-label="Potwierdź nazwę zwierzaka" />
 
-  <ng-template #confirmStep>
-    <div class="confirm-box">
-      <p>
-        Aby potwierdzić, wpisz <strong>{{ currentAnimal?.name }}</strong> w polu poniżej.
-      </p>
-      <input
-        type="text"
-        [(ngModel)]="confirmText"
-        [disabled]="deleting"
-        placeholder="Wpisz dokładnie nazwę"
-        aria-label="Potwierdź nazwę zwierzaka"
-      />
+    <div class="confirm-actions">
+      <button type="button" class="btn ghost" (click)="cancelDeleteConfirm()" [disabled]="deleting">
+        Anuluj
+      </button>
 
-      <div class="confirm-actions">
-        <button
-          type="button"
-          class="btn ghost"
-          (click)="cancelDeleteConfirm()"
-          [disabled]="deleting"
-        >
-          Anuluj
-        </button>
-
-        <button
-          type="button"
-          class="btn danger"
-          (click)="deleteAnimal()"
-          [disabled]="deleting || confirmText !== currentAnimal?.name"
-          [attr.aria-disabled]="deleting || confirmText !== currentAnimal?.name"
-          title="Usuń na stałe"
-        >
-          {{ deleting ? 'Usuwanie…' : 'Potwierdź usunięcie' }}
-        </button>
-      </div>
+      <button type="button" class="btn danger" (click)="deleteAnimal()"
+        [disabled]="deleting || confirmText !== currentAnimal?.name"
+        [attr.aria-disabled]="deleting || confirmText !== currentAnimal?.name" title="Usuń na stałe">
+        {{ deleting ? 'Usuwanie…' : 'Potwierdź usunięcie' }}
+      </button>
     </div>
-  </ng-template>
+  </div>
+  }
 </section>

@@ -25,10 +25,17 @@ namespace Infrastructure.Data.Configurations
                 .HasMaxLength(20)
                 .IsRequired();
 
+            // Relacja: Animal → Species (nie kasuj gatunku przy usuwaniu zwierzaka)    
             e.HasOne(a => a.Species)
                 .WithMany(s => s.Animals)
                 .HasForeignKey(a => a.SpeciesId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Relacja: Animal → MedicalRecord (usuwa rekordy medyczne wraz z Animal)
+            e.HasMany(a => a.MedicalRecords)
+                .WithOne(m => m.Animal)
+                .HasForeignKey(m => m.AnimalId)
+                .OnDelete(DeleteBehavior.Cascade); // <-- najważniejsze
         }
     }
 }

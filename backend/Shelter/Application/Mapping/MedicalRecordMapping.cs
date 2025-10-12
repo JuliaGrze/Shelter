@@ -40,5 +40,30 @@ namespace Application.Mapping
 
         private static DateOnly? NormalizeNextDue(MedicalRecordType type, DateOnly? nextDue)
             => type == MedicalRecordType.Sterilization ? null : nextDue;
+
+            // -> DueMedicalRecordDto (DTO)
+            // Creates a DueMedicalRecordDto and calculates the derived fields relative to 'today'
+            public static DueMedicalRecordDto ToDueMedicalRecordDto(string animalName, 
+                MedicalRecord medicalRecord, DateOnly today)
+            {
+                int? daysUntil = medicalRecord.NextDueDate.HasValue
+                    ? medicalRecord.NextDueDate.Value.DayNumber - today.DayNumber
+                    : (int?)null;
+
+                bool overdue = medicalRecord.NextDueDate.HasValue 
+                    && medicalRecord.NextDueDate < today;
+
+                return new DueMedicalRecordDto
+                {
+                    Id = medicalRecord.Id,
+                    AnimalId = medicalRecord.AnimalId,
+                    AnimalName = animalName,
+                    Type = medicalRecord.Type,
+                    Date = medicalRecord.Date,
+                    NextDueDate = medicalRecord.NextDueDate,
+                    DaysUntilDue = daysUntil,
+                    Overdue = overdue
+                };
+            }
     }
 }

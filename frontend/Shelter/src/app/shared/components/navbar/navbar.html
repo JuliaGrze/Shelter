@@ -19,6 +19,13 @@
                 <a routerLink="/worker/species/manage">Zarządzaj gatunkami</a>
             </div>
         </div>
+        <button class="btn btn-worker" routerLink="worker/medical/due">
+            Opieka medyczna
+            @if (dueCount() > 0) {
+                <span class="counter">{{ dueCount() }}</span>
+            }
+        </button>
+
         }
         @if (!isLoggedIn()) {
         <button class="btn-register" routerLink="register">Zarejestruj się</button>

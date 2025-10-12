@@ -23,7 +23,7 @@ type RowState = {
 @Component({
   selector: 'app-species-manage-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './species-manage-form.html',
   styleUrls: ['./species-manage-form.css']
 })

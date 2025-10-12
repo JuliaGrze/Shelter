@@ -8,6 +8,7 @@ import { AnimalAddForm } from './features/animals/animal-add-form/animal-add-for
 import { SpeciesAddForm } from './features/species/species-add-form/species-add-form';
 import { AnimalEditDeleteForm } from './features/animals/animal-edit-delete-form/animal-edit-delete-form';
 import { SpeciesManageForm } from './features/species/species-manage-form/species-manage-form';
+import { MedicalRecordDueList } from './features/medical/medical-record-due-list/medical-record-due-list';
 
 export const routes: Routes = [
     {path: 'animals', component: AnimalList},
@@ -35,6 +36,12 @@ export const routes: Routes = [
     {
         path: 'worker/species/manage',
         component: SpeciesManageForm,
+        canActivate: [roleGuard],
+        data: { roles: ['Admin', 'Worker']}
+    },
+    {
+        path: 'worker/medical/due',
+        component: MedicalRecordDueList,
         canActivate: [roleGuard],
         data: { roles: ['Admin', 'Worker']}
     },

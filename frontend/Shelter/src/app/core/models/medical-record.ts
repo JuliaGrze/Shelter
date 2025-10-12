@@ -24,10 +24,13 @@ export interface CreateMedicalRecord {
     notes?: string | null;
 }
 
-// zwraca true, gdy następny termin (nextDueDate) jest w ciągu najbliższych 7 dni
-export function isUrgent(r: MedicalRecord): boolean {
-    if (!r.nextDueDate) return false;
-    const d = new Date(r.nextDueDate).getTime();
-    const days = Math.ceil((d - Date.now()) / (1000 * 60 * 60 * 24));
-    return days >= 0 && days <= 7;
+export interface DueMedicalRecordDto{
+    id: number
+    animalId: number
+    animalName: string
+    type: MedicalRecordType
+    date: string
+    nextDueDate?: string | null
+    daysUntilDue?: number | null
+    overdue: boolean
 }

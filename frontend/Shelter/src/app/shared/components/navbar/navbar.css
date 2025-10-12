@@ -124,6 +124,28 @@
   background: #1e40af;
 }
 
+.btn-worker{
+  background-color: #cb46e5;
+}
+
+.btn-worker:hover{
+  background-color: #a312a8;
+}
+
+.counter {
+  background: #fff;
+  color: #cb46e5;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.1rem 0.1rem;
+  margin-left: 0.4rem;
+  display: inline-block;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+
 .dropdown {
   position: relative;
   display: inline-block;

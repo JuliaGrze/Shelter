@@ -1,0 +1,53 @@
+<section class="due-wrap">
+    <header class="due-header">
+        <h2>Terminy medyczne – zbliżające się / zaległe</h2>
+
+        <div class="controls">
+            <label>
+                Pokaż do:
+                <input type="number" [(ngModel)]="days">
+                 dni
+            </label>
+            <button class="btn btn-worker" (click)="load()" [disabled]="loading">
+                Odśwież
+            </button>
+        </div>
+    </header>
+
+    @if (loading) {
+        <div class="state">Ładowanie...</div>
+    }
+    @if(error){
+        <div class="state-error">{{ error }}</div>
+    }
+    @if (!loading && !error  && items.length === 0) {
+        <div class="state">Brak terminów w wybranym zakresie.</div>
+    }
+
+    @if (items.length) {
+        <ul class="due-list">
+            @for (r of items; track $index) {
+                <li class="due-item">
+                    <div class="row top">
+                        <a class="name" [routerLink]="['/animals', r.animalId]">{{ r.animalName }}</a>
+                        <span class="chip type">{{ r.type }}</span>
+                    </div>
+                    <div class="row">
+                        <span>Wpis: <strong>{{r.date | date: 'yyyy-MM-dd'}}</strong></span>
+                        @if (r.nextDueDate) {
+                            <span>Termin: <strong>{{ r.nextDueDate | date:'yyyy-MM-dd' }}</strong></span>
+                        }
+                    </div>
+                    <div class="row bottom">
+                        <span class="badge" [ngClass]="{overdue: r.overdue, soon: !r.overdue}">{{ badge(r) }}</span>
+                        <button 
+                            class="btn-manage"
+                            [routerLink]="['/worker/animals/edit/', r.animalId]">
+                            Zarządzaj kartą medyczną
+                        </button>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</section>

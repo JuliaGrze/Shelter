@@ -224,6 +224,10 @@ export class AnimalEditDeleteForm implements OnInit {
       r.notes = payload.notes ?? null;
 
       st.editing = false;
+
+      // ⇦ REFRESH NAVBAR COUNTER (np. dla zakresu 7 dni)
+      this.medicalService.refreshDueCount(7);
+
     } catch {
       alert('Nie udało się zapisać zmian wpisu medycznego.');
     } finally {
@@ -256,6 +260,10 @@ export class AnimalEditDeleteForm implements OnInit {
       await firstValueFrom(this.medicalService.deleteMedicalRecord(r.id));
       this.records = this.records.filter(x => x.id !== r.id);
       this.recState.delete(r.id);
+
+      // ⇦ REFRESH NAVBAR COUNTER
+      this.medicalService.refreshDueCount(7);
+
     } catch {
       alert('Nie udało się usunąć wpisu medycznego.');
     } finally {
@@ -353,6 +361,9 @@ export class AnimalEditDeleteForm implements OnInit {
         const payload: CreateMedicalRecord = { animalId: this.animalId, ...rec };
         await firstValueFrom(this.medicalService.createMedicalRecord(payload));
       }
+
+       // ⇦ REFRESH NAVBAR COUNTER (po zakończeniu wszystkich create)
+      this.medicalService.refreshDueCount(7);
 
       this.router.navigateByUrl('/animals');
     } catch {

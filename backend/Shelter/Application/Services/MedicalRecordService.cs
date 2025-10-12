@@ -92,5 +92,46 @@ namespace Application.Services
             return true;
 
         }
+
+
+        public async Task<List<DueMedicalRecordDto>> GetDueWithinDaysAsync(int days, CancellationToken ct = default)
+        {
+            var today = DateOnly.FromDateTime(DateTime.UtcNow); //np. 10.10.2025
+            var threshold = today.AddDays(days); //np. 17.10.2025
+
+            //var query = _medicalRecordRepository
+            //    .Query(x => x.Animal)
+            //    .AsNoTracking()
+            //    .Where(x => x.NextDueDate != null && x.NextDueDate < trashhold)
+            //    .OrderBy(x => x.NextDueDate);
+
+            //var records = await query.ToListAsync(ct);
+
+            // Kandydaci: mają NextDueDate i termin ≤ threshold
+            // Drugie sito: NIE istnieje nowszy wpis tego samego (AnimalId, Type)
+            // (nowszy = większe Date, a przy remisie po Date -> większe Id)
+            var latestPerAnimalTypeWithinThreshold = await _medicalRecordRepository
+               .Query(x => x.Animal)
+               .AsNoTracking()
+               .Where(x => x.NextDueDate != null && x.NextDueDate <= threshold)
+               .Where(x => !_medicalRecordRepository.Query()
+                   .Any(y =>
+                       y.AnimalId == x.AnimalId &&
+                       y.Type == x.Type &&
+                       (
+                           y.NextDueDate > x.NextDueDate ||
+                           (y.NextDueDate == x.NextDueDate && y.Id > x.Id)
+                       )
+                   ))
+               .OrderBy(x => x.NextDueDate)
+               .ToListAsync(ct);
+
+            // Convert to DTO using existing mapper
+            var result = latestPerAnimalTypeWithinThreshold.
+                Select(r => MedicalRecordMapping.ToDueMedicalRecordDto(r.Animal.Name, r, today))
+                         .ToList();
+
+            return result;
+        }
     }
 }

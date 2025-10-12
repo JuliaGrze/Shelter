@@ -53,5 +53,17 @@ namespace Shelter.API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin,Worker")]
+        [HttpGet("due")]
+        public async Task<ActionResult<List<DueMedicalRecordDto>>> GetDueMedicalRecords(
+            [FromQuery] int days = 7, 
+            CancellationToken ct = default)
+        {
+            if (days < 0) days = 0;
+
+            var items = await _mediicalRecordService.GetDueWithinDaysAsync(days, ct);
+            return Ok(items);
+        }
+
     }
 }

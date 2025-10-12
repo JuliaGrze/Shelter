@@ -161,7 +161,10 @@ export class AnimalAddForm implements OnInit {
         await firstValueFrom(this.medicalService.createMedicalRecord(payload));
       }
 
-      // 4) Powrót
+      // 4) **Odśwież licznik** w navbarze (np. dla zakresu 7 dni)
+      this.medicalService.refreshDueCount(7); // ⇦ REFRESH NAVBAR COUNTER
+
+      // 5) Powrót
       this.router.navigateByUrl('/animals');
     } finally {
       this.loading = false;

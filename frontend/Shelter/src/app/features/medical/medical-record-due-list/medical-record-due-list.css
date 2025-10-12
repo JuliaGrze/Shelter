@@ -1,0 +1,197 @@
+.btn-worker{
+  background-color: #cb46e5;
+}
+
+.btn-worker:hover{
+  background-color: #a312a8;
+}
+
+/* === Ogólne opakowanie === */
+.due-wrap {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  margin: 1.5rem auto;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* === Nagłówek === */
+.due-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.due-header h2 {
+  font-size: 1.4rem;
+  color: #333;
+  margin: 0;
+}
+
+/* === Panel filtrów / kontrolki === */
+.controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.controls label {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.controls input[type="number"] {
+  width: 80px;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-left: 0.3rem;
+  font-size: 0.9rem;
+}
+
+/* === Stan ładowania / błędów === */
+.state {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+}
+
+.state-error {
+  text-align: center;
+  color: #c62828;
+  font-weight: 500;
+}
+
+/* === Lista terminów === */
+.due-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* === Pojedynczy rekord === */
+.due-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 0.8rem;
+  padding: 1rem 1.2rem;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.due-item:hover {
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* === Układ wierszy === */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.row.top {
+  border-bottom: 1px dashed #ddd;
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.row.bottom {
+  border-top: 1px dashed #ddd;
+  padding-top: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+/* === Link do zwierzaka === */
+.name {
+  font-weight: 600;
+  color: #2a4d9b;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.name:hover {
+  color: #1d3d7a;
+}
+
+/* === Etykieta typu === */
+.chip.type {
+  background: #e8eaf6;
+  color: #303f9f;
+  padding: 0.2rem 0.6rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* === Odznaki (badge) === */
+.badge {
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 1rem;
+  padding: 0.3rem 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge.overdue {
+  background: #fdecea;
+  color: #c62828;
+}
+
+.badge.soon {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+/* === Przycisk zarządzania === */
+.btn-manage {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-manage:hover {
+  background: #4338ca;
+  transform: translateY(-1px);
+}
+
+.btn-manage:active {
+  transform: translateY(0);
+}
+
+/* === Responsywność === */
+@media (max-width: 700px) {
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-manage {
+    width: 100%;
+    text-align: center;
+  }
+}

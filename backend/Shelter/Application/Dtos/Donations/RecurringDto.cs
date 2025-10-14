@@ -8,7 +8,8 @@ namespace Application.Dtos.Donations
 {
     public class RecurringDto
     {
-        public string PriceId { get; set; } = default!;
+        public long AmountMinor { get; set; } 
+        public string Currency { get; set; }
         public string? DonorPublicName { get; set; }
         public bool IsPublic { get; set; }
         public string? Message { get; set; }

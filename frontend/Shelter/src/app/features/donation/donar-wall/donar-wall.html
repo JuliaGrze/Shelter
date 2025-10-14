@@ -1,0 +1,49 @@
+<section class="wall">
+    <div class="head">
+        <h2>Ściana darczyńców</h2>
+        <div class="actions">
+            <label>
+                Pokaż ostatnie
+                <select [(ngModel)]="take" (change)="onTakeChange()">
+                    @for (n of takeOptions; track n) {
+                    <option [ngValue]="n">{{ n }}</option>
+                    }
+                </select>
+            </label>
+            <button type="button" (click)="load()">Odśwież</button>
+        </div>
+    </div>
+
+    @if(loading){
+    <p>Ładowanie…</p>
+    }
+    @if(!loading && error){
+    <p class="error">{{ error }}</p>
+    }
+
+    @if(!loading && !error){
+    <div class="grid">
+        @for (d of donors; track $index) {
+        <article class="tile">
+            <div class="row">
+                <strong class="name">{{ d.donorPublicName }}</strong>
+                <span class="amount">{{ toMoney(d.amountMinor) }} {{ d.currency }}</span>
+            </div>
+
+            <small class="meta">
+                {{d.isRecurring ? 'miesięcznie' : 'jednorazowa'}}
+                • {{d.createdAt | date: 'yyyy-MM-dd HH:mm'}}
+            </small>
+
+            @if(d.message){
+            <p class="msg">{{d.message}}</p>
+            }
+        </article>
+
+        @if(donors.length === 0){
+        <p class="empty">Brak darowizn</p>
+        }
+        }
+    </div>
+    }
+</section>

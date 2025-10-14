@@ -9,6 +9,9 @@ import { SpeciesAddForm } from './features/species/species-add-form/species-add-
 import { AnimalEditDeleteForm } from './features/animals/animal-edit-delete-form/animal-edit-delete-form';
 import { SpeciesManageForm } from './features/species/species-manage-form/species-manage-form';
 import { MedicalRecordDueList } from './features/medical/medical-record-due-list/medical-record-due-list';
+import { DonateWidget } from './features/donation/donate-widget/donate-widget';
+import { DonarWall } from './features/donation/donar-wall/donar-wall';
+import { MonthlySum } from './features/donation/monthly-sum/monthly-sum';
 
 export const routes: Routes = [
     {path: 'animals', component: AnimalList},
@@ -45,11 +48,19 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['Admin', 'Worker']}
     },
+    {
+        path: 'worker/donate/monthly/sum',
+        component: MonthlySum,
+        canActivate: [roleGuard],
+        data: { roles: ['Admin', 'Worker']}
+    },
 
     //AUTH - login & register
     {path: 'login', component: Login},
     {path: 'register', component: Register },
 
+    //Donation
+    {path: 'donate/widget', component: DonateWidget},
+    {path: 'donate/donar/wall', component: DonarWall},
     {path: '**', redirectTo: 'animals'}
-
 ];

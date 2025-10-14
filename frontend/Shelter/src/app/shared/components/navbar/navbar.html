@@ -7,9 +7,15 @@
     <div class="nav-actions">
         <a routerLink="">O nas</a>
         <a routerLink="animals">Nasze zwierzaki</a>
+        <a routerLink="/donate/donar/wall">Nasi darczyńcy</a>
     </div>
 
     <div class="actions">
+
+        <button routerLink="/donate/widget" class="btn">
+            Donacje
+        </button>
+
         @if (canManage()) {
         <div class="dropdown">
             <button class="dropdown-toggle">Panel zarządzania</button>
@@ -17,6 +23,7 @@
                 <a routerLink="/worker/animals/new">Dodaj nowe zwierzę</a>
                 <a routerLink="/worker/species/new">Dodaj nowy gatunek</a>
                 <a routerLink="/worker/species/manage">Zarządzaj gatunkami</a>
+                <a routerLink="/worker/donate/monthly/sum">Statystyki donacji</a>
             </div>
         </div>
         <button class="btn btn-worker" routerLink="worker/medical/due">

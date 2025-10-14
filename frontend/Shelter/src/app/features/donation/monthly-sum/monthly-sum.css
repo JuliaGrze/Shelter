@@ -1,0 +1,171 @@
+/* --- PANEL GŁÓWNY --- */
+.panel {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  color: #222;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+.panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 0.75rem;
+}
+
+.panel__header h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* --- FORMULARZ FILTRA --- */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.controls label {
+  font-weight: 500;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.controls select {
+  padding: 0.3rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fafafa;
+  transition: border-color 0.2s;
+}
+
+.controls select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.controls button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.controls button:hover {
+  background: #005fcc;
+}
+
+/* --- STANY (ŁADOWANIE, BŁĘDY, BRAK DANYCH) --- */
+.state {
+  text-align: center;
+  padding: 0.8rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+}
+
+.state.info {
+  background: #eef5ff;
+  color: #2455a6;
+}
+
+.state.error {
+  background: #ffecec;
+  color: #b3261e;
+}
+
+.state:not(.info):not(.error) {
+  background: #f9f9f9;
+  color: #555;
+}
+
+/* --- KARTA WALUTY --- */
+.card {
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 1rem;
+  background: #fafafa;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: #007bff;
+  font-weight: 600;
+}
+
+/* --- TABELA --- */
+.scroll-x {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.scroll-x::-webkit-scrollbar {
+  height: 6px;
+}
+.scroll-x::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.grid th,
+.grid td {
+  border: 1px solid #e2e2e2;
+  padding: 0.5rem 0.4rem;
+  white-space: nowrap;
+}
+
+.grid thead {
+  background: #f3f6fb;
+  font-weight: 600;
+}
+
+.grid tbody tr:nth-child(even) {
+  background: #fcfcfc;
+}
+
+.grid tbody td.bold {
+  font-weight: 600;
+  background: #f8fbff;
+}
+
+.grid .muted td {
+  color: #777;
+}
+
+/* --- RESPONSYWNOŚĆ --- */
+@media (max-width: 768px) {
+  .controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .grid th,
+  .grid td {
+    padding: 0.4rem;
+    font-size: 0.8rem;
+  }
+}

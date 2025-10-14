@@ -37,11 +37,11 @@ namespace Shelter.API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> CreateRecurring([FromBody] RecurringDto dto, CancellationToken ct)
         {
-            if (string.IsNullOrWhiteSpace(dto.PriceId))
-                return BadRequest(new { message = "PriceId is required" });
+            if (dto.AmountMinor <= 0) return BadRequest(new { message = "Amount must be > 0" });
 
             var url = await _svc.CreateRecurringCheckoutSessionAsync(
-                dto.PriceId,
+                dto.AmountMinor,
+                dto.Currency ?? "PLN",
                 dto.DonorPublicName,
                 dto.IsPublic,
                 dto.Message,

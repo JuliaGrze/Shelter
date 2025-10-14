@@ -18,6 +18,7 @@ namespace Infrastructure.Data.Configurations
             b.Property(x => x.Currency).HasMaxLength(10).IsRequired();
             b.Property(x => x.DonorPublicName).HasMaxLength(100);
             b.Property(x => x.StripePaymentIntentId).HasMaxLength(200).IsRequired();
+            b.HasIndex(x => x.StripePaymentIntentId).IsUnique();
             b.Property(x => x.StripeCustomerId).HasMaxLength(200);
             b.Property(x => x.Message).HasMaxLength(500);
             // GETUTCDATE() - To funkcja SQL Server, która zwraca aktualny czas UTC

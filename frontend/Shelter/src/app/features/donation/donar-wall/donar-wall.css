@@ -1,0 +1,237 @@
+:host {
+  --radius: 10px;
+  --gap: 1rem;
+  --line: #e5e7eb;
+  --accent: #2563eb;
+  --accent-hover: #1e40af;
+  --text: #1f2937;
+  --muted: #6b7280;
+  display: block;
+}
+
+/* ====== KONTENER ====== */
+.wall {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,.05);
+  max-width: 900px;
+  margin: 1.5rem auto;
+  display: grid;
+  gap: 1rem;
+}
+
+/* ====== NAGŁÓWEK + AKCJE ====== */
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.head h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  color: var(--text);
+}
+
+/* ====== AKCJE: Label + Select ====== */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+.actions label {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .95rem;
+  color: var(--text);
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .4rem .6rem;
+}
+
+.actions label select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: .45rem .65rem;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) - 2px);
+  background: #fff;
+  color: var(--text);
+  font-size: .95rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+/* Ikona strzałki (prosty caret) */
+.actions label {
+  position: relative;
+}
+.actions label select {
+  padding-right: 2rem;
+}
+.actions label::after {
+  content: "▾";
+  position: absolute;
+  right: .7rem;
+  pointer-events: none;
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+/* Focus/hover */
+.actions label select:hover { background: #f9fafb; }
+.actions label select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(37,99,235,.2);
+  background: #fff;
+}
+
+/* Disabled */
+.actions label select:disabled {
+  background: #eef2f7;
+  color: #6b7280;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+}
+
+/* Dopasowanie przycisku Odśwież */
+.actions button {
+  height: 40px;
+  padding: 0 0.9rem;
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .actions { gap: .5rem; }
+  .actions label {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .actions label select {
+    flex: 0 0 auto;
+  }
+  .actions button { width: 100%; }
+}
+
+.actions button {
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: .55rem .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, transform .1s ease;
+}
+
+.actions button:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.actions button:active { transform: scale(.98); }
+
+/* ====== STANY INFO ====== */
+.error {
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: .6rem .8rem;
+  border-radius: var(--radius);
+  font-size: .95rem;
+}
+
+.empty {
+  font-size: .95rem;
+  color: var(--muted);
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* ====== SIATKA KAFELKÓW ====== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--gap);
+}
+
+/* ====== KAFEL ====== */
+.tile {
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) - 2px);
+  background: #fafafa;
+  padding: .9rem;
+  display: grid;
+  gap: .4rem;
+  transition: box-shadow .2s ease, transform .06s ease, border-color .2s ease, background-color .2s ease;
+}
+
+.tile:hover {
+  border-color: #d8dce3;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(0,0,0,.06);
+}
+
+.tile:active { transform: translateY(1px); }
+
+/* GÓRNA LINIA: imię i kwota */
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.name {
+  color: var(--text);
+  font-weight: 700;
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Kwoty – tabular nums dla idealnych kolumn */
+.amount {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: .2px;
+  color: #0f172a;
+  background: #eef2ff;
+  border: 1px solid #e0e7ff;
+  padding: .2rem .45rem;
+  border-radius: 8px;
+}
+
+/* META: jednorazowa/miesięcznie + data */
+.meta {
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+/* Wiadomość darczyńcy */
+.msg {
+  margin: .15rem 0 0;
+  font-size: .95rem;
+  color: #374151;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ====== DROBNE ULEPSZENIA RESPONSYWNE ====== */
+@media (max-width: 520px) {
+  .wall { padding: 1rem; margin: 1rem; }
+  .head { flex-direction: column; align-items: stretch; }
+  .actions button { width: 100%; }
+}

@@ -1,0 +1,90 @@
+<section class="donate-card">
+  <h2>Wesprzyj schronisko</h2>
+
+  <!-- Wybór trybu -->
+  <div class="mode-switch">
+    <button type="button"
+            [class.active]="mode() === 'ONE_TIME'"
+            (click)="mode.set('ONE_TIME')">
+      Jednorazowo
+    </button>
+    <button type="button"
+            [class.active]="mode() === 'RECURRING'"
+            (click)="mode.set('RECURRING')">
+      Miesięcznie
+    </button>
+  </div>
+
+  <!-- Formularz: jednorazowo -->
+  @if (mode() === 'ONE_TIME') {
+    <form [formGroup]="oneTimeForm" (ngSubmit)="submitOneTime()" class="form-grid">
+      <label>Kwota
+        <input type="number" formControlName="amount" min="1" step="1" placeholder="np. 50">
+      </label>
+
+      <label>Waluta
+        <select formControlName="currency">
+          <option value="PLN">PLN</option>
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+        </select>
+      </label>
+
+      <label>Imię do wyświetlenia (opcjonalnie)
+        <input type="text" formControlName="donorPublicName" placeholder="np. Ania K.">
+      </label>
+
+      <label>Wiadomość (opcjonalnie)
+        <textarea rows="3" formControlName="message" placeholder="Dziękuję za Waszą pracę!"></textarea>
+      </label>
+
+      <label class="inline">
+        <input type="checkbox" formControlName="isPublic"> Pokazuj mnie na ścianie darczyńców
+      </label>
+
+      <button class="btn-primary" type="submit" [disabled]="oneTimeForm.invalid">
+        Przejdź do płatności
+      </button>
+      <small class="hint">Przekierujemy Cię bezpiecznie na stronę Stripe.</small>
+    </form>
+  }
+
+  <!-- Formularz: subskrypcja (dowolna kwota, bez priceId) -->
+  @if (mode() === 'RECURRING') {
+    <form [formGroup]="recurringForm" (ngSubmit)="submitRecurring()" class="form-grid">
+      <label>Kwota miesięczna
+        <input type="number" formControlName="amount" min="1" step="1" placeholder="np. 25">
+      </label>
+
+      <label>Waluta
+        <select formControlName="currency">
+          <option value="PLN">PLN</option>
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+        </select>
+      </label>
+
+      <label>Imię do wyświetlenia (opcjonalnie)
+        <input type="text" formControlName="donorPublicName" placeholder="np. Ania K.">
+      </label>
+
+      <label>Wiadomość (opcjonalnie)
+        <textarea rows="3" formControlName="message" placeholder="Dziękuję za Waszą pracę!"></textarea>
+      </label>
+
+      <label class="inline">
+        <input type="checkbox" formControlName="isPublic"> Pokazuj mnie na ścianie darczyńców
+      </label>
+
+      <button class="btn-primary" type="submit" [disabled]="recurringForm.invalid">
+        Ustaw wsparcie miesięczne
+      </button>
+      <small class="hint">Przekierujemy Cię bezpiecznie na stronę Stripe.</small>
+    </form>
+  }
+
+  <div class="extra-links">
+    <a routerLink="/donate/success">Co po płatności?</a>
+    <a routerLink="/donate/cancel">Anulowałem płatność</a>
+  </div>
+</section>

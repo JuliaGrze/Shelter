@@ -21,8 +21,8 @@ namespace Application.Interfaces
         /// Tworzy sesję Stripe Checkout dla darowizny cyklicznej (subskrypcji).
         /// Wymaga, aby w Stripe istniał <c>Price</c> powiązany z produktem subskrypcyjnym.
         /// </summary>
-        Task<string> CreateRecurringCheckoutSessionAsync(string priceId,
-            string? donorPublicName, bool isPublic, string? message, CancellationToken ct);
+        Task<string> CreateRecurringCheckoutSessionAsync(long amountMinor,
+            string currency, string? donorPublicName, bool isPublic, string? message, CancellationToken ct);
 
         /// <summary>
         /// Obsługuje webhook Stripe — przetwarza zdarzenia takie jak:

@@ -1,0 +1,64 @@
+<section class="panel">
+  <header class="panel__header">
+    <h2>Darowizny – podsumowanie miesięczne</h2>
+    <form (ngSubmit)="load()" class="controls">
+      <label>Rok
+        <select [(ngModel)]="year" name="year">
+          @for (y of years; track y) {
+            <option [value]="y">{{ y }}</option>
+          }
+        </select>
+      </label>
+      <button type="submit">Załaduj</button>
+    </form>
+  </header>
+
+  @if (loading) {
+    <div class="state info">Ładowanie…</div>
+  }
+
+  @if (!loading && error) {
+    <div class="state error">{{ error }}</div>
+  }
+
+  @if (!loading && !error) {
+    @if (view.length === 0) {
+      <div class="state">Brak danych dla wybranego roku.</div>
+    }
+
+    @for (c of view; track c.currency ?? $index) {
+      <article class="card">
+        <h3>{{ c.currency }}</h3>
+        <div class="scroll-x">
+          <table class="grid">
+            <thead>
+              <tr>
+                <th>Miesiąc</th>
+                @for (_ of [].constructor(12); track $index; let i = $index) {
+                  <th>{{ monthLabel(i) }}</th>
+                }
+                <th>Suma roczna</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Kwota</td>
+                @for (total of c.totals; track $index; let i = $index) {
+                  <td>{{ fmtMajor(total, c.currency) }}</td>
+                }
+                <td class="bold">{{ fmtMajor(c.yearTotalMinor, c.currency) }}</td>
+              </tr>
+              <tr class="muted">
+                <td>Liczba wpłat</td>
+                @for (cnt of c.counts; track $index) {
+                  <td>{{ cnt }}</td>
+                }
+                <td class="bold">{{ c.yearCount }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    }
+  }
+</section>

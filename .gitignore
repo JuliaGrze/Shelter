@@ -67,3 +67,4 @@ appsettings.*.local.json
 # Inne możliwe prywatne pliki
 *.Secrets.json
 secrets.json
+    

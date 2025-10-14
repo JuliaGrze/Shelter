@@ -37,7 +37,6 @@ builder.Services.Configure<StripeSettings>(
 //To ustawia globalny klucz API Stripe SDK (.NET) —
 //czyli mówi bibliotece Stripe, jakim kluczem autoryzowaæ wszystkie ¿¹dania
 Stripe.StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
-Console.WriteLine("KLUCZZZZZZZZZ: ",Stripe.StripeConfiguration.ApiKey);
 
 
 // === DI

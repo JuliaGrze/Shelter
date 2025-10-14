@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using Application.Services;
+using Application.Settings;
 using Domain.Entities;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
@@ -11,6 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using Shelter.API.Middleware;
 using System.Text;
 using System.Text.Json.Serialization;
+
+//stripe listen --forward-to https://localhost:7191/api/stripe/webhook
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,17 @@ builder.Services.AddControllers()
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// === Stripe
+//To rejestracja konfiguracji Stripe w DI
+builder.Services.Configure<StripeSettings>(
+    //pobiera cala sekcje Stripe z konfiguracji (appsettings.json) (czyli te 3 klucze)
+    //mapuje te sekcje na Twoj¹ klasê StripeSettings
+    builder.Configuration.GetSection("Stripe"));
+//To ustawia globalny klucz API Stripe SDK (.NET) —
+//czyli mówi bibliotece Stripe, jakim kluczem autoryzowaæ wszystkie ¿¹dania
+Stripe.StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
+
 // === DI
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -32,6 +46,7 @@ builder.Services.AddScoped<IAnimalService, AnimalService>();
 builder.Services.AddScoped<ISpeciesService, SpeciesService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
+builder.Services.AddScoped<IDonationService, DonationService>();
 
 // === OpenAPI
 builder.Services.AddOpenApi();

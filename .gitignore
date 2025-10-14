@@ -58,3 +58,12 @@ coverage*.info
 *.bak
 *.log
 *.tmp
+
+# Lokalne ustawienia środowiskowe
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+
+# Inne możliwe prywatne pliki
+*.Secrets.json
+secrets.json

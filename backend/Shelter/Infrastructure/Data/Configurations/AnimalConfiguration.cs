@@ -35,7 +35,8 @@ namespace Infrastructure.Data.Configurations
             e.HasMany(a => a.MedicalRecords)
                 .WithOne(m => m.Animal)
                 .HasForeignKey(m => m.AnimalId)
-                .OnDelete(DeleteBehavior.Cascade); // <-- najważniejsze
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251105155854_AddAdoptionStatus")]
+    partial class AddAdoptionStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,108 +24,6 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Domain.Entities.AdoptionApplication", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AdoptionStatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AnimalId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdoptionStatusId");
-
-                    b.HasIndex("AnimalId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("CreatedAt");
-
-                    b.ToTable("AdoptionApplications", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.AdoptionContract", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AdoptionApplicationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<string>("PdfHash")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("PdfUrl")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime?>("SignedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SignedByUserId")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("VerificationQrContent")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdoptionApplicationId")
-                        .IsUnique();
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("PdfHash")
-                        .IsUnique();
-
-                    b.ToTable("AdoptionContracts", (string)null);
-                });
 
             modelBuilder.Entity("Domain.Entities.AdoptionStatus", b =>
                 {
@@ -393,111 +294,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("Donations");
                 });
 
-            modelBuilder.Entity("Domain.Entities.HomeVisit", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AdoptionApplicationId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("HomeVisitResultId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdoptionApplicationId")
-                        .IsUnique();
-
-                    b.HasIndex("HomeVisitResultId");
-
-                    b.ToTable("HomeVisits", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.HomeVisitResult", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsFinal")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.ToTable("HomeVisitResults", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "Pending",
-                            IsFinal = false,
-                            Name = "W trakcie / oczekuje"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "Passed",
-                            IsFinal = true,
-                            Name = "Pozytywny"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "Failed",
-                            IsFinal = true,
-                            Name = "Negatywny"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Code = "Cancelled",
-                            IsFinal = true,
-                            Name = "Odwołana"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Code = "Rescheduled",
-                            IsFinal = false,
-                            Name = "Przełożona"
-                        });
-                });
-
             modelBuilder.Entity("Domain.Entities.MedicalRecord", b =>
                 {
                     b.Property<int>("Id")
@@ -710,48 +506,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.AdoptionApplication", b =>
-                {
-                    b.HasOne("Domain.Entities.AdoptionStatus", "AdoptionStatus")
-                        .WithMany()
-                        .HasForeignKey("AdoptionStatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Animal", "Animal")
-                        .WithMany("AdoptionApplications")
-                        .HasForeignKey("AnimalId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany("AdoptionApplications")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("AdoptionStatus");
-
-                    b.Navigation("Animal");
-
-                    b.Navigation("ApplicationUser");
-                });
-
-            modelBuilder.Entity("Domain.Entities.AdoptionContract", b =>
-                {
-                    b.HasOne("Domain.Entities.AdoptionApplication", "AdoptionApplication")
-                        .WithOne("Contract")
-                        .HasForeignKey("Domain.Entities.AdoptionContract", "AdoptionApplicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.ApplicationUser", null)
-                        .WithMany("SignedContracts")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.Navigation("AdoptionApplication");
-                });
-
             modelBuilder.Entity("Domain.Entities.Animal", b =>
                 {
                     b.HasOne("Domain.Entities.Species", "Species")
@@ -761,25 +515,6 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Species");
-                });
-
-            modelBuilder.Entity("Domain.Entities.HomeVisit", b =>
-                {
-                    b.HasOne("Domain.Entities.AdoptionApplication", "AdoptionApplication")
-                        .WithOne("HomeVisit")
-                        .HasForeignKey("Domain.Entities.HomeVisit", "AdoptionApplicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.HomeVisitResult", "HomeVisitResult")
-                        .WithMany()
-                        .HasForeignKey("HomeVisitResultId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("AdoptionApplication");
-
-                    b.Navigation("HomeVisitResult");
                 });
 
             modelBuilder.Entity("Domain.Entities.MedicalRecord", b =>
@@ -844,25 +579,9 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Entities.AdoptionApplication", b =>
-                {
-                    b.Navigation("Contract");
-
-                    b.Navigation("HomeVisit");
-                });
-
             modelBuilder.Entity("Domain.Entities.Animal", b =>
                 {
-                    b.Navigation("AdoptionApplications");
-
                     b.Navigation("MedicalRecords");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("AdoptionApplications");
-
-                    b.Navigation("SignedContracts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Species", b =>

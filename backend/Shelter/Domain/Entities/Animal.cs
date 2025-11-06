@@ -24,5 +24,8 @@ namespace Domain.Entities
         public ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public string? PhotoUrl { get; set; }
+
+        //Addoptions
+        public ICollection<AdoptionApplication> AdoptionApplications { get; set; } = new List<AdoptionApplication>();
     }
 }

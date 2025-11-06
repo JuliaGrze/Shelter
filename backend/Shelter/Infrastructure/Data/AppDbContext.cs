@@ -19,6 +19,13 @@ namespace Infrastructure.Data
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Donation> Donations { get; set; }
 
+        //Adopcja
+        public DbSet<AdoptionStatus> AdoptionStatus { get; set; }
+        public DbSet<HomeVisitResult> HomeVisitResult { get; set; }
+        public DbSet<HomeVisit> HomeVisit { get; set; }
+        public DbSet<AdoptionContract> AdoptionContract { get; set; }
+        public DbSet<AdoptionApplication> AdoptionApplication { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //wywyoluje metody z klasy bazowej IdentityDbContext, utworza sie tabelki do Logowania itp

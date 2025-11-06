@@ -27,7 +27,8 @@ namespace Infrastructure.Data.Configurations
                new AdoptionStatus { Id = 5, Code = "Approved", Name = "Zatwierdzony", IsFinal = false },
                new AdoptionStatus { Id = 6, Code = "Rejected", Name = "Odrzucony", IsFinal = true },
                new AdoptionStatus { Id = 7, Code = "Withdrawn", Name = "Wycofany przez wnioskodawcę", IsFinal = true },
-               new AdoptionStatus { Id = 8, Code = "ContractSigned", Name = "Umowa podpisana", IsFinal = true }
+               new AdoptionStatus { Id = 8, Code = "ContractSigned", Name = "Umowa podpisana", IsFinal = true },
+               new AdoptionStatus { Id = 9, Code = "ContractGenerated", Name = "Umowa wygenerowana", IsFinal = false }
            );
         }
     }

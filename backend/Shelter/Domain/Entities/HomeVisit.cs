@@ -17,11 +17,11 @@ namespace Domain.Entities
         public AdoptionApplication AdoptionApplication { get; set; } = default!;
 
         // Data i wynik wizyty
-        public DateTime Date { get; set; }         // kiedy ma się odbyć
+        public DateTime Date { get; set; } 
 
         public int HomeVisitResultId { get; set; }
-        public HomeVisitResult HomeVisitResult { get; set; } = default!;        // np. "Passed", "Failed", "Pending"
-        public string? Notes { get; set; }         // dodatkowe uwagi pracownika
+        public HomeVisitResult HomeVisitResult { get; set; } = default!; // np. "Passed", "Failed", "Pending"
+        public string? Notes { get; set; } // dodatkowe uwagi pracownika
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }

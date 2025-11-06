@@ -5,6 +5,8 @@ using Domain.Entities;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Infrastructure.Repositories.Abstractions;
+using Infrastructure.Repositories.Abstractions.Adoptions;
+using Infrastructure.Repositories.Adoptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +49,13 @@ builder.Services.AddScoped<ISpeciesService, SpeciesService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
 builder.Services.AddScoped<IDonationService, DonationService>();
+// Adopcja
+builder.Services.AddScoped<IAdoptionApplicationRepository, AdoptionApplicationRepository>();
+builder.Services.AddScoped<IAdoptionStatusRepository, AdoptionStatusRepository>();
+builder.Services.AddScoped<IHomeVisitResultRepository, HomeVisitResultRepository>();
+builder.Services.AddScoped<IAdoptionContractRepository, AdoptionContractRepository>();
+builder.Services.AddScoped<IAdoptionUnitOfWork, AdoptionUnitOfWork>();
+builder.Services.AddScoped<IAdoptionProcessService, AdoptionProcessService>();
 
 // === OpenAPI
 builder.Services.AddOpenApi();

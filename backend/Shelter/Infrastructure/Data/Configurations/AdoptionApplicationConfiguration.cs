@@ -45,6 +45,18 @@ namespace Infrastructure.Data.Configurations
             b.Property(x => x.CreatedAt)
              .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+            // 1-1 HomeVisit
+            b.HasOne(x => x.HomeVisit)
+             .WithOne(h => h.AdoptionApplication)
+             .HasForeignKey<HomeVisit>(h => h.AdoptionApplicationId)
+             .OnDelete(DeleteBehavior.Cascade);
+
+            // 1-1 Contract
+            b.HasOne(x => x.Contract)
+             .WithOne(c => c.AdoptionApplication)
+             .HasForeignKey<AdoptionContract>(c => c.AdoptionApplicationId)
+             .OnDelete(DeleteBehavior.Cascade);
+
             // Indeksy pomocnicze
             b.HasIndex(x => x.AnimalId);
             b.HasIndex(x => x.ApplicationUserId);

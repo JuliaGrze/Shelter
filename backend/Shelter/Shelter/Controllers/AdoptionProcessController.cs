@@ -20,7 +20,10 @@ public class AdoptionProcessController : ControllerBase
         ?? User.FindFirst("uid")?.Value                  // "uid"
         ?? User.FindFirst("userId")?.Value;              // "userId"
 
+    private bool IsStaff() => User.IsInRole("Worker") || User.IsInRole("Admin");
+
     // ===== Client: submit =====
+    // Ścieżka zgodna z Twoim pomysłem: /api/adoptions/{animalId}/apply
     [HttpPost("{animalId:int}/apply")]
     [Authorize(Roles = "Client")]
     public async Task<IActionResult> Submit(int animalId, [FromBody] SubmitApplicationRequest body, CancellationToken ct)
@@ -34,11 +37,17 @@ public class AdoptionProcessController : ControllerBase
         return CreatedAtAction(nameof(GetApplication), new { id = res.ApplicationId }, res);
     }
 
-    // ===== (optional) preview =====
+    // ===== Szczegóły wniosku (staff lub właściciel) =====
     [HttpGet("applications/{id:int}")]
-    public IActionResult GetApplication(int id) => NoContent(); // TODO
+    [Authorize(Roles = "Client,Worker,Admin")]
+    public async Task<ActionResult<AdoptionDetailsDto>> GetApplication(int id, CancellationToken ct)
+    {
+        var uid = GetUserId();
+        var dto = await _svc.GetDetailsAsync(id, uid, IsStaff(), ct);
+        return Ok(dto);
+    }
 
-    // ===== Worker/Admin: list =====
+    // ===== Worker/Admin: lista =====
     [HttpGet("applications")]
     [Authorize(Roles = "Worker,Admin")]
     public async Task<ActionResult<PagedResult<AdoptionListItemDto>>> List(
@@ -52,7 +61,23 @@ public class AdoptionProcessController : ControllerBase
         return Ok(result);
     }
 
-    // ===== Worker/Admin: statuses =====
+    // ===== Client: moje wnioski =====
+    [HttpGet("my-applications")]
+    [Authorize(Roles = "Client,Worker,Admin")]
+    public async Task<ActionResult<PagedResult<AdoptionListItemDto>>> MyApplications(
+        [FromQuery] int page = 1,
+        [FromQuery] int size = 20,
+        CancellationToken ct = default)
+    {
+        var uid = GetUserId();
+        if (string.IsNullOrWhiteSpace(uid))
+            return Unauthorized(new { error = "Missing user id claim in JWT." });
+
+        var result = await _svc.ListMineAsync(uid, page, size, ct);
+        return Ok(result);
+    }
+
+    // ===== Worker/Admin: statusy =====
     [HttpPost("applications/{id:int}/in-review")]
     [Authorize(Roles = "Worker,Admin")]
     public async Task<IActionResult> InReview(int id, [FromBody] UpdateAdoptionStatusRequest body, CancellationToken ct)

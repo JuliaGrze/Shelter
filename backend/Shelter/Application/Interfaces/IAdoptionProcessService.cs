@@ -34,5 +34,10 @@ namespace Application.Interfaces
             int page = 1,
             int size = 20,
             CancellationToken ct = default);
+
+
+        Task<AdoptionDetailsDto> GetDetailsAsync(int appId, string? currentUserId, bool isStaff, CancellationToken ct = default);
+        Task<PagedResult<AdoptionListItemDto>> ListMineAsync(string currentUserId, int page = 1, int size = 20, CancellationToken ct = default);
+
     }
 }

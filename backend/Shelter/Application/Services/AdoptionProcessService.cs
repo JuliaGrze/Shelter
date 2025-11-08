@@ -282,6 +282,81 @@ namespace Application.Services
             return new PagedResult<AdoptionListItemDto>(items, total, page, size);
         }
 
+        public async Task<AdoptionDetailsDto> GetDetailsAsync(int appId, string? currentUserId, bool isStaff, CancellationToken ct = default)
+        {
+            var app = await _uow.AdoptionApplications.GetFullAsync(appId, ct)
+                      ?? throw new KeyNotFoundException("Application not found.");
+
+            if (!isStaff)
+            {
+                if (string.IsNullOrWhiteSpace(currentUserId) || app.ApplicationUserId != currentUserId)
+                    throw new UnauthorizedAccessException("Not allowed.");
+            }
+
+            return new AdoptionDetailsDto
+            {
+                Id = app.Id,
+                AnimalId = app.AnimalId,
+                AnimalName = app.Animal?.Name ?? "",
+                AnimalSpecies = app.Animal?.Species?.Name ?? "",
+                AnimalPhotoUrl = app.Animal?.PhotoUrl,
+                ApplicantUserId = app.ApplicationUserId,
+                ApplicantEmail = app.ApplicationUser?.Email ?? "",
+                StatusCode = app.AdoptionStatus?.Code ?? "",
+                Notes = app.Notes,
+                CreatedAt = app.CreatedAt,
+                HomeVisit = app.HomeVisit == null
+                    ? null
+                    : new AdoptionDetailsDto.HomeVisitBlock(
+                        app.HomeVisit.Date,
+                        app.HomeVisit.HomeVisitResult?.Code,
+                        app.HomeVisit.Notes
+                      ),
+                Contract = app.Contract == null
+                    ? new AdoptionDetailsDto.ContractBlock(false, false, null)
+                    : new AdoptionDetailsDto.ContractBlock(
+                        true,
+                        app.Contract.SignedAt != null,
+                        string.IsNullOrWhiteSpace(app.Contract.PdfUrl) ? null : app.Contract.PdfUrl
+                      )
+            };
+        }
+
+
+        public async Task<PagedResult<AdoptionListItemDto>> ListMineAsync(string currentUserId, int page = 1, int size = 20, CancellationToken ct = default)
+        {
+            if (string.IsNullOrWhiteSpace(currentUserId))
+                throw new ArgumentException("currentUserId is required.", nameof(currentUserId));
+
+            page = page <= 0 ? 1 : page;
+            size = size is <= 0 or > 100 ? 20 : size;
+
+            var q = _uow.AdoptionApplications.QueryForList()
+                .Where(x => x.ApplicationUserId == currentUserId)
+                .OrderByDescending(x => x.CreatedAt);
+
+            var total = await q.CountAsync(ct);
+
+            var items = await q
+                .Skip((page - 1) * size)
+                .Take(size)
+                .Select(x => new AdoptionListItemDto
+                {
+                    Id = x.Id,
+                    AnimalId = x.AnimalId,
+                    AnimalName = x.Animal!.Name,
+                    AnimalSpecies = x.Animal!.Species!.Name,
+                    AnimalPhotoUrl = x.Animal!.PhotoUrl,
+                    ApplicantEmail = x.ApplicationUser!.Email!,
+                    StatusCode = x.AdoptionStatus!.Code!,
+                    CreatedAt = x.CreatedAt
+                })
+                .ToListAsync(ct);
+
+            return new PagedResult<AdoptionListItemDto>(items, total, page, size);
+        }
+
+
         // ============= Helpers =============
         private async Task<AdoptionApplication> RequireAppAsync(int id, CancellationToken ct)
         {

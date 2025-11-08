@@ -12,6 +12,7 @@ import { MedicalRecordDueList } from './features/medical/medical-record-due-list
 import { DonateWidget } from './features/donation/donate-widget/donate-widget';
 import { DonarWall } from './features/donation/donar-wall/donar-wall';
 import { MonthlySum } from './features/donation/monthly-sum/monthly-sum';
+import { AdoptionWorkerList } from './features/adoption/adoption-worker-list/adoption-worker-list';
 
 export const routes: Routes = [
     {path: 'animals', component: AnimalList},
@@ -60,7 +61,23 @@ export const routes: Routes = [
     {path: 'register', component: Register },
 
     //Donation
-    {path: 'donate/widget', component: DonateWidget},
+    {path: 'donate/widget', component: DonateWidget},   
     {path: 'donate/donar/wall', component: DonarWall},
-    {path: '**', redirectTo: 'animals'}
+    
+    //Adoption
+    {
+        path: 'adoption',
+        children: [
+            {
+                path: 'worker/list',
+                component: AdoptionWorkerList,
+                canActivate: [roleGuard],
+                data: { roles: ['Admin', 'Worker']}
+            },
+        ]
+    },
+
+
+    {path: '**', redirectTo: 'animals'},
+
 ];

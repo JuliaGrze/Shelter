@@ -37,5 +37,14 @@ namespace Infrastructure.Repositories.Adoptions
                 .Include(x => x.Contract)
                 .FirstOrDefaultAsync(x => x.Id == id, ct);
         }
+
+        public IQueryable<AdoptionApplication> QueryForList()
+        {
+            return _context.AdoptionApplication
+                .AsNoTracking()
+                .Include(x => x.AdoptionStatus)
+                .Include(x => x.ApplicationUser)
+                .Include(x => x.Animal).ThenInclude(x => x.Species);
+        }
     }
 }

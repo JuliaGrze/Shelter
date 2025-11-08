@@ -1,4 +1,5 @@
-﻿using Application.Dtos.Adoptions;
+﻿using Application.Common;
+using Application.Dtos.Adoptions;
 using Application.Dtos.Adoptions.HomeVisit;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -22,9 +23,6 @@ public class AdoptionProcessController : ControllerBase
     // ===== Client: submit =====
     [HttpPost("{animalId:int}/apply")]
     [Authorize(Roles = "Client")]
-    [ProducesResponseType(typeof(SubmitApplicationResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Submit(int animalId, [FromBody] SubmitApplicationRequest body, CancellationToken ct)
     {
         var userId = GetUserId();
@@ -39,6 +37,20 @@ public class AdoptionProcessController : ControllerBase
     // ===== (optional) preview =====
     [HttpGet("applications/{id:int}")]
     public IActionResult GetApplication(int id) => NoContent(); // TODO
+
+    // ===== Worker/Admin: list =====
+    [HttpGet("applications")]
+    [Authorize(Roles = "Worker,Admin")]
+    public async Task<ActionResult<PagedResult<AdoptionListItemDto>>> List(
+        [FromQuery] string? status,
+        [FromQuery] string? q,
+        [FromQuery] int page = 1,
+        [FromQuery] int size = 20,
+        CancellationToken ct = default)
+    {
+        var result = await _svc.ListAsync(status, q, page, size, ct);
+        return Ok(result);
+    }
 
     // ===== Worker/Admin: statuses =====
     [HttpPost("applications/{id:int}/in-review")]

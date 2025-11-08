@@ -1,4 +1,5 @@
-﻿using Application.Dtos.Adoptions;
+﻿using Application.Common;
+using Application.Dtos.Adoptions;
 using Application.Dtos.Adoptions.HomeVisit;
 using System;
 using System.Collections.Generic;
@@ -25,5 +26,13 @@ namespace Application.Interfaces
         //Umowa adopcyjna
         Task<GenerateContractResponse> GenerateContractAsync(int appId, CancellationToken ct = default);
         Task SignContractAsync(int appId, string signerUserId, CancellationToken ct = default);
+
+        //Lista wnioskow adopcyjnych
+        Task<PagedResult<AdoptionListItemDto>> ListAsync(
+            string? status = null,
+            string? q = null,
+            int page = 1,
+            int size = 20,
+            CancellationToken ct = default);
     }
 }

@@ -1,0 +1,71 @@
+<div class="page">
+    <h1>Wnioski adopcyjne — panel pracownika</h1>
+    <form [formGroup]="form" class="filters" (ngSubmit)="applyFilters()"> <input type="text" formControlName="q"
+            placeholder="Szukaj (email, notatki)" /> <select formControlName="status">
+            <option value="">— status —</option> @for (s of STATUSES; track s) { <option [value]="s">{{ s }}</option> }
+        </select> <select formControlName="size">
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="50">50</option>
+        </select>
+        <button type="submit">Filtruj</button>
+        <button type="button" (click)="clearFilters()">Wyczyść</button>
+    </form>
+    @if (loading)
+    {
+    <div class="info">Ładowanie…</div>
+    }
+    @if (error)
+    {
+    <div class="error">{{ error }}</div>
+    }
+    @if (!loading && !error) {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Zwierz</th>
+                <th>Gatunek</th>
+                <th>Wnioskodawca</th>
+                <th>Status</th>
+                <th>Data</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody> @for (r of adoptionList; track r.id)
+            {
+            <tr>
+                <td>
+                    <div class="animal"> @if (r.animalPhotoUrl) { <img [src]="r.animalPhotoUrl" alt="zdjęcie" /> } <div>
+                            <div class="name">{{ r.animalName }}</div>
+                            <div class="muted">#{{ r.animalId }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ r.animalSpecies }}</td>
+                <td>{{ r.applicantEmail }}</td>
+                <td><span class="chip">{{ r.statusCode }}</span></td>
+                <td>{{ r.createdAt | date:'short' }}</td>
+                <td>
+                    <button class="btn-blue">Szczegóły wnisoku</button>
+                    <button class="btn-blue">Zatwierdź wniosek</button>
+                </td>
+            </tr>
+            }
+            @if (adoptionList.length === 0)
+            {
+            <tr>
+                <td colspan="7" class="muted center">Brak wyników</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    }
+    @if (pages() > 1)
+    {
+    <div class="pager">
+        <button (click)="go(page-1)" [disabled]="page===1">‹</button>
+        <span>Strona {{ page }} / {{ pages() }}</span>
+        <button (click)="go(page+1)" [disabled]="page===pages()">›</button>
+    </div>
+    }
+</div>

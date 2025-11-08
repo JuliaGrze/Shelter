@@ -32,6 +32,12 @@
                 <span class="counter">{{ dueCount() }}</span>
             }
         </button>
+        <button class="btn btn-worker" routerLink="/adoption/worker/list">
+            Wnioski o adopcje
+            <!-- @if (dueCount() > 0) {
+                <span class="counter">{{ dueCount() }}</span>
+            } -->
+        </button>
 
         }
         @if (!isLoggedIn()) {

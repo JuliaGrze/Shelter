@@ -15,5 +15,8 @@ namespace Infrastructure.Repositories.Abstractions.Adoptions
 
         // Winosek z: status + wizyta + wynik + kontrakt
         Task<AdoptionApplication?> GetFullAsync(int id, CancellationToken ct = default);
+
+        //Lista wnioskow
+        IQueryable<AdoptionApplication> QueryForList();
     }
 }

@@ -77,6 +77,7 @@ export interface AdoptionListItemDto {
 
   applicantEmail: string;
   statusCode: AdoptionStatusCode | string; 
+  statusName: string; 
   createdAt: string; // ISO
 }
 

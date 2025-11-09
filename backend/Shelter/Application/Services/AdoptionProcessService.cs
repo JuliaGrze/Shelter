@@ -8,6 +8,7 @@ using Infrastructure.Repositories.Abstractions.Adoptions;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+using Stripe;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -61,6 +62,7 @@ namespace Application.Services
 
             var inReview = await RequireStatusAsync(AdoptionStatusCodes.InReview, ct);
             app.AdoptionStatusId = inReview.Id;
+            app.AdoptionStatus = inReview;
             app.UpdatedAt = DateTime.UtcNow;
             app.Notes = MergeNotes(app.Notes, dto.Notes, "W TRAKCIE WERYFIKACJI");
 
@@ -75,6 +77,7 @@ namespace Application.Services
 
             var approved = await RequireStatusAsync(AdoptionStatusCodes.Approved, ct);
             app.AdoptionStatusId = approved.Id;
+            app.AdoptionStatus = approved;
             app.UpdatedAt = DateTime.UtcNow;
             app.Notes = MergeNotes(app.Notes, dto.Notes, "ZATWIERDZONO");
 
@@ -89,6 +92,7 @@ namespace Application.Services
 
             var rejected = await RequireStatusAsync(AdoptionStatusCodes.Rejected, ct);
             app.AdoptionStatusId = rejected.Id;
+            app.AdoptionStatus = rejected;
             app.UpdatedAt = DateTime.UtcNow;
             app.Notes = MergeNotes(app.Notes, dto.Notes, "ODRZUCONO");
 
@@ -191,8 +195,8 @@ namespace Application.Services
             var root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "contracts", app.Id.ToString());
             Directory.CreateDirectory(root);
             var physicalPath = Path.Combine(root, $"contract_{app.Id}.pdf");
-            if (!File.Exists(physicalPath))
-                await File.WriteAllBytesAsync(physicalPath, pdfBytes, ct);
+            if (!System.IO.File.Exists(physicalPath))
+                await System.IO.File.WriteAllBytesAsync(physicalPath, pdfBytes, ct);
 
             // 3) Zaktualizuj url i zapisz kontrakt
             contract.PdfUrl = relUrl;
@@ -275,6 +279,7 @@ namespace Application.Services
                     AnimalPhotoUrl = a.Animal!.PhotoUrl,
                     ApplicantEmail = a.ApplicationUser!.Email!,
                     StatusCode = a.AdoptionStatus!.Code!,
+                    StatusName = a.AdoptionStatus!.Name!,
                     CreatedAt = a.CreatedAt
                 })
                 .ToListAsync(ct);
@@ -350,6 +355,7 @@ namespace Application.Services
                     AnimalPhotoUrl = x.Animal!.PhotoUrl,
                     ApplicantEmail = x.ApplicationUser!.Email!,
                     StatusCode = x.AdoptionStatus!.Code!,
+                    StatusName = x.AdoptionStatus!.Name!,
                     CreatedAt = x.CreatedAt
                 })
                 .ToListAsync(ct);

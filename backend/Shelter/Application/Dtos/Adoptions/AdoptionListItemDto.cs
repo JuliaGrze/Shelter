@@ -16,6 +16,7 @@ namespace Application.Dtos.Adoptions
 
         public string ApplicantEmail { get; set; } = default!;
         public string StatusCode { get; set; } = default!;
+        public string StatusName { get; set; } = default!;
         public DateTime CreatedAt { get; set; }
     }
 }

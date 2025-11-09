@@ -26,6 +26,14 @@
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
+
+  --radius: 10px;
+  --gap: 1rem;
+  --line: #e5e7eb;
+  --accent: #2563eb;
+  --accent-hover: #1e40af;
+  --text: #1f2937;
+  --muted: #6b7280;
 }
 
 * {
@@ -43,7 +51,7 @@ body {
 }
 
 .page {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   background-color: var(--color-bg);
   border-radius: var(--radius-lg);
@@ -327,6 +335,43 @@ h1 {
   color: var(--color-text);
   min-width: 120px;
   text-align: center;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: var 10px;
+  border: 1px solid #2563eb;
+  background-color: #2563eb;
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-right: 10px;
+}
+
+.btn:hover {
+  background-color: #1e40af;
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  background-color: #9ca3af;
+  border-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn.ghost {
+  background: white;
+  color: #2563eb;
+  border: 1px solid #2563eb;
+}
+
+.btn.ghost:hover {
+  background: #2563eb;
+  color: #fff;
 }
 
 /* Responsive Design */

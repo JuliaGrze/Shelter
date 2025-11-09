@@ -15,6 +15,11 @@
         <button routerLink="/donate/widget" class="btn">
             Donacje
         </button>
+        @if(isLoggedIn()){
+            <button routerLink="/adoption/my/applications" class="btn">
+                Moje wnioski o adopcje
+            </button>
+        }
 
         @if (canManage()) {
         <div class="dropdown">
@@ -32,7 +37,7 @@
                 <span class="counter">{{ dueCount() }}</span>
             }
         </button>
-        <button class="btn btn-worker" routerLink="/adoption/worker/list">
+        <button class="btn btn-worker" routerLink="/worker/adoption/list">
             Wnioski o adopcje
             <!-- @if (dueCount() > 0) {
                 <span class="counter">{{ dueCount() }}</span>

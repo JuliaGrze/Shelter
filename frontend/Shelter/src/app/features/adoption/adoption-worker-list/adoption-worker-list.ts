@@ -3,7 +3,7 @@ import { AdoptionService } from '../../../core/services/adoption.service';
 import { PagedResult } from '../../../core/models/paged-result';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AdoptionListItemDto, AdoptionStatusCode } from '../../../core/models/adoption';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -11,8 +11,9 @@ import { DatePipe } from '@angular/common';
   imports: [
     ReactiveFormsModule,
     RouterLink,
-    DatePipe
-  ],
+    DatePipe,
+    RouterOutlet
+],
   templateUrl: './adoption-worker-list.html',
   styleUrl: './adoption-worker-list.css'
 })

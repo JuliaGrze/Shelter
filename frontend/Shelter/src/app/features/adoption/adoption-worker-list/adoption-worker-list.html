@@ -44,10 +44,10 @@
                 <td>{{ r.animalSpecies }}</td>
                 <td>{{ r.applicantEmail }}</td>
                 <td><span class="chip">{{ r.statusCode }}</span></td>
-                <td>{{ r.createdAt | date:'short' }}</td>
+                <td>{{ r.createdAt | date:'dd.MM.yyyy HH:mm' }}</td>
                 <td>
-                    <button class="btn-blue">Szczegóły wnisoku</button>
-                    <button class="btn-blue">Zatwierdź wniosek</button>
+                    <button class="btn ghost" [routerLink]="['/worker/adoption/', r.id]">Szczegóły wnisoku</button>
+                    <button class="btn">Zatwierdź wniosek</button>
                 </td>
             </tr>
             }
@@ -69,3 +69,5 @@
     </div>
     }
 </div>
+
+<router-outlet></router-outlet>

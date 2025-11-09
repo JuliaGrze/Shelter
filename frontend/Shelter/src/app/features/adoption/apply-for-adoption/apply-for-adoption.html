@@ -1,0 +1,14 @@
+<div class="page">
+  <h2>Wniosek o adopcję</h2>
+  <p>Zwierz: #{{ animalId }}</p>
+
+  <textarea [(ngModel)]="notes" rows="5" placeholder="Dlaczego chcesz adoptować? (opcjonalnie)"></textarea>
+
+  <div class="actions">
+    <button [disabled]="loading" (click)="submit()">Złóż wniosek</button>
+  </div>
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+</div>

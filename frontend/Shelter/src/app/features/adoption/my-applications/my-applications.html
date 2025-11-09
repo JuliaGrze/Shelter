@@ -1,0 +1,53 @@
+<div class="page">
+  <h2>Moje wnioski adopcyjne</h2>
+
+  @if (loading) {
+    <div>Ładowanie…</div>
+  }
+
+  @if (error) {
+    <div class="error">{{ error}}</div>
+  }
+
+  @if (!loading && items.length) {
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Zwierzak</th>
+          <th>Status</th>
+          <th>Data</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (it of items; track it.id) {
+          <tr>
+            <td>#{{ it.id }}</td>
+
+            <td>
+              @if (it.animalPhotoUrl) {
+                <img 
+                  [src]="it.animalPhotoUrl!" 
+                  style="width:48px;height:48px;object-fit:cover;border-radius:8px;margin-right:8px;">
+              }
+              {{ it.animalName }} ({{ it.animalSpecies }})
+            </td>
+
+            <td><span class="badge">{{ it.statusCode }}</span></td>
+            <td>{{ it.createdAt | date:'short' }}</td>
+
+            <td>
+              <button [routerLink]="['/admin/adoptions', it.id]" class="btn ghost">Szczegóły</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+  } @else if (!loading && !items.length) {
+    <p>Brak wniosków.</p>
+  }
+</div>

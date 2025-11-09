@@ -13,6 +13,9 @@ import { DonateWidget } from './features/donation/donate-widget/donate-widget';
 import { DonarWall } from './features/donation/donar-wall/donar-wall';
 import { MonthlySum } from './features/donation/monthly-sum/monthly-sum';
 import { AdoptionWorkerList } from './features/adoption/adoption-worker-list/adoption-worker-list';
+import { ApplicationAdoptionDetailsWorker } from './features/adoption/application-adoption-details-worker/application-adoption-details-worker';
+import { MyApplications } from './features/adoption/my-applications/my-applications';
+import { ApplyForAdoption } from './features/adoption/apply-for-adoption/apply-for-adoption';
 
 export const routes: Routes = [
     {path: 'animals', component: AnimalList},
@@ -66,16 +69,30 @@ export const routes: Routes = [
     
     //Adoption
     {
-        path: 'adoption',
-        children: [
-            {
-                path: 'worker/list',
-                component: AdoptionWorkerList,
-                canActivate: [roleGuard],
-                data: { roles: ['Admin', 'Worker']}
-            },
-        ]
+        path: 'worker/adoption/list',
+        component: AdoptionWorkerList,
+        canActivate: [roleGuard],
+        data: { roles: ['Admin', 'Worker'] }
     },
+    {
+        path: 'worker/adoption/:id',
+        component: ApplicationAdoptionDetailsWorker,
+        canActivate: [roleGuard],
+        data: { roles: ['Admin', 'Worker'] }
+    },
+    {
+        path: 'adoption/my/applications',
+        component: MyApplications,
+        canActivate: [roleGuard],
+        data: { roles: ['Client','Admin', 'Worker'] }
+    },
+    {
+        path: 'adoption/apply/:id',
+        component: ApplyForAdoption,
+        canActivate: [roleGuard],
+        data: { roles: ['Client','Admin', 'Worker'] }
+    },
+
 
 
     {path: '**', redirectTo: 'animals'},

@@ -59,6 +59,12 @@
         <button class="btn" (click)="toggleMedicalHistory()">
           {{ showMedicalHistory ? 'Ukryj kartę medyczną' : 'Pokaż kartę medyczną' }}
         </button>
+        @if(isLoginIn())
+        {
+          <button class="btn" [routerLink]="['/adoption/apply', animal.id]">
+            Adoptuj
+          </button>
+        }
         <a class="back-btn" [routerLink]="['/animals']">← Wróć</a>
       </div>
     </div> <!-- /info -->

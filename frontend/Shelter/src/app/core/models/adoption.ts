@@ -1,13 +1,3 @@
-export interface SubmitApplicationRequest {
-    // backend takes animalId in route; include optional answers if present in your DTO later
-    notes?: string | null;
-}
-
-export interface SubmitApplicationResponse {
-    applicationId: number;
-    statusCode: string;
-}
-
 export interface AdoptionApplicationDto {
     id: number;
     animalId: number;
@@ -35,12 +25,13 @@ export interface UpdateAdoptionStatusRequest {
 
 export interface ScheduleHomeVisitRequest {
     scheduledAt: string; // ISO
-    address: string;
+    // address: string;
     notes?: string | null;
 }
 
 export interface SetHomeVisitResultRequest {
-    resultCode: 'Pending' | 'Passed' | 'Failed' | 'Cancelled' | 'Rescheduled';
+    // resultCode: 'Pending' | 'Passed' | 'Failed' | 'Cancelled' | 'Rescheduled';
+    homeVisitResultId: number
     notes?: string | null;
 }
 
@@ -87,4 +78,52 @@ export interface AdoptionListItemDto {
   applicantEmail: string;
   statusCode: AdoptionStatusCode | string; 
   createdAt: string; // ISO
+}
+
+export interface SubmitApplicationRequest {
+  animalId: number;
+  notes?: string;
+}
+
+export interface SubmitApplicationResponse {
+  applicationId: number;
+  createdAt: string;
+  statusCode: string;
+  statusName: string;
+}
+
+export interface GenerateContractResponse {
+  contractId: number;
+  pdfUrl: string;
+  pdfHash: string;
+  verificationQrContent: string;
+  generatedAtUtc: string;
+}
+
+export interface AdoptionDetailsDto {
+  id: number;
+  animalId: number;
+  animalName: string;
+  animalSpecies: string;
+  animalPhotoUrl?: string | null;
+
+  applicantUserId: string;
+  applicantEmail: string;
+
+  statusCode: string;
+  statusName: string | null
+  notes?: string | null;
+  createdAt: string;
+
+  homeVisit?: {
+    date?: string | null;
+    resultCode?: string | null;
+    notes?: string | null;
+  } | null;
+
+  contract?: {
+    generated: boolean;
+    signed: boolean;
+    fileUrl?: string | null;
+  } | null;
 }

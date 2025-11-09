@@ -1,0 +1,105 @@
+<div class="page">
+
+  <a routerLink="/admin/adoptions">← Wróć do listy</a>
+
+  @if (loading()) {
+    Ładowanie…
+  }
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  @if (details(); as d) {
+
+    <h2>Wniosek #{{ d.id }} — {{ d.animalName }} ({{ d.animalSpecies }})</h2>
+
+    <div class="grid">
+      <div>
+        @if (d.animalPhotoUrl) {
+          <img [src]="d.animalPhotoUrl!" alt="foto"
+               style="max-width:220px;border-radius:12px;">
+        }
+      </div>
+
+      <div>
+        <p><b>Wnioskodawca:</b> {{ d.applicantEmail }}</p>
+        <p><b>Status:</b> <span class="badge">{{ d.statusName }}</span></p>
+        <p><b>Utworzono:</b> {{ d.createdAt | date:'short' }}</p>
+
+        @if (d.notes) {
+          <p><b>Notatki:</b><br>{{ d.notes }}</p>
+        }
+      </div>
+    </div>
+
+    <hr>
+
+    <h3>Akcje statusów</h3>
+
+    <textarea [(ngModel)]="note" rows="3" placeholder="Notatka (obowiązkowa)"></textarea>
+
+    <div class="actions">
+      <button (click)="inReview()" [disabled]="!note.trim()">
+        Oznacz jako: W trakcie weryfikacji
+      </button>
+      <button (click)="approve()" [disabled]="!note.trim()">
+        Zatwierdź
+      </button>
+      <button (click)="reject()" [disabled]="!note.trim()">
+        Odrzuć
+      </button>
+    </div>
+
+    <hr>
+
+    <h3>Wizyta domowa</h3>
+
+    @if (d.homeVisit; as hv) {
+      <p>
+        <b>Termin:</b> {{ hv.date | date:'short' }}
+        | <b>Wynik:</b> {{ hv.resultCode || '—' }}
+      </p>
+
+      @if (hv.notes) {
+        <p><b>Notatki:</b> {{ hv.notes }}</p>
+      }
+
+      <div class="row">
+        <label>
+          Wynik (ID):
+          <input type="number" [(ngModel)]="visitResultId">
+        </label>
+
+        <input type="text" [(ngModel)]="visitNotes" placeholder="Notatka wyniku">
+
+        <button (click)="setVisitResult()">Zapisz wynik wizyty</button>
+      </div>
+
+    } @else {
+
+      <div class="row">
+        <input type="datetime-local" [(ngModel)]="visitDate">
+        <input type="text" [(ngModel)]="visitNotes" placeholder="Notatki do wizyty">
+        <button (click)="scheduleVisit()">Umów wizytę</button>
+      </div>
+
+    }
+
+    <hr>
+    <h3>Umowa</h3>
+
+    @if (d.contract?.generated) {
+      <p><b>Podpisana:</b> {{ d.contract?.signed ? 'tak' : 'nie' }}</p>
+      @if (d.contract?.fileUrl) {
+        <p>
+          <a [href]="d.contract?.fileUrl" target="_blank">Pobierz PDF</a>
+        </p>
+      }
+      <button (click)="generateContract()">Odśwież</button>
+    } @else {
+      <button (click)="generateContract()">Generuj umowę</button>
+    }
+
+  }
+</div>

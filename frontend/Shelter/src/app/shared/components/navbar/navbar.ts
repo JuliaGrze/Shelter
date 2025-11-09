@@ -26,6 +26,11 @@ export class Navbar implements OnInit {
     return !!p?.roles?.some(r => r === 'Admin' || r === 'Worker');
   });
 
+  isLoginIn = computed(() => {
+    const p = this.authService.profile();        // signal → odświeży się sam
+    return !!p?.roles?.some(r => r === 'Client');
+  })
+
   ngOnInit(): void {
     // Odśwież licznik przy starcie
     this.medicalRecordService.refreshDueCount(7);

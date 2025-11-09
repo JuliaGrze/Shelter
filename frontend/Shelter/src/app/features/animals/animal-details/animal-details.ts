@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DatePipe, NgClass, NgIf, NgFor } from '@angular/common';
 
@@ -9,6 +9,7 @@ import { StatusPlPipe } from '../../../shared/pipes/status-pl-pipe';
 
 import { MedicalRecordService } from '../../../core/services/medical-record.service';
 import { MedicalRecord } from '../../../core/models/medical-record';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-animal-details',
@@ -20,6 +21,7 @@ import { MedicalRecord } from '../../../core/models/medical-record';
 export class AnimalDetails implements OnInit {
   private animalService = inject(AnimalService);
   private medicalService = inject(MedicalRecordService);
+  private authService = inject(AuthService)
   private route = inject(ActivatedRoute);
 
   loading = true;
@@ -37,6 +39,11 @@ export class AnimalDetails implements OnInit {
 
   // UI toggle for history
   showMedicalHistory = false;
+
+  isLoginIn = computed(() => {
+    const p = this.authService.profile();  
+    return !!p?.roles?.some(r => r === 'Client');
+  })
 
   ngOnInit(): void {
     this.getAnimalDetails();

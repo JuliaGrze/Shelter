@@ -62,7 +62,7 @@ namespace Application.Services
             var inReview = await RequireStatusAsync(AdoptionStatusCodes.InReview, ct);
             app.AdoptionStatusId = inReview.Id;
             app.UpdatedAt = DateTime.UtcNow;
-            app.Notes = MergeNotes(app.Notes, dto.Notes, "IN_REVIEW");
+            app.Notes = MergeNotes(app.Notes, dto.Notes, "W TRAKCIE WERYFIKACJI");
 
             _uow.AdoptionApplications.Update(app);
             await _uow.SaveChangesAsync(ct);
@@ -76,7 +76,7 @@ namespace Application.Services
             var approved = await RequireStatusAsync(AdoptionStatusCodes.Approved, ct);
             app.AdoptionStatusId = approved.Id;
             app.UpdatedAt = DateTime.UtcNow;
-            app.Notes = MergeNotes(app.Notes, dto.Notes, "APPROVED");
+            app.Notes = MergeNotes(app.Notes, dto.Notes, "ZATWIERDZONO");
 
             _uow.AdoptionApplications.Update(app);
             await _uow.SaveChangesAsync(ct);
@@ -90,7 +90,7 @@ namespace Application.Services
             var rejected = await RequireStatusAsync(AdoptionStatusCodes.Rejected, ct);
             app.AdoptionStatusId = rejected.Id;
             app.UpdatedAt = DateTime.UtcNow;
-            app.Notes = MergeNotes(app.Notes, dto.Notes, "REJECTED");
+            app.Notes = MergeNotes(app.Notes, dto.Notes, "ODRZUCONO");
 
             _uow.AdoptionApplications.Update(app);
             await _uow.SaveChangesAsync(ct);
@@ -141,7 +141,7 @@ namespace Application.Services
                 ?? throw new KeyNotFoundException($"HomeVisitResult id={dto.HomeVisitResultId} not found.");
 
             app.HomeVisit.HomeVisitResultId = result.Id;
-            app.HomeVisit.Notes = MergeNotes(app.HomeVisit.Notes, dto.Notes, "VISIT_RESULT");
+            app.HomeVisit.Notes = MergeNotes(app.HomeVisit.Notes, dto.Notes, "WYNIK WIZYTY");
 
             var completed = await RequireStatusAsync(AdoptionStatusCodes.HomeVisitCompleted, ct);
             app.AdoptionStatusId = completed.Id;
@@ -303,6 +303,7 @@ namespace Application.Services
                 ApplicantUserId = app.ApplicationUserId,
                 ApplicantEmail = app.ApplicationUser?.Email ?? "",
                 StatusCode = app.AdoptionStatus?.Code ?? "",
+                StatusName = app.AdoptionStatus.Name ?? "",
                 Notes = app.Notes,
                 CreatedAt = app.CreatedAt,
                 HomeVisit = app.HomeVisit == null

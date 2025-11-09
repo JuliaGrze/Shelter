@@ -35,6 +35,7 @@ namespace Infrastructure.Repositories.Adoptions
                 .Include (x => x.AdoptionStatus)
                 .Include(x => x.HomeVisit).ThenInclude(x => x.HomeVisitResult)
                 .Include(x => x.Contract)
+                .Include(x => x.ApplicationUser)
                 .FirstOrDefaultAsync(x => x.Id == id, ct);
         }
 

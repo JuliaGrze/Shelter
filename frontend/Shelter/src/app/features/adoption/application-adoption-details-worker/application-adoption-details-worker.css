@@ -393,6 +393,10 @@ hr {
   color: #1f2937;
 }
 
+.visit-notes {
+  white-space: pre-line;   /* szanuj \n jako nową linię */
+}
+
 
 /* ===== Responsywność przycisków w wizycie ===== */
 @media (max-width: 640px) {

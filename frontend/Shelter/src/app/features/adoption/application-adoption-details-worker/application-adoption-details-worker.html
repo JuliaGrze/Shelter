@@ -70,7 +70,7 @@
       </p>
 
       @if (hv.notes) {
-        <p><b>Notatki:</b> {{ hv.notes }}</p>
+        <p class="visit-notes"><b>Notatki:</b> {{ hv.notes }}</p>
       }
 
       <div class="row">
@@ -90,9 +90,12 @@
 
         <input type="text" [(ngModel)]="visitNotes" placeholder="Notatka wyniku">
 
-        <button (click)="setVisitResult()" [disabled]="visitResultId === null">
+        <button 
+          (click)="setVisitResult()" 
+          [disabled]="visitResultId === null || !visitNotes.trim()">
           Zapisz wynik wizyty
         </button>
+
       </div>
 
 

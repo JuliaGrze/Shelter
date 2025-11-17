@@ -145,10 +145,12 @@ namespace Application.Services
                 ?? throw new KeyNotFoundException($"HomeVisitResult id={dto.HomeVisitResultId} not found.");
 
             app.HomeVisit.HomeVisitResultId = result.Id;
+            app.HomeVisit.HomeVisitResult = result;
             app.HomeVisit.Notes = MergeNotes(app.HomeVisit.Notes, dto.Notes, "WYNIK WIZYTY");
 
             var completed = await RequireStatusAsync(AdoptionStatusCodes.HomeVisitCompleted, ct);
             app.AdoptionStatusId = completed.Id;
+            app.AdoptionStatus = completed;
             app.UpdatedAt = DateTime.UtcNow;
 
             _uow.AdoptionApplications.Update(app);

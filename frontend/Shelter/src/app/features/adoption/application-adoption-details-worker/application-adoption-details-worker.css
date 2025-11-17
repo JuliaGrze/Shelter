@@ -75,6 +75,7 @@ h3 {
 /* ===== „Chip” statusu ===== */
 .badge {
   display: inline-flex;
+  width: fit-content;
   align-items: center;
   gap: .4rem;
   padding: .35rem .65rem;
@@ -211,6 +212,91 @@ textarea:focus {
   box-shadow: none !important;
 }
 
+/* bazowa badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: .35rem .65rem;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #3730a3;
+  border: 1px solid #e5e7eb;
+  font-weight: 700;
+  font-size: .75rem;
+  letter-spacing: .35px;
+  text-transform: uppercase;
+}
+
+/* neutral / fallback */
+.badge-neutral {
+  background: #f3f4f6;
+  color: #374151;
+  border-color: #e5e7eb;
+}
+
+/* 1. Submitted – Złożony wniosek */
+.badge-submitted {
+  background: #ecfeff;
+  color: #075985;
+  border-color: #bae6fd;
+}
+
+/* 2. InReview – W trakcie weryfikacji */
+.badge-inreview {
+  background: #eef2ff;
+  color: #3730a3;
+  border-color: #c7d2fe;
+}
+
+/* 3. HomeVisitScheduled – Wizyta domowa umówiona */
+.badge-visit-scheduled {
+  background: #fffbeb;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+/* 4. HomeVisitCompleted – Wizyta domowa odbyta */
+.badge-visit-completed {
+  background: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+
+/* 5. Approved – Zatwierdzony */
+.badge-approved {
+  background: #d1fae5;
+  color: #065f46;
+  border-color: #6ee7b7;
+}
+
+/* 6. Rejected – Odrzucony */
+.badge-rejected {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+/* 7. Withdrawn – Wycofany przez wnioskodawcę */
+.badge-withdrawn {
+  background: #f8fafc;
+  color: #334155;
+  border-color: #e2e8f0;
+}
+
+/* 8. ContractSigned – Umowa podpisana */
+.badge-contract-signed {
+  background: #f0f9ff;
+  color: #075985;
+  border-color: #bae6fd;
+}
+
+/* 9. ContractGenerated – Umowa wygenerowana */
+.badge-contract-generated {
+  background: #faf5ff;
+  color: #6b21a8;
+  border-color: #e9d5ff;
+}
+
 
 /* ===== Pola w „Wizyta domowa” ===== */
 .row input {
@@ -256,6 +342,57 @@ hr {
   border-top: 1px solid var(--line);
   margin: 1.4rem 0;
 }
+
+/* Wrapper – opcjonalny (ładna ramka) */
+.select-wrapper {
+  display: inline-block;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* Właściwy select */
+.select-field {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+
+  background: #f9fafb;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Efekt focus */
+.select-field:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Disabled */
+.select-field:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+}
+
+/* Opcje */
+.select-field option {
+  padding: 0.4rem;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
 
 /* ===== Responsywność przycisków w wizycie ===== */
 @media (max-width: 640px) {

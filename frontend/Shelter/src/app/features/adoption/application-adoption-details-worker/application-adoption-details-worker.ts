@@ -1,13 +1,15 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AdoptionDetailsDto } from '../../../core/models/adoption';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AdoptionDetailsDto, HomeVisitResultDto } from '../../../core/models/adoption';
 import { AdoptionService } from '../../../core/services/adoption.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-application-adoption-details-worker',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,
+    RouterLink
+  ],
   templateUrl: './application-adoption-details-worker.html',
   styleUrl: './application-adoption-details-worker.css'
 })
@@ -18,6 +20,7 @@ export class ApplicationAdoptionDetailsWorker implements OnInit{
 
   id = Number(this.route.snapshot.paramMap.get('id'))
   details = signal<AdoptionDetailsDto | null> (null)
+  visitResults = signal<HomeVisitResultDto[]>([]);
   loading = signal(true)
   error = signal<string |null>(null)
 
@@ -28,6 +31,8 @@ export class ApplicationAdoptionDetailsWorker implements OnInit{
 
   ngOnInit(): void {
     this.refresh()
+    this.loadVisitResults();
+    console.log(this.visitResults)
   }
 
   refresh(){
@@ -63,10 +68,12 @@ export class ApplicationAdoptionDetailsWorker implements OnInit{
 
   scheduleVisit() {
     if (!this.visitDate) return;
-    this.addoptionService.scheduleVisit(this.id, 
-      { scheduledAt: this.visitDate, notes: this.visitNotes || undefined })
-      .subscribe(() => this.refresh());
+
+    this.addoptionService.scheduleVisit(this.id,
+      { date: this.visitDate, notes: this.visitNotes || undefined }
+    ).subscribe(() => this.refresh());
   }
+
 
   setVisitResult() {
     if (!this.visitResultId) return;
@@ -82,4 +89,45 @@ export class ApplicationAdoptionDetailsWorker implements OnInit{
       // można też dodać toast z linkiem: res.pdfUrl
     });
   }
+
+  loadVisitResults() {
+  this.addoptionService.getHomeVisitResults().subscribe({
+    next: list => {
+      console.log('HomeVisitResults z API:', list);   // <---
+      this.visitResults.set(list ?? []);
+    },
+    error: err => {
+      console.error('Błąd przy pobieraniu HomeVisitResults', err);  // <---
+      this.visitResults.set([]);
+    }
+  });
+}
+
+  
+
+  statusClass(code: string | null | undefined): string {
+    switch (code) {
+      case 'Submitted':
+        return 'badge-submitted';
+      case 'InReview':
+        return 'badge-inreview';
+      case 'HomeVisitScheduled':
+        return 'badge-visit-scheduled';
+      case 'HomeVisitCompleted':
+        return 'badge-visit-completed';
+      case 'Approved':
+        return 'badge-approved';
+      case 'Rejected':
+        return 'badge-rejected';
+      case 'Withdrawn':
+        return 'badge-withdrawn';
+      case 'ContractSigned':
+        return 'badge-contract-signed';
+      case 'ContractGenerated':
+        return 'badge-contract-generated';
+      default:
+        return 'badge-neutral';
+    }
+  }
+
 }

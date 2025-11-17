@@ -1,6 +1,6 @@
 <div class="page">
 
-  <a routerLink="/admin/adoptions">← Wróć do listy</a>
+  <a routerLink="/worker/adoption/list">← Wróć do listy</a>
 
   @if (loading()) {
     Ładowanie…
@@ -24,7 +24,13 @@
 
       <div>
         <p><b>Wnioskodawca:</b> {{ d.applicantEmail }}</p>
-        <p><b>Status:</b> <span class="badge">{{ d.statusName }}</span></p>
+        <p>
+          <b>Status:</b>
+          <span class="badge" [ngClass]="statusClass(d.statusCode)">
+            {{ d.statusName }}
+          </span>
+        </p>
+
         <p><b>Utworzono:</b> {{ d.createdAt | date:'short' }}</p>
 
         @if (d.notes) {
@@ -40,9 +46,11 @@
     <textarea [(ngModel)]="note" rows="3" placeholder="Notatka (obowiązkowa)"></textarea>
 
     <div class="actions">
-      <button (click)="inReview()" [disabled]="!note.trim()">
-        Oznacz jako: W trakcie weryfikacji
-      </button>
+      @if (d.statusCode === 'Submitted') {
+        <button (click)="inReview()" [disabled]="!note.trim()">
+          Oznacz jako: W trakcie weryfikacji
+        </button>
+      }
       <button (click)="approve()" [disabled]="!note.trim()">
         Zatwierdź
       </button>
@@ -67,14 +75,26 @@
 
       <div class="row">
         <label>
-          Wynik (ID):
-          <input type="number" [(ngModel)]="visitResultId">
+          Wynik:
+          <div class="select-wrapper">
+            <select [(ngModel)]="visitResultId" class="select-field">
+              <option [ngValue]="null">— wybierz wynik —</option>
+              @for (r of visitResults(); track r.id) {
+                <option [ngValue]="r.id">
+                  {{ r.name }} ({{ r.code }})
+                </option>
+              }
+            </select>
+          </div>
         </label>
 
         <input type="text" [(ngModel)]="visitNotes" placeholder="Notatka wyniku">
 
-        <button (click)="setVisitResult()">Zapisz wynik wizyty</button>
+        <button (click)="setVisitResult()" [disabled]="visitResultId === null">
+          Zapisz wynik wizyty
+        </button>
       </div>
+
 
     } @else {
 

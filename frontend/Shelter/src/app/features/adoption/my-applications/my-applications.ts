@@ -1,14 +1,15 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { AdoptionService } from '../../../core/services/adoption.service';
 import { AdoptionListItemDto } from '../../../core/models/adoption';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-my-applications',
   imports: [
     DatePipe,
-    RouterLink
+    RouterLink,
+    CommonModule
   ],
   templateUrl: './my-applications.html',
   styleUrl: './my-applications.css'
@@ -43,4 +44,20 @@ export class MyApplications implements OnInit {
       }
     })
   }
+
+  statusClass(code: string | null | undefined): string {
+    switch (code) {
+      case 'Submitted':           return 'badge--submitted';
+      case 'InReview':            return 'badge--inreview';
+      case 'HomeVisitScheduled':  return 'badge--visit-scheduled';
+      case 'HomeVisitCompleted':  return 'badge--visit-completed';
+      case 'Approved':            return 'badge--approved';
+      case 'Rejected':            return 'badge--rejected';
+      case 'Withdrawn':           return 'badge--withdrawn';
+      case 'ContractSigned':      return 'badge--contract-signed';
+      case 'ContractGenerated':   return 'badge--contract-generated';
+      default:                    return 'badge--neutral';
+    }
+  }
+
 }

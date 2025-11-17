@@ -151,4 +151,27 @@ public class AdoptionProcessController : ControllerBase
         await _svc.SignContractAsync(id, signerId, ct);
         return NoContent();
     }
+
+    // GET /api/adoptions/home-visit/results
+    [HttpGet("home-visit/results")]
+    [Authorize(Roles = "Client,Worker,Admin")]
+    public async Task<ActionResult<IEnumerable<HomeVisitResultDto>>> GetHomeVisitResults(
+        [FromServices] IHomeVisitResultService hvService,
+        CancellationToken ct)
+    {
+        var list = await hvService.ListAsync(ct);
+        return Ok(list);
+    }
+
+    // (opcjonalnie) GET /api/adoptions/home-visit/results/{code}
+    [HttpGet("home-visit/results/{code}")]
+    [Authorize(Roles = "Client,Worker,Admin")]
+    public async Task<ActionResult<HomeVisitResultDto>> GetHomeVisitResultByCode(
+        [FromServices] IHomeVisitResultService hvService,
+        string code,
+        CancellationToken ct)
+    {
+        var item = await hvService.GetByCodeAsync(code, ct);
+        return item is null ? NotFound() : Ok(item);
+    }
 }

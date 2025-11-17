@@ -43,7 +43,11 @@
                 </td>
                 <td>{{ r.animalSpecies }}</td>
                 <td>{{ r.applicantEmail }}</td>
-                <td><span class="chip">{{ r.statusName }}</span></td>
+                <td>
+                    <span class="chip" [ngClass]="statusClass(r.statusCode)">
+                        {{ r.statusName }}
+                    </span>
+                </td>
                 <td>{{ r.createdAt | date:'dd.MM.yyyy HH:mm' }}</td>
                 <td>
                     <button class="btn ghost" [routerLink]="['/worker/adoption/', r.id]">Szczegóły wnisoku</button>

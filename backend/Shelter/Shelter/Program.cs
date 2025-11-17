@@ -56,6 +56,7 @@ builder.Services.AddScoped<IHomeVisitResultRepository, HomeVisitResultRepository
 builder.Services.AddScoped<IAdoptionContractRepository, AdoptionContractRepository>();
 builder.Services.AddScoped<IAdoptionUnitOfWork, AdoptionUnitOfWork>();
 builder.Services.AddScoped<IAdoptionProcessService, AdoptionProcessService>();
+builder.Services.AddScoped<IHomeVisitResultService, HomeVisitResultService>();
 
 // === OpenAPI
 builder.Services.AddOpenApi();

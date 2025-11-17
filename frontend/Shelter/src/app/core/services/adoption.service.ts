@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { enviroment } from '../../../environments/environment';
-import { AdoptionApplicationDto, AdoptionDetailsDto, AdoptionListItemDto, GenerateContractResponse, ScheduleHomeVisitRequest, SetHomeVisitResultRequest, SubmitApplicationRequest, SubmitApplicationResponse, UpdateAdoptionStatusRequest } from '../models/adoption';
+import { AdoptionApplicationDto, AdoptionDetailsDto, AdoptionListItemDto, GenerateContractResponse, HomeVisitResultDto, ScheduleHomeVisitRequest, SetHomeVisitResultRequest, SubmitApplicationRequest, SubmitApplicationResponse, UpdateAdoptionStatusRequest } from '../models/adoption';
 import { Observable } from 'rxjs';
 import { PagedResult } from '../models/paged-result';
 
@@ -58,8 +58,8 @@ export class AdoptionService {
   }
 
   // Home visit
-  scheduleVisit(id: number, body: ScheduleHomeVisitRequest) {
-    return this.http.post<void>(`${this.base}/applications/${id}/home-visit/schedule`, body);
+  scheduleVisit(id: number, body: { date: string; notes?: string }) {
+    return this.http.post<void>(`/api/adoptions/applications/${id}/home-visit/schedule`, body);
   }
   setVisitResult(id: number, body: SetHomeVisitResultRequest) {
     return this.http.post<void>(`${this.base}/applications/${id}/home-visit/result`, body);
@@ -72,4 +72,10 @@ export class AdoptionService {
   signContract(id: number) {
     return this.http.post<void>(`${this.base}/applications/${id}/contract/sign`, {});
   }
+
+  //Home visit result
+  getHomeVisitResults() {
+    return this.http.get<HomeVisitResultDto[]>(`${this.base}/home-visit/results`);
+  }
+
 }

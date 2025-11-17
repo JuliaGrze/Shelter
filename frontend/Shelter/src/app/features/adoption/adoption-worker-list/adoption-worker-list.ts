@@ -4,7 +4,7 @@ import { PagedResult } from '../../../core/models/paged-result';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AdoptionListItemDto, AdoptionStatusCode } from '../../../core/models/adoption';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-adoption-worker-list',
@@ -12,7 +12,8 @@ import { DatePipe } from '@angular/common';
     ReactiveFormsModule,
     RouterLink,
     DatePipe,
-    RouterOutlet
+    RouterOutlet,
+    CommonModule
 ],
   templateUrl: './adoption-worker-list.html',
   styleUrl: './adoption-worker-list.css'
@@ -97,5 +98,31 @@ export class AdoptionWorkerList implements OnInit {
   pages(): number {
     return Math.max(1, Math.ceil(this.total / this.size));
   }
+
+  statusClass(code: string | null | undefined): string {
+  switch (code) {
+    case 'Submitted':
+      return 'chip-submitted';
+    case 'InReview':
+      return 'chip-inreview';
+    case 'HomeVisitScheduled':
+      return 'chip-visit-scheduled';
+    case 'HomeVisitCompleted':
+      return 'chip-visit-completed';
+    case 'Approved':
+      return 'chip-approved';
+    case 'Rejected':
+      return 'chip-rejected';
+    case 'Withdrawn':
+      return 'chip-withdrawn';
+    case 'ContractSigned':
+      return 'chip-contract-signed';
+    case 'ContractGenerated':
+      return 'chip-contract-generated';
+    default:
+      return 'chip-neutral';
+  }
+}
+
   
 }

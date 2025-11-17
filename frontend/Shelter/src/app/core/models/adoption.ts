@@ -128,3 +128,11 @@ export interface AdoptionDetailsDto {
     fileUrl?: string | null;
   } | null;
 }
+
+export interface HomeVisitResultDto {
+  id: number;
+  code: string;        // "Pending", "Passed", "Failed", ...
+  name: string;        // "W trakcie", "Pozytywny", ...
+  description?: string | null;
+  isFinal: boolean;
+}

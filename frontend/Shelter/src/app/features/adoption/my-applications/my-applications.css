@@ -49,6 +49,7 @@ table {
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(2,6,23,.06);
+  text-align: center;
 }
 
 thead th {
@@ -59,6 +60,7 @@ thead th {
   color: var(--muted);
   background: #f9fafb;
   border-bottom: 1px solid var(--line);
+  text-align: center;
 }
 
 tbody td {
@@ -158,6 +160,102 @@ a[routerLink]:hover {
   background: #2563eb;
   color: #fff;
 }
+
+/* POPRAWKA literówki w btn: */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius); /* było: var 10px */
+  border: 1px solid var(--accent);
+  background-color: var(--accent);
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-right: 10px;
+}
+
+/* Zebra + mocniejszy hover na wierszu */
+tbody tr:nth-child(even) { background: #fbfdff; }
+tbody tr:hover {
+  background: #f1f5ff;
+  box-shadow: inset 0 0 0 9999px rgba(37,99,235,0.03);
+}
+
+/* ===== Badge: warianty kolorów wg Code ===== */
+.badge { /* baza już masz, zostaje jak jest */ }
+
+/* neutral fallback */
+.badge--neutral {
+  background: #f3f4f6;
+  color: #374151;
+  border-color: #e5e7eb;
+}
+
+/* 1 Submitted */
+.badge--submitted {
+  background: #ecfeff;
+  color: #075985;
+  border-color: #bae6fd;
+}
+
+/* 2 InReview */
+.badge--inreview {
+  background: #eef2ff;
+  color: #3730a3;
+  border-color: #c7d2fe;
+}
+
+/* 3 HomeVisitScheduled */
+.badge--visit-scheduled {
+  background: #fffbeb;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+/* 4 HomeVisitCompleted */
+.badge--visit-completed {
+  background: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+
+/* 5 Approved */
+.badge--approved {
+  background: #eafff0;
+  color: #065f46;
+  border-color: #86efac;
+}
+
+/* 6 Rejected */
+.badge--rejected {
+  background: #fef2f2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+/* 7 Withdrawn */
+.badge--withdrawn {
+  background: #f8fafc;
+  color: #334155;
+  border-color: #e2e8f0;
+}
+
+/* 8 ContractSigned */
+.badge--contract-signed {
+  background: #f0f9ff;
+  color: #075985;
+  border-color: #bae6fd;
+}
+
+/* 9 ContractGenerated */
+.badge--contract-generated {
+  background: #faf5ff;
+  color: #6b21a8;
+  border-color: #e9d5ff;
+}
+
 
 /* ===== responsywność ===== */
 @media (max-width: 760px) {

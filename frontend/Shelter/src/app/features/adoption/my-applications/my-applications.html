@@ -18,7 +18,7 @@
           <th>Zwierzak</th>
           <th>Status</th>
           <th>Data</th>
-          <th></th>
+          <th>Akcje</th>
         </tr>
       </thead>
 
@@ -36,7 +36,12 @@
               {{ it.animalName }} ({{ it.animalSpecies }})
             </td>
 
-            <td><span class="badge">{{ it.statusName }}</span></td>
+            <td>
+              <span class="badge" [ngClass]="statusClass(it.statusCode)">
+                {{ it.statusName }}
+              </span>
+            </td>
+
             <td>{{ it.createdAt | date:'short' }}</td>
 
             <td>

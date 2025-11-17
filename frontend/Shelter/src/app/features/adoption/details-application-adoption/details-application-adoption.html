@@ -1,0 +1,87 @@
+<div class="page">
+
+  <a (click)="goBack()" class="back-link">← Wróć do listy wniosków</a>
+
+  @if (loading()) {
+    <div>Ładowanie…</div>
+  }
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  @if (!loading() && app(); as a) {
+
+    <h2>Wniosek adopcyjny #{{ a.id }}</h2>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>Podsumowanie</h3>
+        <p>
+          <b>Status:</b>
+          <span class="badge" [ngClass]="statusClass(a.adoptionStatusCode)">
+            {{ a.adoptionStatusCode }}
+          </span>
+        </p>
+        <p><b>Złożono:</b> {{ a.createdAt | date:'short' }}</p>
+
+        <p class="mt">
+          <b>Zwierzak:</b>
+          <a [routerLink]="['/animals', a.animalId]">
+            Zobacz szczegóły zwierzaka
+          </a>
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Notatka do wniosku</h3>
+        @if (a.notes) {
+          <p>{{ a.notes }}</p>
+        } @else {
+          <p class="muted">Brak dodatkowych notatek.</p>
+        }
+      </div>
+
+      @if (a.homeVisit) {
+        <div class="card">
+          <h3>Wizyta przedadopcyjna</h3>
+
+          @if (a.homeVisit.scheduledAt) {
+            <p><b>Termin:</b> {{ a.homeVisit.scheduledAt | date:'short' }}</p>
+          }
+
+          @if (a.homeVisit.address) {
+            <p><b>Adres:</b> {{ a.homeVisit.address }}</p>
+          }
+
+          @if (a.homeVisit.resultCode) {
+            <p><b>Wynik:</b> {{ a.homeVisit.resultCode }}</p>
+          } @else {
+            <p class="muted">Wizyta jest jeszcze w toku.</p>
+          }
+        </div>
+      }
+
+      @if (a.contract) {
+        <div class="card">
+          <h3>Umowa adopcyjna</h3>
+
+          @if (a.contract.pdfUrl) {
+            <p>
+              <a [href]="a.contract.pdfUrl!" target="_blank" rel="noopener">
+                Pobierz umowę (PDF)
+              </a>
+            </p>
+          }
+
+          @if (a.contract.signedAt) {
+            <p><b>Podpisano:</b> {{ a.contract.signedAt | date:'short' }}</p>
+          } @else {
+            <p class="muted">Umowa nie została jeszcze podpisana.</p>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

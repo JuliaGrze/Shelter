@@ -16,6 +16,7 @@ import { AdoptionWorkerList } from './features/adoption/adoption-worker-list/ado
 import { ApplicationAdoptionDetailsWorker } from './features/adoption/application-adoption-details-worker/application-adoption-details-worker';
 import { MyApplications } from './features/adoption/my-applications/my-applications';
 import { ApplyForAdoption } from './features/adoption/apply-for-adoption/apply-for-adoption';
+import { DetailsApplicationAdoption } from './features/adoption/details-application-adoption/details-application-adoption';
 
 export const routes: Routes = [
     {path: 'animals', component: AnimalList},
@@ -89,6 +90,12 @@ export const routes: Routes = [
     {
         path: 'adoption/apply/:id',
         component: ApplyForAdoption,
+        canActivate: [roleGuard],
+        data: { roles: ['Client','Admin', 'Worker'] }
+    },
+    {
+        path: 'adoption/details/:id',
+        component: DetailsApplicationAdoption,
         canActivate: [roleGuard],
         data: { roles: ['Client','Admin', 'Worker'] }
     },

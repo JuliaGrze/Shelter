@@ -45,7 +45,7 @@
             <td>{{ it.createdAt | date:'short' }}</td>
 
             <td>
-              <button [routerLink]="['/admin/adoptions', it.id]" class="btn ghost">Szczegóły</button>
+              <button [routerLink]="['/adoption/details', it.id]" class="btn ghost">Szczegóły</button>
             </td>
           </tr>
         }

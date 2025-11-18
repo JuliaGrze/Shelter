@@ -23,7 +23,6 @@ public class AdoptionProcessController : ControllerBase
     private bool IsStaff() => User.IsInRole("Worker") || User.IsInRole("Admin");
 
     // ===== Client: submit =====
-    // Ścieżka zgodna z Twoim pomysłem: /api/adoptions/{animalId}/apply
     [HttpPost("{animalId:int}/apply")]
     [Authorize(Roles = "Client")]
     public async Task<IActionResult> Submit(int animalId, [FromBody] SubmitApplicationRequest body, CancellationToken ct)
@@ -164,7 +163,7 @@ public class AdoptionProcessController : ControllerBase
         return Ok(list);
     }
 
-    // (opcjonalnie) GET /api/adoptions/home-visit/results/{code}
+    // GET /api/adoptions/home-visit/results/{code}
     [HttpGet("home-visit/results/{code}")]
     [Authorize(Roles = "Client,Worker,Admin")]
     public async Task<ActionResult<HomeVisitResultDto>> GetHomeVisitResultByCode(

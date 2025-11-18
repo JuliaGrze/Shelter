@@ -229,7 +229,7 @@ namespace Application.Services
         }
 
 
-        public async Task SignContractAsync(int appId, string signerUserId, CancellationToken ct = default)
+        public async Task SignContractAsync(int appId, string signerUserId, string? signatureBase64, CancellationToken ct = default)
         {
             if (string.IsNullOrWhiteSpace(signerUserId))
                 throw new ArgumentException("Signer user id is required.", nameof(signerUserId));
@@ -243,19 +243,56 @@ namespace Application.Services
             if (contract.SignedAt != null)
                 throw new InvalidOperationException("Contract already signed.");
 
+            // 1) Zapis rysowanego podpisu jako PNG
+            if (!string.IsNullOrWhiteSpace(signatureBase64))
+            {
+                var base64 = signatureBase64;
+
+                var commaIndex = base64.IndexOf(',');
+                if (commaIndex >= 0)
+                    base64 = base64[(commaIndex + 1)..];
+
+                byte[] imageBytes;
+                try
+                {
+                    imageBytes = Convert.FromBase64String(base64);
+                }
+                catch (FormatException ex)
+                {
+                    throw new ArgumentException("Signature is not valid base64.", nameof(signatureBase64), ex);
+                }
+
+                var root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "signatures", "contracts");
+                Directory.CreateDirectory(root);
+
+                var filePath = Path.Combine(root, $"client_{app.Id}.png");
+                await System.IO.File.WriteAllBytesAsync(filePath, imageBytes, ct);
+            }
+
+            // 2) Oznaczenie umowy jako podpisanej
             contract.SignedAt = DateTime.UtcNow;
             contract.SignedByUserId = signerUserId;
-
             _uow.AdoptionContracts.Update(contract);
 
-            var signed = await RequireStatusAsync(AdoptionStatusCodes.ContractSigned, ct);
-            app.AdoptionStatusId = signed.Id;
-            app.AdoptionStatus = signed;
+            var signedStatus = await RequireStatusAsync(AdoptionStatusCodes.ContractSigned, ct);
+            app.AdoptionStatusId = signedStatus.Id;
+            app.AdoptionStatus = signedStatus;
             app.UpdatedAt = DateTime.UtcNow;
-
             _uow.AdoptionApplications.Update(app);
+
             await _uow.SaveChangesAsync(ct);
 
+            // 3) Przebudowanie PDF tak, aby zawierał podpis klienta
+            var pdfBytes = BuildContractPdf(app, contract);
+
+            var relUrl = $"/contracts/{app.Id}/contract_{app.Id}.pdf";
+            var contractsRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "contracts", app.Id.ToString());
+            Directory.CreateDirectory(contractsRoot);
+            var physicalPath = Path.Combine(contractsRoot, $"contract_{app.Id}.pdf");
+
+            await System.IO.File.WriteAllBytesAsync(physicalPath, pdfBytes, ct);
+
+            // 4) Ustawienie statusu zwierzaka jako Adopted
             await SetAnimalStatusAsync(app.AnimalId, AnimalStatus.Adopted, ct);
             await _uow.SaveChangesAsync(ct);
         }
@@ -483,8 +520,12 @@ namespace Application.Services
             var animalSpecies = app.Animal?.Species?.Name ?? "";
             var createdDate = contract.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
 
-            // 🔹 wygeneruj QR jako PNG z linku weryfikacyjnego
-            var qrBytes = GenerateQrPng(contract.VerificationQrContent);
+            var clientSignaturePath = Path.Combine("wwwroot", "signatures", "contracts", $"client_{app.Id}.png");
+            byte[]? clientSignatureBytes = System.IO.File.Exists(clientSignaturePath)
+                ? System.IO.File.ReadAllBytes(clientSignaturePath)
+                : null;
+
+
 
             return Document.Create(container =>
             {
@@ -553,10 +594,20 @@ namespace Application.Services
                             row.RelativeItem().Column(c =>
                             {
                                 c.Item().Text("Adoptujący:").FontSize(10);
-                                c.Item().PaddingTop(20).Text("..............................................");
+
+                                if (clientSignatureBytes != null)
+                                {
+                                    c.Item().PaddingTop(10).Image(clientSignatureBytes).FitWidth();
+                                }
+                                else
+                                {
+                                    c.Item().PaddingTop(20).Text("..............................................");
+                                }
+
                                 if (!string.IsNullOrWhiteSpace(adopterName))
                                     c.Item().Text(adopterName).FontSize(9);
                             });
+
 
                             row.RelativeItem().Column(c =>
                             {
@@ -605,9 +656,6 @@ namespace Application.Services
                                 c.Item().Text("Zeskanuj kod QR aby zweryfikować ważność umowy.")
                                     .FontSize(9).Italic();
                             });
-
-                            // Sam obrazek QR po prawej
-                            row.ConstantItem(90).Height(90).Image(qrBytes);
                         });
                     });
 
@@ -620,15 +668,6 @@ namespace Application.Services
                     });
                 });
             }).GeneratePdf();
-        }
-
-
-        private static byte[] GenerateQrPng(string text)
-        {
-            using var generator = new QRCodeGenerator();
-            using var data = generator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
-            using var qr = new PngByteQRCode(data);
-            return qr.GetGraphic(10); // 10 = „gęstość” / skala
         }
 
 

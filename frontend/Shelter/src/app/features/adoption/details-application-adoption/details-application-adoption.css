@@ -272,3 +272,201 @@ h3 {
     padding-inline: 1.1rem;
   }
 }
+
+.signature-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.signature-dialog {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.signature-dialog h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.signature-canvas {
+  width: 100%;
+  height: 200px;
+  border: 1px dashed #888;
+  border-radius: 4px;
+  background: #fff;
+  cursor: crosshair;
+  margin-top: 0.5rem;
+}
+
+.signature-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-sign-contract {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.7rem 1.6rem;
+  border-radius: 999px;
+  border: none;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  cursor: pointer;
+
+  box-shadow: 0 6px 14px rgba(22, 163, 74, 0.35);
+  transition:
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out,
+    filter 0.12s ease-out,
+    background 0.12s ease-out;
+}
+
+.btn-sign-contract:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(22, 163, 74, 0.45);
+  filter: brightness(1.03);
+}
+
+.btn-sign-contract:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(22, 163, 74, 0.35);
+  filter: brightness(0.97);
+}
+
+.btn-sign-contract:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+  transform: none;
+}
+/* Tło popupa */
+.signature-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Okno dialogowe */
+.signature-dialog {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 14px;
+  width: 550px;
+  max-width: 90%;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.signature-dialog h4 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.signature-dialog .muted {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+/* Canvas – pole do rysowania */
+.signature-canvas {
+  width: 100%;
+  height: 200px;
+  border: 2px dashed #bbb;
+  border-radius: 8px;
+  cursor: crosshair;
+  background: #fafafa;
+  margin-bottom: 1rem;
+}
+
+/* Sekcja przycisków */
+.signature-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+/* Przyciski */
+.signature-actions button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+/* WYCZYŚĆ */
+.signature-actions button:nth-child(1) {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.signature-actions button:nth-child(1):hover {
+  background: #d1d5db;
+}
+
+/* POTWIERDŹ */
+.signature-actions button:nth-child(2) {
+  background: #22c55e;
+  color: white;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.35);
+}
+
+.signature-actions button:nth-child(2):hover:not(:disabled) {
+  background: #16a34a;
+  box-shadow: 0 6px 18px rgba(22, 163, 74, 0.45);
+}
+
+/* disabled */
+.signature-actions button:nth-child(2):disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ANULUJ */
+.signature-actions button:nth-child(3) {
+  background: #ef4444;
+  color: white;
+}
+
+.signature-actions button:nth-child(3):hover {
+  background: #dc2626;
+}

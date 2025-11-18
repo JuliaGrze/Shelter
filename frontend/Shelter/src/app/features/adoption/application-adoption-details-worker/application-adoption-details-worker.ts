@@ -38,7 +38,7 @@ export class ApplicationAdoptionDetailsWorker implements OnInit {
   visitNotes = '';
   visitResultId: number | null = null;
 
-   backendUrl = enviroment.backendUrl;
+  backendUrl = enviroment.backendUrl;
 
   ngOnInit(): void {
     this.refresh();

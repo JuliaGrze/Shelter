@@ -142,15 +142,16 @@ public class AdoptionProcessController : ControllerBase
 
     [HttpPost("applications/{id:int}/contract/sign")]
     [Authorize(Roles = "Client,Worker,Admin")]
-    public async Task<IActionResult> Sign(int id, CancellationToken ct)
+    public async Task<IActionResult> Sign(int id, [FromBody] SignContractRequest body, CancellationToken ct)
     {
         var signerId = GetUserId();
         if (string.IsNullOrWhiteSpace(signerId))
             return Unauthorized(new { error = "Missing user id claim in JWT." });
 
-        await _svc.SignContractAsync(id, signerId, ct);
+        await _svc.SignContractAsync(id, signerId, body.SignatureBase64, ct);
         return NoContent();
     }
+
 
     // GET /api/adoptions/home-visit/results
     [HttpGet("home-visit/results")]

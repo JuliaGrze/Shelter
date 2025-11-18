@@ -20,8 +20,8 @@
         <h3>Podsumowanie</h3>
         <p>
           <b>Status:</b>
-          <span class="badge" [ngClass]="statusClass(a.adoptionStatusCode)">
-            {{ a.adoptionStatusCode }}
+          <span class="badge" [ngClass]="statusClass(a.statusCode)">
+            {{ a.statusName }}
           </span>
         </p>
         <p><b>Złożono:</b> {{ a.createdAt | date:'short' }}</p>
@@ -47,18 +47,16 @@
         <div class="card">
           <h3>Wizyta przedadopcyjna</h3>
 
-          @if (a.homeVisit.scheduledAt) {
-            <p><b>Termin:</b> {{ a.homeVisit.scheduledAt | date:'short' }}</p>
-          }
-
-          @if (a.homeVisit.address) {
-            <p><b>Adres:</b> {{ a.homeVisit.address }}</p>
+          @if (a.homeVisit.date) {
+            <p><b>Termin:</b> {{ a.homeVisit.date | date:'short' }}</p>
           }
 
           @if (a.homeVisit.resultCode) {
             <p><b>Wynik:</b> {{ a.homeVisit.resultCode }}</p>
-          } @else {
-            <p class="muted">Wizyta jest jeszcze w toku.</p>
+          }
+
+          @if (a.homeVisit.notes) {
+            <p><b>Notatki:</b> {{ a.homeVisit.notes }}</p>
           }
         </div>
       }
@@ -67,21 +65,72 @@
         <div class="card">
           <h3>Umowa adopcyjna</h3>
 
-          @if (a.contract.pdfUrl) {
+          @if (a.contract.generated && a.contract.fileUrl) {
             <p>
-              <a [href]="a.contract.pdfUrl!" target="_blank" rel="noopener">
+              <a [href]="backendUrl + a.contract.fileUrl"
+                 target="_blank"
+                 rel="noopener">
                 Pobierz umowę (PDF)
               </a>
             </p>
+          } @else {
+            <p class="muted">
+              PDF umowy nie jest jeszcze dostępny.
+            </p>
           }
 
-          @if (a.contract.signedAt) {
-            <p><b>Podpisano:</b> {{ a.contract.signedAt | date:'short' }}</p>
+          @if (a.contract.signed) {
+            <p><b>Podpisano:</b> umowa została podpisana.</p>
           } @else {
             <p class="muted">Umowa nie została jeszcze podpisana.</p>
+
+            <!-- przycisk podpisu tylko jeśli mamy PDF -->
+            @if (a.contract.generated && a.contract.fileUrl) {
+              <p>
+                <button type="button" class="btn-sign-contract" (click)="openSignature()">
+                  Podpisz umowę
+                </button>
+              </p>
+            }
           }
         </div>
       }
     </div>
+
+    <!-- POPUP Z PODPISEM -->
+    @if (showSignature()) {
+      <div class="signature-overlay">
+        <div class="signature-dialog">
+          <h4>Złóż podpis</h4>
+          <p class="muted">
+            Użyj myszy, aby narysować podpis w polu poniżej. Po zatwierdzeniu zostanie on dodany do PDF umowy.
+          </p>
+
+          <canvas #sigCanvas
+                  class="signature-canvas"
+                  width="500"
+                  height="200"
+                  (mousedown)="startDraw($event)"
+                  (mousemove)="draw($event)"
+                  (mouseup)="stopDraw()"
+                  (mouseleave)="stopDraw()"></canvas>
+
+          @if (signError()) {
+            <p class="error">{{ signError() }}</p>
+          }
+
+          <div class="signature-actions">
+            <button type="button" (click)="clearSignature()">Wyczyść</button>
+            <button type="button"
+                    [disabled]="signLoading()"
+                    (click)="confirmSignature()">
+              {{ signLoading() ? 'Podpisuję…' : 'Potwierdź podpis' }}
+            </button>
+            <button type="button" (click)="closeSignature()">Anuluj</button>
+          </div>
+        </div>
+      </div>
+    }
+
   }
 </div>

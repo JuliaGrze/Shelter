@@ -25,7 +25,7 @@ namespace Application.Interfaces
 
         //Umowa adopcyjna
         Task<GenerateContractResponse> GenerateContractAsync(int appId, CancellationToken ct = default);
-        Task SignContractAsync(int appId, string signerUserId, CancellationToken ct = default);
+        Task SignContractAsync(int appId, string signerUserId, string? signatureBase64, CancellationToken ct = default);
         Task<VerifyContractResponse> VerifyContractAsync(string hash, CancellationToken ct = default);
 
 

@@ -72,9 +72,13 @@ export class AdoptionService {
   generateContract(id: number) {
     return this.http.post<GenerateContractResponse>(`${this.base}/applications/${id}/contract/generate`, {});
   }
-  signContract(id: number) {
-    return this.http.post<void>(`${this.base}/applications/${id}/contract/sign`, {});
+  signContract(id: number, signatureBase64: string) {
+    return this.http.post<void>(
+      `${this.base}/applications/${id}/contract/sign`,
+      { signatureBase64 }
+    );
   }
+
 
   //Home visit result
   getHomeVisitResults() {

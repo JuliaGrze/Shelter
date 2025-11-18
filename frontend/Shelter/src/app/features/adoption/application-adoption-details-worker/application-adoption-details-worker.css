@@ -3,8 +3,8 @@
   padding: 1rem;
 
   /* Design tokens */
-  --radius: 12px;
-  --gap: 1rem;
+  --radius: 14px;
+  --gap: 1.1rem;
   --line: #e5e7eb;
   --accent: #2563eb;
   --accent-hover: #1e40af;
@@ -13,7 +13,7 @@
   --panel: #ffffff;
 }
 
-/* ===== Global typography ===== */
+/* ===== Global typography + page wrapper ===== */
 :host, .page {
   font-family: Inter, ui-sans-serif, system-ui, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   -webkit-font-smoothing: antialiased;
@@ -21,6 +21,11 @@
   color: var(--text);
   line-height: 1.55;
   letter-spacing: .01em;
+}
+
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
 }
 
 /* ===== Link powrotu ===== */
@@ -46,56 +51,66 @@ h3 {
   color: #0f172a;
 }
 
-/* ===== Karta-sekcja (opcjonalny „panel” feeling wokół bloków) ===== */
-.section {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: 0 6px 18px rgba(2,6,23,.06);
-  padding: 1rem;
-}
-
-/* ===== Grid główny: zdjęcie + dane ===== */
 .grid {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 1.2rem;
-  align-items: start;
-}
-.grid img {
-  max-width: 240px;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  box-shadow: 0 6px 18px rgba(0,0,0,.06);
-}
-@media (max-width: 780px) {
-  .grid { grid-template-columns: 1fr; }
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  align-items: stretch;   /* obie sekcje na pełną szerokość */
 }
 
-/* ===== „Chip” statusu ===== */
-.badge {
-  display: inline-flex;
-  width: fit-content;
+
+.animal-card {
+  display: flex;
+  gap: 1rem;
   align-items: center;
-  gap: .4rem;
-  padding: .35rem .65rem;
-  border-radius: 999px;
-  background: #eef2ff;
-  color: #3730a3;
+  padding: .85rem 1rem;
+  border-radius: 18px;
+  background: radial-gradient(circle at 0 0, rgba(147,197,253,.18), transparent 55%), #f9fafb;
   border: 1px solid var(--line);
-  font-weight: 700;
-  font-size: .75rem;
-  letter-spacing: .35px;
-  text-transform: uppercase;
+  box-shadow: 0 6px 18px rgba(15,23,42,.08);
 }
 
-/* ===== Wiersze informacji z labelami (Wnioskodawca, Status, Utworzono, Notatki…) ===== */
-.grid p {
+.animal-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 12px 26px rgba(15,23,42,.25);
+}
+
+.animal-info {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+
+.animal-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.animal-species {
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+.animal-link {
+  margin-top: .25rem;
+  font-size: .9rem;
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.animal-link:hover { text-decoration: underline; }
+
+/* ===== Wiersze informacji (druga kolumna) ===== */
+.grid > div p {
   margin: .35rem 0;
 }
 
 /* label jako kapsułka */
-.grid p:has(> b) {
+.grid > div p:has(> b) {
   display: grid;
   grid-template-columns: max-content 1fr;
   align-items: start;
@@ -103,7 +118,7 @@ h3 {
 }
 
 /* wygląd labela */
-.grid p > b {
+.grid > div p > b {
   display: inline-block;
   padding: .15rem .5rem;
   border-radius: 999px;
@@ -116,103 +131,17 @@ h3 {
   text-transform: uppercase;
 }
 
-/* ===== Specjalny wygląd „Notatek” (p z <b>…</b><br>… ) ===== */
-.grid p:has(> b):has(> br),
-p:has(> b):has(+ *) /* fallback gdy br jest różnie renderowany */ {
+/* specjalny wygląd notatek ogólnych (p z <b>Notatki</b><br>…) */
+.grid > div p:has(> b):has(> br) {
   padding: .75rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: #fafcff;
   box-shadow: 0 4px 12px rgba(2,6,23,.04);
-}
-
-/* treść notatek: zachowaj nowe linie, ładny rytm tekstu */
-.grid p:has(> b):has(> br) {
   white-space: pre-wrap;
 }
 
-/* ===== Notatki z wizyty (hv.notes) — globalnie ładny wygląd każdego p z <b>Notatki:> ===== */
-p:has(> b):has(> br) {
-  margin-top: .5rem;
-}
-
-/* ===== Textarea — „Notatka (opcjonalnie)” ===== */
-textarea {
-  width: 100%;
-  min-height: 96px;
-  resize: vertical;
-  padding: .7rem .85rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: #f8fafc;
-  color: var(--text);
-  font-size: .95rem;
-  line-height: 1.5;
-  transition: border-color .2s, box-shadow .2s, background-color .2s;
-}
-textarea:focus {
-  border-color: var(--accent);
-  background: #fff;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(37,99,235,.16);
-}
-
-/* ===== Przyciski (primary) ===== */
-.actions, .row {
-  display: flex;
-  gap: .65rem;
-  flex-wrap: wrap;
-}
-.actions button,
-.row button,
-.page button {
-  padding: .6rem 1rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--accent);
-  background: var(--accent);
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color .2s, transform .08s ease, box-shadow .2s;
-  box-shadow: 0 3px 10px rgba(37,99,235,.18);
-}
-.actions button:hover,
-.row button:hover,
-.page button:hover {
-  background: var(--accent-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(30,64,175,.22);
-}
-.actions button:active,
-.row button:active,
-.page button:active { transform: translateY(0); }
-
-/* ===== Disabled buttons ===== */
-.actions button:disabled,
-.row button:disabled,
-.page button:disabled {
-  background: #9ca3af !important;       /* szare tło */
-  border-color: #9ca3af !important;
-  color: #f3f4f6 !important;             /* jaśniejszy tekst */
-  cursor: not-allowed !important;
-  box-shadow: none !important;
-  transform: none !important;
-  opacity: 0.75;
-}
-
-/* blokowanie hover/active gdy disabled */
-.actions button:disabled:hover,
-.row button:disabled:hover,
-.page button:disabled:hover,
-.actions button:disabled:active,
-.row button:disabled:active,
-.page button:disabled:active {
-  background: #9ca3af !important;
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-/* bazowa badge */
+/* ===== Badge statusu ===== */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -297,6 +226,70 @@ textarea:focus {
   border-color: #e9d5ff;
 }
 
+/* ===== Textarea — „Notatka (obowiązkowa)” ===== */
+textarea {
+  width: 100%;
+  min-height: 96px;
+  resize: vertical;
+  padding: .7rem .85rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #f8fafc;
+  color: var(--text);
+  font-size: .95rem;
+  line-height: 1.5;
+  transition: border-color .2s, box-shadow .2s, background-color .2s;
+}
+textarea:focus {
+  border-color: var(--accent);
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.16);
+}
+
+/* ===== Przyciski (primary) ===== */
+.actions, .row {
+  display: flex;
+  gap: .65rem;
+  flex-wrap: wrap;
+  margin-top: .5rem;
+}
+.actions button,
+.row button,
+.page button {
+  padding: .6rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color .2s, transform .08s ease, box-shadow .2s;
+  box-shadow: 0 3px 10px rgba(37,99,235,.18);
+}
+.actions button:hover,
+.row button:hover,
+.page button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(30,64,175,.22);
+}
+.actions button:active,
+.row button:active,
+.page button:active { transform: translateY(0); }
+
+/* Disabled buttons */
+.actions button:disabled,
+.row button:disabled,
+.page button:disabled {
+  background: #9ca3af !important;
+  border-color: #9ca3af !important;
+  color: #f3f4f6 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  transform: none !important;
+  opacity: 0.75;
+}
 
 /* ===== Pola w „Wizyta domowa” ===== */
 .row input {
@@ -325,6 +318,49 @@ textarea:focus {
   font-weight: 600;
 }
 
+/* Wrapper selecta */
+.select-wrapper {
+  display: inline-block;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* Właściwy select */
+.select-field {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #f9fafb;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.select-field:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Opcje */
+.select-field option {
+  padding: 0.4rem;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+/* Notatki z wizyty – szanuj \n */
+.visit-notes {
+  white-space: pre-line;
+}
+
 /* ===== Error box ===== */
 .error {
   border: 1px solid #fecaca;
@@ -343,63 +379,85 @@ hr {
   margin: 1.4rem 0;
 }
 
-/* Wrapper – opcjonalny (ładna ramka) */
-.select-wrapper {
-  display: inline-block;
-  width: 100%;
-  max-width: 320px;
-}
-
-/* Właściwy select */
-.select-field {
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  font-size: 0.95rem;
-  font-family: inherit;
-
-  background: #f9fafb;
-  color: var(--text);
+/* ===== Sekcja Wizyta domowa ===== */
+.homevisit-panel {
+  background: #ffffff;
   border: 1px solid var(--line);
   border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
 
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-
-  cursor: pointer;
-  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
 }
 
-/* Efekt focus */
-.select-field:focus {
-  outline: none;
-  border-color: var(--accent);
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+/* Nagłówek sekcji */
+.homevisit-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
 }
 
-/* Disabled */
-.select-field:disabled {
-  background: #f3f4f6;
-  color: #9ca3af;
-  border-color: #e5e7eb;
-  cursor: not-allowed;
+.homevisit-title::before {
+  content: "🏠";
+  font-size: 1.25rem;
 }
 
-/* Opcje */
-.select-field option {
-  padding: 0.4rem;
-  font-size: 0.95rem;
-  color: #1f2937;
+/* Termin + wynik */
+.homevisit-summary {
+  background: #f9fafb;
+  padding: .75rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
 }
 
-.visit-notes {
-  white-space: pre-line;   /* szanuj \n jako nową linię */
+.homevisit-summary b {
+  color: #334155;
+  font-weight: 700;
+}
+
+/* Notatki z wizyty */
+.homevisit-notes {
+  background: #fdfcff;
+  border-left: 4px solid var(--accent);
+  padding: .75rem 1rem;
+  border-radius: var(--radius);
+  white-space: pre-line;
+  box-shadow: 0 4px 12px rgba(2,6,23,.04);
+}
+
+/* Formularz wyników wizyty */
+.homevisit-actions .row {
+  background: #f8fafc;
+  padding: .75rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+/* Przycisk zapisania wyniku */
+.homevisit-actions button {
+  margin-top: .3rem;
+}
+
+/* Delikatny separator */
+.homevisit-divider {
+  height: 1px;
+  background: var(--line);
+  margin: .5rem 0;
+  opacity: 0.5;
 }
 
 
-/* ===== Responsywność przycisków w wizycie ===== */
+/* Responsywne przyciski w wizycie */
 @media (max-width: 640px) {
   .row { flex-direction: column; align-items: stretch; }
   .row button { width: 100%; }
 }
+

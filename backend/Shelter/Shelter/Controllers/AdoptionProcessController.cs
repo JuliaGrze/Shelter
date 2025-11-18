@@ -174,4 +174,20 @@ public class AdoptionProcessController : ControllerBase
         var item = await hvService.GetByCodeAsync(code, ct);
         return item is null ? NotFound() : Ok(item);
     }
+
+    // GET /api/adoptions/contracts/verify?hash=...
+    [HttpGet("contracts/verify")]
+    [AllowAnonymous]
+    public async Task<ActionResult<VerifyContractResponse>> Verify([FromQuery] string hash, CancellationToken ct)
+    {
+        if (string.IsNullOrWhiteSpace(hash))
+            return BadRequest(new { error = "hash is required" });
+
+        var res = await _svc.VerifyContractAsync(hash, ct);
+        if (!res.Exists)
+            return NotFound();
+
+        return Ok(res);
+    }
+
 }

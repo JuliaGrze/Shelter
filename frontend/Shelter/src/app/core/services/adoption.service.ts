@@ -59,7 +59,10 @@ export class AdoptionService {
 
   // Home visit
   scheduleVisit(id: number, body: { date: string; notes?: string }) {
-    return this.http.post<void>(`/api/adoptions/applications/${id}/home-visit/schedule`, body);
+    return this.http.post<void>(
+      `${this.base}/applications/${id}/home-visit/schedule`,
+      body
+    );
   }
   setVisitResult(id: number, body: SetHomeVisitResultRequest) {
     return this.http.post<void>(`${this.base}/applications/${id}/home-visit/result`, body);

@@ -6,6 +6,7 @@ using Domain.Entities;
 using Domain.Enums; // AdoptionStatusCodes
 using Infrastructure.Repositories.Abstractions.Adoptions;
 using Microsoft.EntityFrameworkCore;
+using QRCoder;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using Stripe;
@@ -44,6 +45,10 @@ namespace Application.Services
 
             await _uow.AdoptionApplications.AddAsync(app, ct);
             await _uow.SaveChangesAsync(ct);
+
+            await SetAnimalStatusAsync(dto.AnimalId, AnimalStatus.Reserved, ct);
+            await _uow.SaveChangesAsync(ct);
+
 
             return new SubmitApplicationResponse
             {
@@ -98,7 +103,11 @@ namespace Application.Services
 
             _uow.AdoptionApplications.Update(app);
             await _uow.SaveChangesAsync(ct);
+
+            await SetAnimalStatusAsync(app.AnimalId, AnimalStatus.Available, ct);
+            await _uow.SaveChangesAsync(ct);
         }
+
 
         // ============= WIZYTA DOMOWA =============
         public async Task ScheduleHomeVisitAsync(int appId, ScheduleHomeVisitRequest dto, CancellationToken ct = default)
@@ -164,51 +173,48 @@ namespace Application.Services
             EnsureNotFinal(app);
 
             var existing = await _uow.AdoptionContracts.GetByApplicationIdAsync(app.Id, ct);
+
+            AdoptionContract contract;
             if (existing != null)
             {
-                return new GenerateContractResponse
+                // używamy istniejącej umowy, ale nadpisujemy plik PDF
+                contract = existing;
+            }
+            else
+            {
+                var now = DateTime.UtcNow;
+                var hash = ComputeSha256($"{app.Id}|{app.ApplicationUserId}|{now:o}");
+                var verification = $"/api/adoptions/contracts/verify?hash={hash}";
+
+                contract = new AdoptionContract
                 {
-                    ContractId = existing.Id,
-                    PdfUrl = existing.PdfUrl,
-                    PdfHash = existing.PdfHash,
-                    VerificationQrContent = existing.VerificationQrContent,
-                    GeneratedAtUtc = existing.CreatedAt
+                    AdoptionApplicationId = app.Id,
+                    PdfUrl = string.Empty,  // ustawimy po zapisie pliku
+                    PdfHash = hash,
+                    VerificationQrContent = verification,
+                    CreatedAt = now
                 };
+
+                await _uow.AdoptionContracts.AddAsync(contract, ct);
+
+                var generated = await RequireStatusAsync(AdoptionStatusCodes.ContractGenerated, ct);
+                app.AdoptionStatusId = generated.Id;
+                app.UpdatedAt = now;
+                _uow.AdoptionApplications.Update(app);
             }
 
-            var now = DateTime.UtcNow;
-            var hash = ComputeSha256($"{app.Id}|{app.ApplicationUserId}|{now:o}");
-            var verification = $"/api/adoptions/contracts/verify?hash={hash}";
-
-            var contract = new AdoptionContract
-            {
-                AdoptionApplicationId = app.Id,
-                PdfUrl = string.Empty,  // ustawimy po zapisie pliku
-                PdfHash = hash,
-                VerificationQrContent = verification,
-                CreatedAt = now
-            };
-
-            // 1) Wygeneruj PDF w pamięci
+            // 1) Wygeneruj PDF w pamięci (zawsze – też przy "odśwież")
             var pdfBytes = BuildContractPdf(app, contract);
 
-            // 2) Zapisz plik do wwwroot/contracts/{app.Id}/contract_{app.Id}.pdf
+            // 2) Ścieżka i zapis pliku (nadpisujemy, jeśli już był)
             var relUrl = $"/contracts/{app.Id}/contract_{app.Id}.pdf";
             var root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "contracts", app.Id.ToString());
             Directory.CreateDirectory(root);
             var physicalPath = Path.Combine(root, $"contract_{app.Id}.pdf");
-            if (!System.IO.File.Exists(physicalPath))
-                await System.IO.File.WriteAllBytesAsync(physicalPath, pdfBytes, ct);
 
-            // 3) Zaktualizuj url i zapisz kontrakt
+            await System.IO.File.WriteAllBytesAsync(physicalPath, pdfBytes, ct);
+
             contract.PdfUrl = relUrl;
-
-            await _uow.AdoptionContracts.AddAsync(contract, ct);
-
-            var generated = await RequireStatusAsync(AdoptionStatusCodes.ContractGenerated, ct);
-            app.AdoptionStatusId = generated.Id;
-            app.UpdatedAt = now;
-            _uow.AdoptionApplications.Update(app);
 
             await _uow.SaveChangesAsync(ct);
 
@@ -221,6 +227,7 @@ namespace Application.Services
                 GeneratedAtUtc = contract.CreatedAt
             };
         }
+
 
         public async Task SignContractAsync(int appId, string signerUserId, CancellationToken ct = default)
         {
@@ -243,11 +250,16 @@ namespace Application.Services
 
             var signed = await RequireStatusAsync(AdoptionStatusCodes.ContractSigned, ct);
             app.AdoptionStatusId = signed.Id;
+            app.AdoptionStatus = signed;
             app.UpdatedAt = DateTime.UtcNow;
-            _uow.AdoptionApplications.Update(app);
 
+            _uow.AdoptionApplications.Update(app);
+            await _uow.SaveChangesAsync(ct);
+
+            await SetAnimalStatusAsync(app.AnimalId, AnimalStatus.Adopted, ct);
             await _uow.SaveChangesAsync(ct);
         }
+
 
         public async Task<PagedResult<AdoptionListItemDto>> ListAsync(string? status = null, string? q = null, int page = 1, int size = 20, CancellationToken ct = default)
         {
@@ -365,6 +377,41 @@ namespace Application.Services
             return new PagedResult<AdoptionListItemDto>(items, total, page, size);
         }
 
+        public async Task<VerifyContractResponse> VerifyContractAsync(string hash, CancellationToken ct = default)
+        {
+            if (string.IsNullOrWhiteSpace(hash))
+                throw new ArgumentException("Hash is required.", nameof(hash));
+
+            var contract = await _uow.AdoptionContracts
+                .Query() 
+                .Include(c => c.AdoptionApplication)!.ThenInclude(a => a.Animal)
+                .Include(c => c.AdoptionApplication)!.ThenInclude(a => a.ApplicationUser)
+                .FirstOrDefaultAsync(c => c.PdfHash == hash, ct);
+
+            if (contract is null)
+            {
+                return new VerifyContractResponse
+                {
+                    Exists = false,
+                    Signed = false
+                };
+            }
+
+            var app = contract.AdoptionApplication!;
+
+            return new VerifyContractResponse
+            {
+                Exists = true,
+                Signed = contract.SignedAt != null,
+                SignedAt = contract.SignedAt,
+                ApplicationId = app.Id,
+                AnimalId = app.AnimalId,
+                AnimalName = app.Animal?.Name,
+                ApplicantEmail = app.ApplicationUser?.Email
+            };
+        }
+
+
 
         // ============= Helpers =============
         private async Task<AdoptionApplication> RequireAppAsync(int id, CancellationToken ct)
@@ -430,22 +477,138 @@ namespace Application.Services
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
+            var adopterName = $"{app.ApplicationUser?.FirstName} {app.ApplicationUser?.LastName}".Trim();
+            var adopterEmail = app.ApplicationUser?.Email ?? "";
+            var animalName = app.Animal?.Name ?? "";
+            var animalSpecies = app.Animal?.Species?.Name ?? "";
+            var createdDate = contract.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
+
+            // 🔹 wygeneruj QR jako PNG z linku weryfikacyjnego
+            var qrBytes = GenerateQrPng(contract.VerificationQrContent);
+
             return Document.Create(container =>
             {
                 container.Page(page =>
                 {
-                    page.Margin(36);
+                    page.Margin(40);
+                    page.DefaultTextStyle(x => x.FontSize(11));
 
-                    page.Header().Text("Umowa adopcyjna")
-                        .FontSize(20).SemiBold();
-
-                    page.Content().Column(col =>
+                    page.Header().Row(row =>
                     {
-                        col.Item().Text($"Wniosek ID: {app.Id}");
-                        col.Item().Text($"Adoptujący (UserId): {app.ApplicationUserId}");
-                        col.Item().Text($"Zwierzę (AnimalId): {app.AnimalId}");
-                        col.Item().Text($"Wygenerowano: {contract.CreatedAt:yyyy-MM-dd HH:mm:ss} UTC");
-                        col.Item().Text($"Weryfikacja: {contract.VerificationQrContent}");
+                        row.RelativeItem().Column(col =>
+                        {
+                            col.Item().Text("SCHRONISKO DLA ZWIERZĄT").SemiBold().FontSize(16);
+                            col.Item().Text("Umowa adopcyjna").FontSize(14);
+                            col.Item().Text($"Nr wniosku: {app.Id}");
+                        });
+
+                        row.ConstantItem(180).AlignRight().Column(col =>
+                        {
+                            col.Item().Text($"Data wygenerowania: {createdDate}").FontSize(9);
+                            col.Item().Text($"ID zwierzęcia: {app.AnimalId}").FontSize(9);
+                        });
+                    });
+
+                    page.Content().PaddingVertical(10).Column(col =>
+                    {
+                        col.Spacing(8);
+
+                        col.Item().Text("§1. Strony umowy").SemiBold();
+                        col.Item().Text(text =>
+                        {
+                            text.Span("Adoptujący: ").SemiBold();
+                            text.Span(string.IsNullOrWhiteSpace(adopterName) ? "(brak danych)" : adopterName);
+                            if (!string.IsNullOrWhiteSpace(adopterEmail))
+                            {
+                                text.Span(" (e-mail: ");
+                                text.Span(adopterEmail);
+                                text.Span(")");
+                            }
+                        });
+
+                        col.Item().Text(text =>
+                        {
+                            text.Span("Zwierzę: ").SemiBold();
+                            text.Span($"{animalName} ({animalSpecies}), ID: {app.AnimalId}");
+                        });
+
+                        col.Item().Text("§2. Postanowienia ogólne").SemiBold();
+                        col.Item().Text(@"
+                    1. Adoptujący zobowiązuje się do zapewnienia zwierzęciu należytych warunków bytowych.
+                    2. Adoptujący zobowiązuje się do zapewnienia opieki weterynaryjnej oraz wyżywienia.
+                    3. W przypadku zmiany miejsca pobytu zwierzęcia adoptujący poinformuje schronisko.
+                    ").FontSize(10);
+
+                        col.Item().Text("§3. Oświadczenia").SemiBold();
+                        col.Item().Text(@"
+                    Adoptujący oświadcza, że:
+                    - zapoznał się z informacjami o stanie zdrowia oraz charakterze zwierzęcia,
+                    - rozumie odpowiedzialność związaną z adopcją,
+                    - nie będzie wykorzystywać zwierzęcia do celów niezgodnych z prawem.
+                    ").FontSize(10);
+
+                        col.Item().Text("§4. Podpisy").SemiBold();
+                        col.Item().Row(row =>
+                        {
+                            row.RelativeItem().Column(c =>
+                            {
+                                c.Item().Text("Adoptujący:").FontSize(10);
+                                c.Item().PaddingTop(20).Text("..............................................");
+                                if (!string.IsNullOrWhiteSpace(adopterName))
+                                    c.Item().Text(adopterName).FontSize(9);
+                            });
+
+                            row.RelativeItem().Column(c =>
+                            {
+                                c.Item().Text("Przedstawiciel schroniska:").FontSize(10);
+
+                                var signaturePath = Path.Combine("wwwroot", "signatures", "director.png");
+                                var signatureBytes = System.IO.File.Exists(signaturePath)
+                                    ? System.IO.File.ReadAllBytes(signaturePath)
+                                    : null;
+
+                                if (signatureBytes != null)
+                                {
+                                    c.Item().PaddingTop(10).Image(signatureBytes).FitWidth();
+                                }
+
+                                // --- Podpis drukowany
+                                c.Item().PaddingTop(20).Text("Julia Grzesiewicz").SemiBold().FontSize(10);
+                                c.Item().Text("Kierownik schroniska").FontSize(9).Italic();
+
+                                // c.Item().PaddingTop(4).Text("_______________________________");
+                            });
+
+                        });
+
+                        col.Item().Text("§5. Weryfikacja umowy").SemiBold();
+
+                        // Tekst + QR w jednym wierszu
+                        col.Item().Row(row =>
+                        {
+                            row.RelativeItem().Column(c =>
+                            {
+                                c.Item().Text(t =>
+                                {
+                                    t.Span("Umowa została wygenerowana elektronicznie.").FontSize(9);
+                                });
+                                c.Item().Text(t =>
+                                {
+                                    t.Span("Hash: ").FontSize(9);
+                                    t.Span(contract.PdfHash).FontSize(9);
+                                });
+                                c.Item().Text(t =>
+                                {
+                                    t.Span("Adres do weryfikacji: ").FontSize(9);
+                                    t.Span(contract.VerificationQrContent).FontSize(9);
+                                });
+                                c.Item().Text("Zeskanuj kod QR aby zweryfikować ważność umowy.")
+                                    .FontSize(9).Italic();
+                            });
+
+                            // Sam obrazek QR po prawej
+                            row.ConstantItem(90).Height(90).Image(qrBytes);
+                        });
                     });
 
                     page.Footer().AlignRight().Text(t =>
@@ -459,6 +622,29 @@ namespace Application.Services
             }).GeneratePdf();
         }
 
-        
+
+        private static byte[] GenerateQrPng(string text)
+        {
+            using var generator = new QRCodeGenerator();
+            using var data = generator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
+            using var qr = new PngByteQRCode(data);
+            return qr.GetGraphic(10); // 10 = „gęstość” / skala
+        }
+
+
+
+        private async Task SetAnimalStatusAsync(int animalId, AnimalStatus status, CancellationToken ct)
+        {
+            var animal = await _uow.Animals.GetByIdAsync(animalId, ct);
+            if (animal == null)
+                throw new KeyNotFoundException($"Animal id={animalId} not found.");
+
+            animal.Status = status.ToString();
+            _uow.Animals.Update(animal);
+        }
+
+
+
+
     }
 }

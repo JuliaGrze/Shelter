@@ -36,6 +36,7 @@ namespace Infrastructure.Repositories.Adoptions
                 .Include(x => x.HomeVisit).ThenInclude(x => x.HomeVisitResult)
                 .Include(x => x.Contract)
                 .Include(x => x.ApplicationUser)
+                .Include(x => x.Animal).ThenInclude(x => x.Species)
                 .FirstOrDefaultAsync(x => x.Id == id, ct);
         }
 

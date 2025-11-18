@@ -12,18 +12,29 @@
 
   @if (details(); as d) {
 
-    <h2>Wniosek #{{ d.id }} — {{ d.animalName }} ({{ d.animalSpecies }})</h2>
+    <h2>Wniosek #{{ d.id }}</h2>
 
     <div class="grid">
-      <div>
+      <!-- KARTA ZWIERZAKA -->
+      <div class="animal-card">
         @if (d.animalPhotoUrl) {
-          <img [src]="d.animalPhotoUrl!" alt="foto"
-               style="max-width:220px;border-radius:12px;">
+          <img [src]="d.animalPhotoUrl!" alt="foto zwierzaka">
         }
+
+        <div class="animal-info">
+          <div class="animal-name">{{ d.animalName }}</div>
+          <div class="animal-species">{{ d.animalSpecies }}</div>
+
+          <a [routerLink]="['/animals', d.animalId]" class="animal-link">
+            Zobacz kartę zwierzaka →
+          </a>
+        </div>
       </div>
 
+      <!-- INFORMACJE O WNIOSKU -->
       <div>
         <p><b>Wnioskodawca:</b> {{ d.applicantEmail }}</p>
+
         <p>
           <b>Status:</b>
           <span class="badge" [ngClass]="statusClass(d.statusCode)">
@@ -41,6 +52,7 @@
 
     <hr>
 
+    <!-- AKCJE STATUSÓW -->
     <h3>Akcje statusów</h3>
 
     <textarea [(ngModel)]="note" rows="3" placeholder="Notatka (obowiązkowa)"></textarea>
@@ -61,67 +73,113 @@
 
     <hr>
 
-    <h3>Wizyta domowa</h3>
+    <!-- WIZYTA DOMOWA (ładny panel) -->
+    <div class="homevisit-panel">
 
-    @if (d.homeVisit; as hv) {
-      <p>
-        <b>Termin:</b> {{ hv.date | date:'short' }}
-        | <b>Wynik:</b> {{ hv.resultCode || '—' }}
-      </p>
+      <div class="homevisit-title">Wizyta domowa</div>
+      <div class="homevisit-divider"></div>
 
-      @if (hv.notes) {
-        <p class="visit-notes"><b>Notatki:</b> {{ hv.notes }}</p>
+      @if (d.homeVisit; as hv) {
+
+        <div class="homevisit-summary">
+          <div><b>Termin:</b> {{ hv.date | date:'short' }}</div>
+          <div><b>Wynik:</b> {{ hv.resultCode || '—' }}</div>
+        </div>
+
+        @if (hv.notes) {
+          <div class="homevisit-notes">
+            <b>Notatki:</b>
+            {{ hv.notes }}
+          </div>
+        }
+
+        <div class="homevisit-actions">
+          <div class="row">
+            <label>
+              Wynik:
+              <div class="select-wrapper">
+                <select [(ngModel)]="visitResultId" class="select-field">
+                  <option [ngValue]="null">— wybierz wynik —</option>
+                  @for (r of visitResults(); track r.id) {
+                    <option [ngValue]="r.id">
+                      {{ r.name }} ({{ r.code }})
+                    </option>
+                  }
+                </select>
+              </div>
+            </label>
+
+            <input type="text"
+                   [(ngModel)]="visitNotes"
+                   placeholder="Notatka wyniku">
+
+            <button
+              (click)="setVisitResult()"
+              [disabled]="visitResultId === null || !visitNotes.trim()">
+              Zapisz wynik wizyty
+            </button>
+          </div>
+        </div>
+
+      } @else {
+
+        <div class="homevisit-actions">
+          <div class="row">
+            <input type="datetime-local" [(ngModel)]="visitDate">
+            <input type="text" [(ngModel)]="visitNotes" placeholder="Notatki do wizyty">
+            <button (click)="scheduleVisit()">Umów wizytę</button>
+          </div>
+        </div>
+
       }
 
-      <div class="row">
-        <label>
-          Wynik:
-          <div class="select-wrapper">
-            <select [(ngModel)]="visitResultId" class="select-field">
-              <option [ngValue]="null">— wybierz wynik —</option>
-              @for (r of visitResults(); track r.id) {
-                <option [ngValue]="r.id">
-                  {{ r.name }} ({{ r.code }})
-                </option>
-              }
-            </select>
-          </div>
-        </label>
-
-        <input type="text" [(ngModel)]="visitNotes" placeholder="Notatka wyniku">
-
-        <button 
-          (click)="setVisitResult()" 
-          [disabled]="visitResultId === null || !visitNotes.trim()">
-          Zapisz wynik wizyty
-        </button>
-
-      </div>
-
-
-    } @else {
-
-      <div class="row">
-        <input type="datetime-local" [(ngModel)]="visitDate">
-        <input type="text" [(ngModel)]="visitNotes" placeholder="Notatki do wizyty">
-        <button (click)="scheduleVisit()">Umów wizytę</button>
-      </div>
-
-    }
+    </div>
 
     <hr>
-    <h3>Umowa</h3>
+
+    <!-- UMOWA -->
+    <h3>Umowa adopcyjna</h3>
+
+    @if (contractError()) {
+      <div class="error">{{ contractError() }}</div>
+    }
 
     @if (d.contract?.generated) {
-      <p><b>Podpisana:</b> {{ d.contract?.signed ? 'tak' : 'nie' }}</p>
+
+      <p>
+        <b>Podpisana:</b>
+        {{ d.contract?.signed ? 'tak' : 'nie' }}
+        <!-- @if (d.contract?.signed) {
+          ({{ d.contract. | date:'short' }})
+        } -->
+      </p>
+
       @if (d.contract?.fileUrl) {
         <p>
-          <a [href]="d.contract?.fileUrl" target="_blank">Pobierz PDF</a>
+          <a [href]="backendUrl + d.contract?.fileUrl" target="_blank">
+            Pobierz PDF umowy
+          </a>
         </p>
       }
-      <button (click)="generateContract()">Odśwież</button>
+
+      <button
+        type="button"
+        (click)="generateContract()"
+        [disabled]="contractLoading()">
+        {{ contractLoading() ? 'Odświeżanie…' : 'Odśwież PDF umowy' }}
+      </button>
+
     } @else {
-      <button (click)="generateContract()">Generuj umowę</button>
+
+      <p class="muted">Umowa nie została jeszcze wygenerowana.</p>
+
+      <button
+        type="button"
+        (click)="generateContract()"
+        [disabled]="contractLoading()">
+        {{ contractLoading() ? 'Generowanie…' : 'Generuj umowę PDF' }}
+      </button>
+
     }
 
   }
